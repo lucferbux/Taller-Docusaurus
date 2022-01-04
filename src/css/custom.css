@@ -30,7 +30,7 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 
 
 html[data-theme='dark'] {
-  --ifm-color-primary: #492386;
+  --ifm-color-primary: #7935e7;
   --ifm-color-primary-dark: #401587;
   --ifm-color-primary-darker: #2a0f55;
   --ifm-color-primary-darkest: #130725;
@@ -39,4 +39,9 @@ html[data-theme='dark'] {
   --ifm-color-primary-lightest: #716683;
   --ifm-font-color-base-inverse: #ffffff;
   --ifm-code-font-size: 95%;
+}
+
+img + em { 
+  display: block; 
+  text-align: center;
 }

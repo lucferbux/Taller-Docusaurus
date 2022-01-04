@@ -1,41 +1,31 @@
-# Website
+# Documentación
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+![Header img](static/img/readme/header.png)
 
-### Installation
+Esta guía se ha construido gracias a[Docusaurus 2](https://docusaurus.io/), un generador de páginas web estático.
 
-```
-$ yarn
-```
+## Instalación
 
-### Local Development
+Para instalar las dependencias solo hay que ejecutar
 
-```
-$ yarn start
+``` bash
+npm install
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+### Desarrollo local
 
-### Build
+Para crear un entorno de desarrollo local, ejecuta el siguiente comando:
 
-```
-$ yarn build
-```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
+``` bash
+npm run start
 ```
 
-Not using SSH:
+Este comando lanza un servidor de desarrollo local y abre una ventana del navegarod. La mayoría de cambios se auto-recargan sin necesidad de reiniciar el servidor.
 
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
+### Compilar
+
+``` bash
+npm run build
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+Este comando genera un contenido estático en la carpeta `build` que puede ser utilizado en cualquier servicio de hosting.

@@ -78,6 +78,10 @@ const config = {
                 label: 'Docusaurus',
                 to: '/docs/tutorial-docusaurus/intro',
               },
+              {
+                label: 'Front-End',
+                to: '/docs/frontend/intro',
+              },
             ],
           },
           {
