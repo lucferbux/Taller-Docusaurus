@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Taller Máster Full Stack',
   tagline: 'Documentación del Taller',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://taller-threepoints-docs.netlify.app',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
