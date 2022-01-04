@@ -1,0 +1,144 @@
+---
+sidebar_position: 5
+---
+
+# Funciones de Markdown
+
+Docusaurus soporta **[Markdown](https://daringfireball.net/projects/markdown/syntax)** y unas cueantas **funciones extra**.
+
+## Front Matter
+
+Los documentos Markdown contienen una sección de Metadatos al inicio que se llama [Front Matter](https://jekyllrb.com/docs/front-matter/):
+
+```text title="my-doc.md"
+// highlight-start
+---
+id: my-doc-id
+title: My document title
+description: My document description
+slug: /my-custom-url
+---
+// highlight-end
+
+## Markdown heading
+
+Markdown text with [links](./hello.md)
+```
+
+## Links
+
+Los enlaces de Markdown están soportados, usando rutas URL o rutas de archivos relativas.
+
+```md
+Vamos a ver como [Crear una página](/create-a-page).
+```
+
+```md
+Vamos a ver como [Crear una página](./create-a-page.md).
+```
+
+**Resultado:** Vamos a ver como [Crear una página](./create-a-page).
+
+## Imágenes
+
+Las imágenes de Markdown están soportadas, usando rutas URL o rutas de archivos relativas.
+
+Añade una imagen en `static/img/threepoints.png` y muestrala en Markdown:
+
+```md
+![Docusaurus logo](/img/threepoints.png)
+```
+
+![Docusaurus logo](/img/threepoints.png)
+
+## Bloques de código
+
+Los bloques de código de Markdown están soportados con resaltado de sintaxis.
+
+    ```jsx title="src/components/HelloDocusaurus.js"
+    function HelloDocusaurus() {
+        return (
+            <h1>Hello, Docusaurus!</h1>
+        )
+    }
+    ```
+
+```jsx title="src/components/HelloDocusaurus.js"
+function HelloDocusaurus() {
+  return <h1>Hello, Docusaurus!</h1>;
+}
+```
+
+## Alertas
+
+Docusaurus tiene una sintaxis especial para crear alertas y callouts:
+
+    :::tip My tip
+
+    Use this awesome feature option
+
+    :::
+
+    :::danger Take care
+
+    This action is dangerous
+
+    :::
+
+:::tip My tip
+
+Use this awesome feature option
+
+:::
+
+:::danger Take care
+
+This action is dangerous
+
+:::
+
+## MDX y Componentes React
+
+[MDX](https://mdxjs.com/) puede hacer tu documentación más **interactiva** y permite usar **componentes React dentro de Markdown**:
+
+```jsx
+export const Highlight = ({children, color}) => (
+  <span
+    style={{
+      backgroundColor: color,
+      borderRadius: '20px',
+      color: '#fff',
+      padding: '10px',
+      cursor: 'pointer',
+    }}
+    onClick={() => {
+      alert(`Has pulsado ${color} con texto ${children}`);
+    }}>
+    {children}
+  </span>
+);
+
+Esto es <Highlight color="#25c2a0">Docusaurus verde</Highlight> !
+
+Esto es <Highlight color="#1877F2">Facebook azul</Highlight> !
+```
+
+export const Highlight = ({children, color}) => (
+  <span
+    style={{
+      backgroundColor: color,
+      borderRadius: '20px',
+      color: '#fff',
+      padding: '10px',
+      cursor: 'pointer',
+    }}
+    onClick={() => {
+      alert(`Has pulsado ${color} con texto ${children}`);
+    }}>
+    {children}
+  </span>
+);
+
+Esto es <Highlight color="#25c2a0">Docusaurus verde</Highlight> !
+
+Esto es <Highlight color="#1877F2">Facebook azul</Highlight> !
