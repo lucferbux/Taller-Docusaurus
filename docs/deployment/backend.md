@@ -1,10 +1,14 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Backend - Heroku
 
-Para el despliegue del BackEnd en producción podemos usar diferentes servicios y plataformas. Antes de nada hay que hacer una diferenciación entre **IaaS** y **PaaS**.
+Para el despliegue del BackEnd en producción podemos usar diferentes servicios y plataformas. Nuestro objetivo final es tener el frontend en el servicio de [Netlify](https://www.netlify.com) que conecte con nuestro backend en [Heroku](https://www.heroku.com). El esquema final sería el siguiente.
+
+![Backend Architecture](/img/tutorial/deployment/architecture-deployment-backend.svg)
+
+ Antes de nada hay que hacer una diferenciación entre **IaaS** y **PaaS**.
 
 * **IaaS**: Infraestructure-as-a-Service o Infraestructura como servicio es el paso más próximo al **on-premise**, donde solo se te ofrece la infraestructura como servicio (máquina virtual, networking...), mientras que todo lo demás lo desplegamos nosotros. Algunos ejemplos son [AWS](https://aws.amazon.com/), [Azure](https://azure.microsoft.com/en-us/) o [Google Cloud](https://cloud.google.com/).
 
@@ -22,7 +26,7 @@ En este caso, para nuestro despliegue usaremos [Heroku](https://www.heroku.com/)
 ![Heroku Dashboard](/img/tutorial/deployment/heroku.png)
 *Heroku Dashboard*
 
-Este despliegue está orientado para el proyecto de [backend](https://github.com/lucferbux/Taller-Backend).
+Este despliegue está orientado para el proyecto de [backend](https://github.com/lucferbux/Taller-Backend). Heroku permite desplegar nuestro proyecto a través de su **cli**. Al tener un proyecto mono-repositorio, tenemos que seguir unos pasos extra para poder desplegar exlcusivamente el backend.
 
 1. Dirígete a la [web de heroku](https://www.heroku.com) y registra una nueva cuenta o accede con alguna creada.
 2. Crea un nuevo proyecto, con el nombre `node-personal-portfolio-bbdd` o similar.
@@ -30,26 +34,4 @@ Este despliegue está orientado para el proyecto de [backend](https://github.com
 4. Ejecuta la inicialización de heroku con `heroku login`
 5. Añade el repostiorio al espacio de heroku `heroku git:remote -a node-personal-portfolio`
 6. Ejecuta el comando para usar node en modo desarrollo `heroku config:set NODE_ENV=development`
-7. Crea un nuevo git path para el repositorio ejecutando --> git push heroku `git subtree split --prefix backend main`:master --force
-
-
-## Despliegue con Heroku - BBDD
-
-Este despliegue está orientado para el proyecto de [bbdd](https://github.com/lucferbux/Taller-BBDD) o siguientes.
-
-### Atlas
-
-https://www.mongodb.com/developer/how-to/use-atlas-on-heroku/
-
-### Heroku
-
-1. Dirígete a la [web de heroku](https://www.heroku.com) y registra una nueva cuenta o accede con alguna creada.
-2. Crea un nuevo proyecto, con el nombre `node-personal-portfolio-bbdd` o similar.
-3. Descarga la herramienta [heroku cli](https://devcenter.heroku.com/articles/heroku-cli) e instalala en tu ordenador.
-4. Ejecuta la inicialización de heroku con `heroku login`
-5. Añade el repostiorio al espacio de heroku `heroku git:remote -a node-personal-portfolio`
-6. Crea una instancia de mongodb `heroku addons:create mongolab:sandbox`
-7. Ejecuta el comando para usar node en modo desarrollo `heroku config:set NODE_ENV=development`
-8. Ejecuta el comando para seleccionar **Atlas** como uri para el backend `heroku config:set DATABASE_URI=atlas_uri`
-9. Ejecuta el comando para seleccionar la bbdd principal `heroku config:set MONGODB_DB_MAIN=portfolio_db`
-10. Crea un nuevo git path para el repositorio ejecutando --> git push heroku `git subtree split --prefix backend main`:master --force
+7. Crea un nuevo git path para el repositorio ejecutando ```git push heroku `git subtree split --prefix backend main`:master --force```

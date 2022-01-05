@@ -15,6 +15,7 @@ Aquí pondremos la documentación pertinente para complementar lo visto en los d
 * [BackEnd](https://github.com/lucferbux/Taller-Backend)
 * [BBDD](https://github.com/lucferbux/Taller-BBDD)
 * [Firebase](https://github.com/lucferbux/Taller-Firebase)
+* [Testing & Security](https://github.com/lucferbux/Taller-Testing-Security)
 
 Así podréis consultar detalles como arquitectura, funcionalidades, dependencias y despliegues que mostramos en clase.
 
