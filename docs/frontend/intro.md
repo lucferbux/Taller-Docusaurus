@@ -6,9 +6,9 @@ sidebar_position: 1
 
 [Enlace del proyecto en Github](https://github.com/lucferbux/Taller-FrontEnd)
 
-En esta primera sección vamos a ver como desarrollar el frontal de nuestro proyecto. Nuestra página estará desarrollada mediante el framework [React](https://reactjs.org/) y [TypeScript](https://www.typescriptlang.org/).
+En esta primera sesión vamos a ver como desarrollar el frontal de nuestro proyecto. Nuestra página estará desarrollada mediante el framework [React](https://reactjs.org/) y [TypeScript](https://www.typescriptlang.org/).
 
-Para esta primera sesión, crearemos mocks para simular la interacción con el backend y así poder probar la funcionalidad que estamos creando. Es por ello que la arquitectura que disponemos para este proyecto es la siguiente:
+Para esta fase del proyecto, crearemos mocks para simular la interacción con el backend y así poder probar la funcionalidad que estamos creando. Es por ello que la arquitectura que disponemos para este proyecto es la siguiente:
 
 ![Front Architecture](/img/tutorial/front/frontend.svg)
 
