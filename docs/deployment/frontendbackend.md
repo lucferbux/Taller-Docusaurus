@@ -20,7 +20,7 @@ Este despliegue está orientado para el proyecto de [bbdd](https://github.com/lu
 ![6 selection config](/img/tutorial/deployment/netlify/7_configuration.png)
 6. Una vez pulsemos el botón de **Deploy site** Netlify accederá a nuestro repositorio, compilará el código y desplegará la web estática en su servicio de hosting.
 7. Esperamos unos minutos hasta que el proyecto esté desplegado.
-8. Ahora pulsaremos el botón de **Domain Settings**, y dentro de **Custo Domains** podremos cambiar el nombre del dominio de nuestro proyecto a lo que queramos pulsando el botón **Options**.
+8. Ahora pulsaremos el botón de **Domain Settings**, y dentro de **Custom Domains** podremos cambiar el nombre del dominio de nuestro proyecto a lo que queramos pulsando el botón **Options**.
 9. Por último, vamos a añadir una variable de entorno para que nuestra webapp pueda contactar con nuestro backend, para ello dentro de **Build & Deploy**, navega hasta encontrar la opción de **Environment Variables**
 ![13 Env Variable](/img/tutorial/deployment/netlify/13_environment.png)
 10. Ahora vamos a añadir una nueva variable llamada `REACT_APP_API_URI`, y el valor va a ser la url que hayamos obtenido [configurando heroku](./backend).

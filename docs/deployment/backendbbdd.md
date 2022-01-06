@@ -53,9 +53,9 @@ Los pasos de Heroku son similares a los vistos en el [anterior despliegue](./bac
 2. Crea un nuevo proyecto, con el nombre `node-personal-portfolio-bbdd` o similar.
 3. Descarga la herramienta [heroku cli](https://devcenter.heroku.com/articles/heroku-cli) e instalala en tu ordenador.
 4. Ejecuta la inicialización de heroku con `heroku login`
-5. Añade el repostiorio al espacio de heroku `heroku git:remote -a node-personal-portfolio`
-6. Crea una instancia de mongodb `heroku addons:create mongolab:sandbox`
-7. Ejecuta el comando para usar node en modo desarrollo `heroku config:set NODE_ENV=development`
-8. Ejecuta el comando para seleccionar **Atlas** como uri para el backend `heroku config:set DATABASE_URI=[atlas_uri](mongodb+srv://lucferbux:<password>@cluster0.a7ym7.mongodb.net/)`. Cambia el **username** y el **password** y **recuerda mantener la barra lateral "/"**.
-9. Ejecuta el comando para seleccionar la bbdd principal `heroku config:set MONGODB_DB_MAIN=portfolio_db`
-10. Crea un nuevo git path para el repositorio ejecutando ```git push heroku `git subtree split --prefix backend main`:master --force```
+5. Añade el repostiorio al espacio de heroku `heroku git:remote -a node-personal-portfolio-bbdd` (el nombre es el mismo que hayamos elegido antes).
+6. Ejecuta el comando para usar node en modo desarrollo `heroku config:set NODE_ENV=development`
+7. Ejecuta el comando para seleccionar **Atlas** como uri para el backend `heroku config:set MONGODB_URI=mongodb+srv://lucferbux:<password>@cluster0.a7ym7.mongodb.net/`. Cambia el **username** y el **password** y **recuerda mantener la barra lateral "/"**.
+8. Ejecuta el comando para seleccionar la bbdd principal `heroku config:set MONGODB_DB_MAIN=portfolio_db`
+![Env Variables](/img/tutorial/deployment/heroku/6-config-vars.png)
+9.  Crea un nuevo git path para el repositorio ejecutando `git subtree push --prefix backend heroku master`

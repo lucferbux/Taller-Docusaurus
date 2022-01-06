@@ -27,8 +27,8 @@ Este despliegue está pensado para el proyecto [frontend](https://github.com/luc
 ![8 Deployment](/img/tutorial/deployment/netlify/8_deployment.png)
 7. Esperamos unos minutos hasta que el proyecto esté desplegado, resultando en el mensaje que vemos abajo.
 ![8 Deployment](/img/tutorial/deployment/netlify/9_domain_settings.png)
-8. Ahora pulsaremos el botón de **Domain Settings**, y dentro de **Custo Domains** podremos cambiar el nombre del dominio de nuestro proyecto a lo que queramos pulsando el botón **Options**.
-![8 Deployment](/img/tutorial/deployment/netlify/8_deployment.png)
+8. Ahora pulsaremos el botón de **Domain Settings**, y dentro de **Custom Domains** podremos cambiar el nombre del dominio de nuestro proyecto a lo que queramos pulsando el botón **Options**.
+![8 Deployment](/img/tutorial/deployment/netlify/10_change_domain.png)
 
 Y con eso tendríamos nuestro proyecto desplegado en la url que hayamos elegido, ahora puedes acceder a la web desde cualquier dispositivo a través del navegador.
 

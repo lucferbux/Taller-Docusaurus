@@ -29,9 +29,14 @@ En este caso, para nuestro despliegue usaremos [Heroku](https://www.heroku.com/)
 Este despliegue está orientado para el proyecto de [backend](https://github.com/lucferbux/Taller-Backend). Heroku permite desplegar nuestro proyecto a través de su **cli**. Al tener un proyecto mono-repositorio, tenemos que seguir unos pasos extra para poder desplegar exlcusivamente el backend.
 
 1. Dirígete a la [web de heroku](https://www.heroku.com) y registra una nueva cuenta o accede con alguna creada.
-2. Crea un nuevo proyecto, con el nombre `node-personal-portfolio-bbdd` o similar.
+![Heroku login](/img/tutorial/deployment/heroku/1-login.png)
+2. Crea un nuevo proyecto, con el nombre `node-personal-portfolio` o similar.
+![Heroku project](/img/tutorial/deployment/heroku/2-create-app.png)
 3. Descarga la herramienta [heroku cli](https://devcenter.heroku.com/articles/heroku-cli) e instalala en tu ordenador.
+![Heroku dashboard](/img/tutorial/deployment/heroku/3-dashboard.png)
 4. Ejecuta la inicialización de heroku con `heroku login`
+![Heroku login](/img/tutorial/deployment/heroku/4-heroku-login.png)
 5. Añade el repostiorio al espacio de heroku `heroku git:remote -a node-personal-portfolio`
 6. Ejecuta el comando para usar node en modo desarrollo `heroku config:set NODE_ENV=development`
-7. Crea un nuevo git path para el repositorio ejecutando ```git push heroku `git subtree split --prefix backend main`:master --force```
+7. Crea un nuevo git path para el repositorio ejecutando `git subtree push --prefix backend heroku master`
+![Heroku git](/img/tutorial/deployment/heroku/5-git-subtree.png)
