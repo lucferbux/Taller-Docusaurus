@@ -82,6 +82,22 @@ const config = {
                 label: 'Front-End',
                 to: '/docs/frontend/intro',
               },
+              {
+                label: 'Back-End',
+                to: '/docs/backend/intro',
+              },
+              {
+                label: 'BBDD',
+                to: '/docs/bbdd/intro',
+              },
+              {
+                label: 'Firebase',
+                to: '/docs/firebase/intro',
+              },
+              {
+                label: 'Despliegue',
+                to: '/docs/deployment/frontend',
+              },
             ],
           },
           {
@@ -99,6 +115,14 @@ const config = {
                 label: 'BBDD',
                 href: 'https://github.com/lucferbux/Taller-BBDD',
               },
+              {
+                label: 'Firebase',
+                href: 'https://github.com/lucferbux/Taller-Firebase',
+              },
+              {
+                label: 'Testing & Security',
+                href: 'https://github.com/lucferbux/Taller-Testing-Security',
+              },
             ],
           },
           {
@@ -111,6 +135,10 @@ const config = {
               {
                 label: 'GitHub',
                 href: 'https://github.com/lucferbux/Taller-Docusaurus',
+              },
+              {
+                label: 'Máster Full Stack - ThreePoints',
+                href: 'https://www.threepoints.com/es/master-en-full-stack-web-development',
               },
             ],
           },
