@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Dependencias
 
-Vamos a repasar las dependencias más importantes de este primer proyecto para comprender cómo está configurado.
+Vamos a repasar las dependencias más importantes de este segundo proyecto para comprender cómo está configurado.
 
 ## Node  
 
