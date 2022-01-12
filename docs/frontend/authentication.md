@@ -12,6 +12,8 @@ La implementación actual de autenticación en nuestro frontal se encuentra prin
 
 ## Auth code
 
+Dentro de `auth.ts` vamos a encontrar la lógica que procesa el token de autenticación, lo guarda en la sesión del navegador, comprueba si es valido y lo elimina en caso contrario. `setAuthToken` recibe ese token, lo decodifica, crea el objeto `Token` con los atributos de expiración `notBeforeTimestampInMillis` y `expirationTimestampInMillis` y luego almacena el token en **localStorage** de la página, mientras que tenemos `remoteAuthToken()` para eliminar el valor cuando ha expirado.
+
 ```tsx title="src/utils/auth.ts"
 export function setAuthToken(accessToken: string) {
   const tokenPayload = getPayload(accessToken);
@@ -27,6 +29,12 @@ export function removeAuthToken() {
   localStorage.removeItem(tokenKey);
 }
 ```
+
+Esto hace que cuando realizamos un login correcto, nuestra webapp almacene el token en la sesión. Como ya veremos en futuras sesiones este no es el mejor método y hay otras formas de hacerlo más seguras.
+
+![Auth Token](../../static/img/tutorial/front/7_9_auth_token.gif)
+
+Podemos encontrar también en este fichero funciones para decodificar el token, extraerlo de la sesión del navegador y comprobar si todavía es válido.
 
 ```tsx title="src/utils/auth.ts"
 function getPayload(token: string): JWTPayload {
@@ -51,6 +59,18 @@ function getAccessToken(): string {
   return "";
 }
 
+function isTokenActive(): boolean {
+  const token = getToken();
+  // TODO: check token expiration
+  return !!(
+    token 
+  );
+}
+```
+
+Y por último tenemos la función que devuelve **el usuario autenticado si es válido** y la función `setLogoutIfExpiredHandler`, que terminaremos de implementar en la siguiente sesión y básicamente termina la sesión si el token ha expirado si el usuario sigue navegando.
+
+```tsx title="src/utils/auth.ts"
 export function getCurrentUser(): User | undefined {
   const token = getToken();
   if (token) {
@@ -69,16 +89,6 @@ export function getCurrentUser(): User | undefined {
   }
 }
 
-function isTokenActive(): boolean {
-  const token = getToken();
-  // TODO: check token expiration
-  return !!(
-    token 
-  );
-}
-```
-
-```tsx title="src/utils/auth.ts"
 export function setLogoutIfExpiredHandler(
     setUser: (user: any) => void
 ) {
@@ -99,6 +109,8 @@ export function setLogoutIfExpiredHandler(
 ```
 
 ## Auth context
+
+En el archivo `AuthContext.tsx` tenemos toda la lógica para mantener el estado de la autenticación tal y como comentamos en la sección de [contextos](./context). Los métodos de `login` y `logout` hacen precisamente lo que su nombre indican, autentican o desautentican al usuario mediante usuario y contraseña. Ambos utilizan las funciones del fichero `auth.ts` para completar la lógica de la aplicación.
 
 ```tsx title="src/context/AuthContext.tsx"
 const login = useCallback(
@@ -122,6 +134,8 @@ const logout = useCallback(() => {
 }, []);
 ```
 
+Por otro lado tenemos un estado interno dentro del contexto llamado `user`, este estado determinará si nuestra webapp está autenticada, siendo *undefined* cuando no estamos loggeados y un objeto de valor [User](./models#user). Dentro del control de ciclo de vida, cada vez que se recargue el contexto comprobará el valor del JWT almacenado para actualizar el estado de `user`.
+
 ```tsx title="src/context/AuthContext.tsx"
 const [user, setUser] = useState<User | undefined>(getCurrentUser());
 
@@ -140,4 +154,3 @@ if (isTokenActive()) {
 }
 }, [loadUser]);
 ```
-
