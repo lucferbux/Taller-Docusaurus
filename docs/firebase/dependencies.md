@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Dependencias
 
-Vamos a poner rápidamente las dependencias de este proyecto especial.
+Vamos a hablar por encima las dependencias de este proyecto extra, para ampliar un poco los servicios en la nube que existen.
 
 ## Firebase  
 
