@@ -46,8 +46,8 @@ Ahora tendremos que realizar algunos cambios en el proyecto para tener el despli
 Ahora nos iremos a nuestro [proyecto firebase](https://github.com/lucferbux/Taller-Firebase) para terminar el despliegue.
 
 1. Primero nos dirigiremos al fichero `.env.local` y añadiremos cada atributo de la clave en la variable de entorno correspondiente, cada variable tiene el nombre de la clave con el prefijo **REACT_APP**.
-![11 Variables de entorno](../../static/img/tutorial/deployment/netlify/11_selection_base.png)
-2. Ahora logearemos nuestra terminal con firebase mediante el comando `firebase login` y una vez accedamos ejecutamos el comando `firebase init`. Nos pedirá seleccionar las funcionalidades que queremos activar. De momento habilitaremos **Firestore** y **Hosting** presionando la barra espaciadora.
+![11 Variables de entorno](../../static/img/tutorial/deployment/firebase/12_edit_env.png)
+1. Ahora logearemos nuestra terminal con firebase mediante el comando `firebase login` y una vez accedamos ejecutamos el comando `firebase init`. Nos pedirá seleccionar las funcionalidades que queremos activar. De momento habilitaremos **Firestore** y **Hosting** presionando la barra espaciadora.
 ![12 Firebase](../../static/img/tutorial/deployment/firebase/13_firebase_init.png)
 3. Ahora nos pedirá seleccionar el proyecto que queremos conectar. Elegimos el proyecto que acabamos de crear en el paso anterior.
 ![13 Selección proyecto](../../static/img/tutorial/deployment/firebase/14_project_selection.png)
