@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 # Cambios en Node
@@ -50,7 +50,7 @@ export function configure(app: express.Application): void {
 }
 ```
 
-Ahora al hacer peticiones podremos ver en la cabecera el límite y las peticiones restantes que nos quedan.
+Ahora al hacer peticiones podremos ver en la cabecera el límite y las peticiones restantes que nos quedan. Esto es muy util para prevenir ataques de fuerza bruta o similares.
 
 ![limit header](../../static/img/tutorial/security/4_rate_limit.png)
 
@@ -95,3 +95,61 @@ Podemos probar si nuestra aplicación funciona correctamente mediante *https* le
 ```
 
 ![https](../../static/img/tutorial/security/5_https.png)
+
+## Mongoose y Joi
+
+Al igual que con *Helmet*, voy a parar a hablar un momento acerca de los beneficios de implementar *Moongose* en nuestro proyecto. Al tener estructurado nuestro proyecto con los [Schemas](https://mongoosejs.com/docs/guide.html) de *Mongoose* y encima al tener la capa de validación extra de [Joi](https://joi.dev/api/?v=17.6.0) podemos asegurarnos que nuestra aplicación no es vulnerable a ataques *NoSQL*.
+
+Como podemos comprobar [aquí](https://book.hacktricks.xyz/pentesting-web/nosql-injection), existe cierta sintáxis que hace que sea posible realizar ataques *NoSQL*, por ejemplo, si conectásemos nuestra aplicación con el propio [MongoDB Driver](https://docs.mongodb.com/drivers/), si no sanetizamos la entrada de nuestros formularios, podríamos caer en el siguiente error.
+
+```ts title="NoSQL Injection"
+User.findOne({
+    "name" : req.params.name, 
+    "password" : req.params.password
+}, callback); 
+
+req.post( { name: "whatever", password: "{ $ne: 1 }" })
+```
+
+La expresión `{ $ne: 1 }` implica *not equals 1*, por lo que aunque no sepamos la contraseña la condición se cumpliría siempre.
+
+Con *Moongose* es un poco diferente, al seguir un *schema*, si la contraseña es un campo cadena, convertirá el objeto `{ $ne: 1 }` en una cadena, por lo que no se producirá ningún problema. Así, no es necesario *sanetizar* nuestras entradas.
+
+## NPM Audit
+
+NPM Audit es un comando de Node que envía una descripción de las dependencias configuradas de nuestro proyecto a nuestro registry (por defecto npmjs.com) y pide un reporte de las vulnerabilidades conocidas. Si existe alguna vulnerabilidad conocida, devuelve una descripción con la severidad de la vulnerabilidad, la forma de mitigarlo y las versiones afectadas.
+
+Es tan fácil como ejecutar el siguiente comando en el directorio donde se encuentre nuestro fichero *package.json*: `npm audit`.
+
+```bash title="Ejemplo de reporte"
+# npm audit report
+
+ansi-html  *
+Severity: high
+Uncontrolled Resource Consumption in ansi-html - https://github.com/advisories/GHSA-whgm-jr23-g3j9
+fix available via `npm audit fix --force`
+Will install react-scripts@5.0.0, which is a breaking change
+node_modules/ansi-html
+  @pmmmwh/react-refresh-webpack-plugin  <=0.5.0-rc.6
+  Depends on vulnerable versions of ansi-html
+  node_modules/@pmmmwh/react-refresh-webpack-plugin
+    react-scripts  >=0.1.0
+    Depends on vulnerable versions of @pmmmwh/react-refresh-webpack-plugin
+    Depends on vulnerable versions of @svgr/webpack
+    Depends on vulnerable versions of css-loader
+    Depends on vulnerable versions of optimize-css-assets-webpack-plugin
+    Depends on vulnerable versions of postcss-flexbugs-fixes
+    Depends on vulnerable versions of postcss-normalize
+    Depends on vulnerable versions of react-dev-utils
+    Depends on vulnerable versions of resolve-url-loader
+    Depends on vulnerable versions of webpack
+    Depends on vulnerable versions of webpack-dev-server
+    node_modules/react-scripts
+  webpack-dev-server  2.0.0-beta - 4.7.2
+  Depends on vulnerable versions of ansi-html
+  Depends on vulnerable versions of chokidar
+  Depends on vulnerable versions of selfsigned
+  Depends on vulnerable versions of yargs
+```
+
+Podemos intentar arreglar automáticamente estas vulnerabilidades añadiendo el siguiente flag: `npm auidt fix`. Con ello, se intentará acutalizar todas las dependencias a las versiones no vulnerables. Esto es muy útil porque automatiza de forma muy eficiente el control de vulnerabilidades en dependencias externas.

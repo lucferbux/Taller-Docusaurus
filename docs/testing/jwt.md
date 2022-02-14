@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # JWT
@@ -15,9 +15,9 @@ El problema es que usar **JWT** para el control de sesiones tiene [múltiples pr
 Una vez que hemos decidido mover los *JWT* del *local storage* tenemos que considerar las opciones que tenemos:
 
 * Memoria "en caliente": Sería la opción más segura, ya que estaríamos usando los estados de *React*. El problema es que cada vez que se recarga la página, se cierra la pestaña o se utilizan pestañas diferentes la sesión cambiaría.
-* Cookie HttpOnly: Al igual que *local storage* también es vulnerable a [XSS](https://owasp.org/www-community/attacks/xss/), pero hay una diferencia fundamental, si un atacante accede a *local storage* puede leer el token de sesión con *JavaScript* pero con la *Cookie HttpOnly* solo podría hacer llamadas al backend pero no podría leer ese token.
+* Cookie HttpOnly: Al igual que *local storage* es vulnerable a ataques [CRSF](https://owasp.org/www-community/attacks/csrf), pero hay una diferencia fundamental, si un atacante accede a *local storage* puede leer el token de sesión con *JavaScript* pero con la *Cookie HttpOnly* solo podría hacer llamadas al backend pero no podría leer ese token.
 
-Al final, si queremos estar casi completamente seguros lo ideal sería no almacenar el token, pero claro, eso genera muchas fricciones en la funcionalidad. Es por ello, pese a que presente también varios problemas, el usar una *Cookie HTTP* hace que nuestro proyecto esté protegido antes ataques masivos en los que quieran leer tokens de sesión mediante local storage, ya que para que sea efectivo el ataque de *XSS* con *HttpOnly Cookie* es necesario que el atacante sepa cosas como nuestros endpoints, parámetros, etc.
+Al final, si queremos estar casi completamente seguros lo ideal sería no almacenar el token, pero claro, eso genera muchas fricciones en la funcionalidad. Es por ello, pese a que presente también varios problemas, el usar una *Cookie HTTP* hace que nuestro proyecto esté protegido antes ataques masivos en los que quieran leer tokens de sesión mediante local storage, además añadiendo ciertas cabeceras a nuestra *Cookie* podemos reducir bastante el riesgo y los vectores de ataque en general.
 
 ## Cookie HttpOnly
 
@@ -42,15 +42,16 @@ export async function login(
       }
     );
 
-    // TODO: 1. Install cookie-parser
-    // TODO: 2. Change the res to accept a cookie httponly
-
-    res.cookie("token", token, { expires: new Date(Date.now() + 60 * 60 * 1000), httpOnly: true, secure: true });
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 60 * 60 * 1000),
+      httpOnly: true,
+      secure: true,
+      sameSite: true,
+    });
 
     res.status(HttpStatus.OK).send({
       token: token,
     });
-
   } catch (error) {
     if (error.code === 500) {
       return next(new HttpError(error.message.status, error.message));
@@ -62,7 +63,7 @@ export async function login(
 }
 ```
 
-Al añadir el tag `httpOnly: true` nos aseguramos que la cookie no puede leerse usando JavaScript, pero puede usarse para enviarla mediante requests HTTP. Sin ese ajuste, un ataque *XSS* puede usar el atributo `document.cookie` para listar todas las cookies y sus valores.
+Con esto creamos una *Cookie* que tiene una fecha de expiración igual a nuestro *JWT*, así caducarán al mismo tiempo. Además, la cabecera `httpOnly` hace que sea imposible de leer mediante JavaScript, `Secure` indica que solo se puede enviar con conexiones cifradas como *HTTPS*, y `SameSite` es una cabecera que protege de ataques de *CRSF*, al indicar que solo puede provenir de peticiones lanzadas desde la misma *URL*.
 
 ### HTTP Proxy
 
@@ -129,7 +130,7 @@ export async function logout(
 }
 ```
 
-Además tendremos que adaptar el middleware del backend para que acepte una cookie en vez de la cabecera *Authorization*
+Además tendremos que adaptar el middleware del backend para que acepte una cookie en vez de la cabecera *Authorization*.
 
 ```ts title="backend/src/config/middleware/jwtAuth.ts"
 export function isAuthenticated(req: RequestWithUser, res: Response, next: NextFunction): void {
