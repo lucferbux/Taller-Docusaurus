@@ -30,6 +30,12 @@ Framework JavaScript centrado en *testing*, que permite crear *test de integraci
 
 [Enlace a documentación](https://jestjs.io)
 
+## React Testing Library
+
+Librería core de *createe react app* para escribir tests sin necesidad de implementaciones complicadas y dependencias de los componentes entre ficheros.
+
+[Enlace a documentación](https://github.com/testing-library/react-testing-library)
+
 ## Puppeter
 
 Librería para Node que aporta una API de alto nmivel para controlar Chrome o Chromium mediante el [Protocolo DevTools](https://chromedevtools.github.io/devtools-protocol/), permitiendo así simular navgegación de nuestra página y poder realizar test end-2-end.
