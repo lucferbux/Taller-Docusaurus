@@ -36,8 +36,8 @@ Librería core de *createe react app* para escribir tests sin necesidad de imple
 
 [Enlace a documentación](https://github.com/testing-library/react-testing-library)
 
-## Puppeter
+## Mocha
 
-Librería para Node que aporta una API de alto nmivel para controlar Chrome o Chromium mediante el [Protocolo DevTools](https://chromedevtools.github.io/devtools-protocol/), permitiendo así simular navgegación de nuestra página y poder realizar test end-2-end.
+Otro framework JavaScript focalizado en **Node,js** y el navegador, haciendo que el test asíncrono sea fácil y sencillo de implementar
 
-[Enlace a documentación](https://github.com/puppeteer/puppeteer)
+[Enlace a documentación](https://mochajs.org)

@@ -10,7 +10,7 @@ En esta nueva sección vamos a hablar de dos aspectos muy importantes y muy buen
 
 ![Security & Testing Architecture](../../static/img/tutorial/security/0_testing_sec_architecture.png)
 
-Como podemos observar, vamos a añadir módulos de testing tanto al *frontend* como al *backend*, además, tendremos un módulo de *testing end-to-end* mediante [Puppeteer](https://github.com/puppeteer/puppeteer) que permitirá probar la webapp en su totalidad. Otro de los cambios que podemos observar es que moveremos el JWT a una cookie de sesión para mejorar la seguridad de las conexiones de nuestra aplicación. Antes de comenzar con la sesión, estaría bien repasar algunos conceptos para poder aplicarlos correctamente en las siguientes secciones.
+Como podemos observar, vamos a añadir módulos de testing tanto al *frontend* como al *backend*. Otro de los cambios que podemos observar es que moveremos el JWT a una cookie de sesión para mejorar la seguridad de las conexiones de nuestra aplicación. Antes de comenzar con la sesión, estaría bien repasar algunos conceptos para poder aplicarlos correctamente en las siguientes secciones.
 
 ## Conceptos importantes
 
