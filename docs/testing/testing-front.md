@@ -1,8 +1,8 @@
 ---
-sidebar_position: 6
+sidebar_position: 7
 ---
 
-# Testing
+# Testing FrontEnd
 
 Ahora vamos a hablar de *Jest* y *React Testing library*. Jest es una librería open source escrita en JavaScript, muy optimizada para apliaciones *React* que permite implementar *tests unitarios* y junto a *react-testing-library*, escribir test de integración en nuestro proyecto.
 
@@ -114,55 +114,3 @@ Como podemos ver aquí tenemos un test más complejo, estamos haciendo uso de *m
     {props.captionText ? props.captionText : ""}
 </CardCaption>
 ```
-
-## Ejecutar Tests en Node
-
-Ahora vamos a hablar del testing en Node. En esta ocasión vamos a usar [mocha](https://mochajs.org/) para realizar los tests de integración. Hemos elegido esta suite porque permite manejar la asíncronía de peticiones al servidor de una forma muy sencilla.
-
-Para empezar a probar los endpoints que hemos creado, vamos a finjarnos en el ejemplo de api de autenticación.
-
-```js title="backend/test/authentication.js"
-/**
- * storing globals to access them in API requests
- */
-global.token = '';
-/**
- * Authentication tests
- */
-describe('Authentication', () => {
-
-    it('login to app', (done) => {
-        request(app)
-            .post('/auth/login')
-            .type('form')
-            .field({
-                email: 'lucasfernandezaragon@gmail.com',
-                password: '#####',
-            })
-            .expect((res) => {
-                res.status.should.equal(200);
-                res.body.message.should.be.a('string');
-                res.header.authorization.should.not.null;
-                global.token = res.header.authorization;
-                global.bearerToken = `Bearer ${res.header.authorization}`;
-            })
-            .end(done);
-    });
-
-    it('get authenticated user', (done) => {
-        request(app)
-            .get('/users/')
-            .set('Authorization', global.bearerToken)
-            .expect((res) => {
-                res.status.should.equal(200);
-                res.body.user.should.not.null;
-                res.body.user.email.should.equal(user.email);
-            })
-            .end(done);
-    });
-});
-```
-
-Como podemos observar, realizamos la autenticación de formulario con un username/password mockeado para probar si efectivamente nuestro backend está aceptando las conexiones.
-
-Ahora solo tenemos que añadir una nueva opción a nuestro package json para testing: `"test": "NODE_ENV=test mocha -r ts-node/register test/index.js -vv --exit",` y podemos empezara probar ejecutando `npm run test`.

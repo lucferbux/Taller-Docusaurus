@@ -32,12 +32,24 @@ Framework JavaScript centrado en *testing*, que permite crear *test de integraci
 
 ## React Testing Library
 
-Librería core de *createe react app* para escribir tests sin necesidad de implementaciones complicadas y dependencias de los componentes entre ficheros.
+Librería core de *create react app* para escribir tests sin necesidad de implementaciones complicadas y dependencias de los componentes entre ficheros.
 
 [Enlace a documentación](https://github.com/testing-library/react-testing-library)
 
 ## Mocha
 
-Otro framework JavaScript focalizado en **Node,js** y el navegador, haciendo que el test asíncrono sea fácil y sencillo de implementar
+Framework JavaScript especialmente optimizado para **Node,js**, permite crear tanto tests síncronos como asíncronos de una forma muy sencilla, además de proporcionar muchas utilidades para la ejecución y el reporte de tests.
 
 [Enlace a documentación](https://mochajs.org)
+
+## Chai
+
+Librería JavaScript de aserciones, es decir de comprobaciones entre valores. Chai tiene múltiples interfaces, como **asert**, **expect** y **should**, que permiten al desarrollador elegir el estilo que le resulte más legible y cómodo a la hora de construir los tests.
+
+[Enlace a documentación](https://www.chaijs.com/)
+
+## Supertest
+
+*Supertest* es un módulo que nos permite testear servidores en *Nodejs HTTP*. Está construido por encima de la librería [superagent](https://github.com/visionmedia/superagent), que permite realizar peticiones al servidor y luego ser evaluadas.
+
+[Enlace a documentación](https://github.com/visionmedia/supertest#readme)
