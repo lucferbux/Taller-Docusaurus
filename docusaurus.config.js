@@ -123,6 +123,10 @@ const config = {
                 label: 'Testing & Security',
                 href: 'https://github.com/lucferbux/Taller-Testing-Security',
               },
+              {
+                label: 'Docker y Kubernetes',
+                href: 'https://github.com/lucferbux/Taller-Containerization',
+              },
             ],
           },
           {
@@ -148,6 +152,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+        additionalLanguages: ['docker', 'nginx'],
       },
     }),
 };
