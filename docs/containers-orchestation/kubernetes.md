@@ -4,13 +4,15 @@ sidebar_position: 6
 
 # Kubernetes
 
-![Kubernetes](../../static/img/tutorial/container/4_kubernetes.svg)
+![Cluster](../../static/img/tutorial/container/5_cluster_k8s.svg)
 
 Una vez definida la arquitectura de contendores con *Docker Compose* vamos a pasar a la siguiente fase del despliegue. En esta ocasión vamos a definir una estructura para *orquestar* nuestros contenedores en un despliegue, esto nos va a dar beneficios como *replicación de la infraestructura*, *balanceo de carga*, *respuesta ante fallos* y asegurar que nuestro despliegue siempre está en el mismo estado en el que lo hemos definido.
 
 Es bastante evidente que para un proyecto como este, una solución basada en [Kubernetes](https://kubernetes.io) puede ser un proceso de sobre-ingeniería, hay muchas otras opciones de despliegue que [ya hemos valorado](../deployment/frontendbackend) que pueden ser más interesantes, pero no viene mal introducir los conceptos más importantes de la orquestación con un proyecto ya conocido.
 
 ## Arquitectura
+
+![Kubernetes](../../static/img/tutorial/container/4_kubernetes.svg)
 
 Como en anteriores ocasiones, vamos a tener tres grupos bastante diferenciados, el *frontend*, que heredará la imagen del proxy inverso que usamos en la sección de [despliegue en producción](./docker-deployment), la imagen del *backend* desplegada en modo producción y por último un contenedor de base de datos. El tema de la base de datos es más complejo, ya que es una **aplicación con estado** o **statful application**, por lo que sería interesante usar un componente llamado [StatefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/).
 
