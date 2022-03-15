@@ -467,4 +467,15 @@ replicaset.apps/front-nginx-6cfbc8c476         3         3         3       16s
 replicaset.apps/mongodb-deployment-8575f75cf   1         1         1       16s
 ```
 
-Ahora si hacemos un port forwarding de uno de los pods del frontend, por ejemplo `pod/front-nginx-6cfbc8c476-79mmh` de la imagen de arriba (el nombre puede variar), al ejecutar `kubectl port-forward pod/front-nginx-6cfbc8c476-79mmh 4000:80 -n porfolio-app` podremos acceder a nuestro despliegue.
+Ahora si pedimos a minikube abrir el servicio con `k8s-get-service` nos aparecerá los puertos abiertos del servicio, y podremos acceder a nuestra aplicación.
+
+```bash title="kubernetes service"
+|--------------|------------------------|-------------|------------------------|
+|  NAMESPACE   |          NAME          | TARGET PORT |          URL           |
+|--------------|------------------------|-------------|------------------------|
+| porfolio-app | frontend-nginx-service |             | http://127.0.0.1:56413 |
+|              |                        |             | http://127.0.0.1:56414 |
+|--------------|------------------------|-------------|------------------------|
+http://127.0.0.1:56413
+http://127.0.0.1:56414
+```

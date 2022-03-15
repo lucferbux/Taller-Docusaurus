@@ -35,9 +35,3 @@ Minikube permite ejecutar kubernetes en local, simulando un *cluster* de Kuberne
 Nginx es un *proxy inverso*, un *proxy para correos* y un *servidor proxy TCP/UUDP* genérico. Permite realizar distintas funciones como servir ficheros estáticos, acelerar el *proxy inverso* con *"caché"*, *"balanceo de carga"*, *"tolerancia a fallos"*, construir una arquitectura modular, mediante filtros y condiciones, y dar soporte a tráfico cifrado y al nuevo HTTP/2.
 
 [Enlace a documentación](https://nginx.org/en/docs/)
-
-## Puppeteer
-
-Librería de Node que aporta una API de alto nivel para controlar Chrome o Chromium a través del [protocolo devtool]. Permitiendo así realizar acciones como crear tests *end-to-end*, generar capturas de pantalla de nuestra aplicación, probar interacciónes como formularios, simulación de teclas y clicks...
-
-[Enlace a documentación](https://github.com/puppeteer/puppeteer)
