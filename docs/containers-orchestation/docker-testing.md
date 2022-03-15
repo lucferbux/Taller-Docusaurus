@@ -6,7 +6,13 @@ sidebar_position: 5
 
 ![Docker testing](../../static/img/tutorial/container/2_container_test.svg)
 
+Vamos a hablar por último de la arquitectura de *testing* dentro de la sección sobre *"contenerización"*. A diferencia del resto, esta arquitectura solo cuenta con dos contenedores, y es que vamos a tener una sola imagen node que **va a ejecutar los tests en el back y el front**, instalando las dependencias requeridas en cada una de las partes.
+
 ## Arquitectura
+
+Vamos a tratar en conjunto este fichero de *Docker compose*. Básicamente el despliegue de la *base de datos* continúa igual, y lo que de verdad cambia es el contenedor `node`, que ahora se ejecutará en el contexto de la raiz del proyecto y contendrá tanto el *frontend* como el *backend*. También hay que destacar la nueva variable de entorno `CI`, que permite indicar a las distintas toolchains de testing que estamos ejecutando los comandos en modo *integración continua*.
+
+Para ejecutar este entorno en nuestro proyecto, solo tenemos que ejecutar `docker-compose -f docker-compose.test.yml up --build -d` para levantar el entorno y compilar los contenedores o mediante Make ejecutando `docker-ci-up` seguido de `docker-ci-api`.
 
 ```yaml title="docker.compose.test.yml"
 version: '3.9'
@@ -48,6 +54,19 @@ networks:
 ```
 
 ## Node build
+
+Por último podemos ver que el *Dockerfile* de esta nueva imagen simplemente copia los contenidos del *frontend* y el *backend* e instala las dependencias globales y de ambos proyectos. Para luego ejecutar los tests tendremos que utilizar el comando `docker-compose -f docker-compose.test.yml run node npm run test` o simplemente utilizar el comando `docker-ci-up` seguido de `docker-ci-api`.
+
+```dockerfile title="delivery/Dockerfile"
+FROM node:14-alpine3.12
+WORKDIR /app
+COPY ui/. ./ui
+COPY api/. ./api
+COPY package.json .
+COPY package-lock.json .
+RUN npm install
+RUN npm run postinstall
+```
 
 ```makefile title="Makefile"
 .PHONY: docker-ci-up
