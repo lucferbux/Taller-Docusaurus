@@ -6,11 +6,19 @@ sidebar_position: 6
 
 ![Kubernetes](../../static/img/tutorial/container/4_kubernetes.svg)
 
+Una vez definida la arquitectura de contendores con *Docker Compose* vamos a pasar a la siguiente fase del despliegue. En esta ocasión vamos a definir una estructura para *orquestar* nuestros contenedores en un despliegue, esto nos va a dar beneficios como *replicación de la infraestructura*, *balanceo de carga*, *respuesta ante fallos* y asegurar que nuestro despliegue siempre está en el mismo estado en el que lo hemos definido.
 
+Es bastante evidente que para un proyecto como este, una solución basada en [Kubernetes](https://kubernetes.io) puede ser un proceso de sobre-ingeniería, hay muchas otras opciones de despliegue que [ya hemos valorado](../deployment/frontendbackend) que pueden ser más interesantes, pero no viene mal introducir los conceptos más importantes de la orquestación con un proyecto ya conocido.
 
 ## Arquitectura
 
+Como en anteriores ocasiones, vamos a tener tres grupos bastante diferenciados, el *frontend*, que heredará la imagen del proxy inverso que usamos en la sección de [despliegue en producción](./docker-deployment), la imagen del *backend* desplegada en modo producción y por último un contenedor de base de datos. El tema de la base de datos es más complejo, ya que es una **aplicación con estado** o **statful application**, por lo que sería interesante usar un componente llamado [StatefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/).
+
 ### Frontend
+
+Para la parte del frontend vamos a contar con 4 componentes principales. En el primer fichero llamado `fronend.yaml` tendremos nuestro [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) y nuestro [Service](https://kubernetes.io/docs/concepts/services-networking/service/). El primero controla la "receta" del [pod](https://kubernetes.io/docs/concepts/workloads/pods/) que vamos a definir, con el número de pods que vamos a crear mediante `replica`, la imagen del contenedor con el tag `image`, la capacidad de nuestro pod con `resources`, los puertos expuestos con `ports`, las variables de entorno con `env` y los volúmenes con `volumes` y `volumeMounts`. Son muchas propiedades de golpe pero en realidad es muy parecido a lo que ya habíamos visto en *Compose*, un pod va a tener una **imagen base**, a la que se le puede añadir **puertos expuestos**, **variables de entorno** para modificar el comportamiento de nuestro proyecto y **volumenes** para añadir ficheros.
+
+Por otra parte tenemos el componente [Services](https://kubernetes.io/docs/concepts/services-networking/service/) que permite exponer nuestra aplicación a la red interna de Kubernetes, ya que define una ip interna fija que asocia con un pod (que puede ser eliminado y susutituido por otro). Con el tag `selector` asociamos el servicio a un *Deployment* y con el tag `port` definimos los puertos expuestos.
 
 ```yaml title="frontend.yaml"
 apiVersion: apps/v1
@@ -94,6 +102,8 @@ spec:
       name: https
 ```
 
+Por otro lado tenemos el componente [Configmap](https://kubernetes.io/docs/concepts/configuration/configmap/) que permite definir información mediante pares de clave/valor, y que pueden ser consumidos posteriormente por nuestros *pods*. En este caso vamos a pasar las variables de entorno que ya habíamos definido previamente.
+
 ```yaml title="frontend-configmap.yaml"
 apiVersion: v1
 kind: ConfigMap
@@ -104,6 +114,8 @@ data:
   nginx_https_port: "443"
   force_https: "false"
 ```
+
+Y ya por último tenemos el componente [Secret](https://kubernetes.io/docs/concepts/configuration/secret/), donde definir información sensible como *contraseñas*, *tokens* o *claves*. En este caso vamos a definir la clave privada y el certificado que usaremos con *NGINX*.
 
 ```yaml title="frontend-secret.yaml"
 apiVersion: v1
@@ -117,6 +129,8 @@ data:
 ```
 
 ### Backend
+
+A partir de aquí todo el despliegue es bastante similar, nuestro **backend** contará con 3 replicas, basado en la imagen que compilamos en la [sección anterior](./docker-deployment), con el *puerto 4000* expuesto y todas las variables de entorno que ya teníamos definidas en *Compose*. Además tendremos un servicio también para dejar abierto el puerto 4000 en la red de Kubernetes.
 
 ```yaml title="backend.yaml"
 apiVersion: apps/v1
@@ -182,6 +196,8 @@ spec:
       targetPort: 4000
 ```
 
+En el configmap guardaremos las variables de entorno que pasaremos al pod, cabe destacar que para referenciar otro servicio definiremos el nombre que le hayamos dado con el puerto, como podemos ver en `api_url: api-express-service:4000`.
+
 ```yaml title="backend-configmap.yaml"
 apiVersion: v1
 kind: ConfigMap
@@ -192,6 +208,8 @@ data:
   node_port: "4000"
   api_url: api-express-service:4000
 ```
+
+Y por último en *backend-secret* tendremos el token jwt, todos los secretos son codificados en **base64**.
 
 ```yaml title="backend-secret.yaml"
 apiVersion: v1
@@ -204,6 +222,8 @@ data:
 ```
 
 ### BBDD
+
+En nuestra base de datos solo tendremos una réplica, ya que se trata de un pod con estado. Deberíamos definir un volumen persistente para así mantener la información en caso de que la base de datos falle por cualquier razón, esto se consigue con el objeto [Persisten Volumen](https://kubernetes.io/docs/concepts/storage/persistent-volumes/).
 
 ```yaml title="mongo.yaml"
 apiVersion: apps/v1
@@ -264,6 +284,8 @@ spec:
       port: 27017
       targetPort: 27017
 ```
+
+Por otro lado el configmap cuenta con el archivo de inicio para poblar nuestra base de datos al iniciar el *pod*, junto a información relevante como la url de la base de datos o el nombre de la base de datos inicial.
 
 ```yaml title="mongo-configmap.yaml"
 apiVersion: v1
@@ -416,6 +438,8 @@ data:
 
 ## Deployment
 
+Ahora ya solo nos queda desplegar nuestro proyecto, solo tendremos que iniciar minikube con `minikube start`, y luego ejecutar `k8s-create-ns` para crear el [Namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/), `k8s-deploy` para desplegar todos los ficheros y `k8s-status` para visualizar el estado, debería ser algo parecido a lo siguiente.
+
 ```bash title="kubernetes deployment"
 kubectl get all -n porfolio-app
 NAME                                     READY   STATUS    RESTARTS   AGE
@@ -442,3 +466,5 @@ replicaset.apps/api-express-58854547b5         3         3         3       16s
 replicaset.apps/front-nginx-6cfbc8c476         3         3         3       16s
 replicaset.apps/mongodb-deployment-8575f75cf   1         1         1       16s
 ```
+
+Ahora si hacemos un port forwarding de uno de los pods del frontend, por ejemplo `pod/front-nginx-6cfbc8c476-79mmh` de la imagen de arriba (el nombre puede variar), al ejecutar `kubectl port-forward pod/front-nginx-6cfbc8c476-79mmh 4000:80 -n porfolio-app` podremos acceder a nuestro despliegue.
