@@ -225,7 +225,47 @@ data:
 
 ### BBDD
 
-En nuestra base de datos solo tendremos una réplica, ya que se trata de un pod con estado. Deberíamos definir un volumen persistente para así mantener la información en caso de que la base de datos falle por cualquier razón, esto se consigue con el objeto [Persisten Volumen](https://kubernetes.io/docs/concepts/storage/persistent-volumes/).
+En nuestra base de datos contaremos solo con una replica. Esto es así para no complicar mucho más el despliegue, ya que este *pod* sí sería un contenedor con estado, por lo que deberíamos hacer uso de [StatefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/), donde una replica sería el maestro y los demás esclavos con identificadores para su sincronización. Para evitar mucha más complejidad hemos optado por tener un solo pod con persistencia gracias a tener un [PVC](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) que reclame un *persistent volume* que hemos creado en el cluster.
+
+```yaml title="mongo-pv.yaml"
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongo-data
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/mongo
+```
+
+Primero vamos a crear en nuestro cluster un *persistent volume*, que asignará un espacio de *1GB* en el *path* que le indiquemos, en este caso */data/mongo*
+
+```yaml title="mongo-pvc.yaml"
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce 
+  resources:
+    requests:
+      storage: 2Gi
+```
+
+Ahora vamos a crear un *persistent volume claim* para indicar que queremos utilizar parte de la memoria de ese *persistent volume* que hemos creado (o del volumen que el administrador del cluster haya creado). Al hacerlo, si ejecutamos `kubectl get pv` veremos que hemos asignado nuestro *claim*.
+
+```bash
+NAME         CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                     STORAGECLASS   REASON   AGE
+mongo-data   1Gi        RWO            Retain           Bound    portfolio-app/mongo-pvc   manual                  73s
+```
+
+Ahora solo tenemos que añadir este *PersitentVolumeClaim* como volumen dentro de nuestro pod, que tendrá también el volumen del archivo `mongo-init.js` para cargar datos la primera vez que se levante. Ahora si el *pod* muere y tiene que reiniciarse por alguna razón los datos persistirán a nuestro despliegue.
 
 ```yaml title="mongo.yaml"
 apiVersion: apps/v1
@@ -266,6 +306,8 @@ spec:
           - name: init-script-volume
             mountPath: /docker-entrypoint-initdb.d/mongo-init.js
             subPath: mongo-init.js
+          - name: mongo-data-dir
+            mountPath: /data/db
       volumes:
         - name: init-script-volume
           configMap:
@@ -273,6 +315,9 @@ spec:
             items:
             - key: mongo-init.js
               path: mongo-init.js
+        - name: mongo-data-dir
+          persistentVolumeClaim:
+            claimName: mongo-pvc
 ---
 apiVersion: v1
 kind: Service
