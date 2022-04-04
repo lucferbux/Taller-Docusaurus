@@ -56,9 +56,9 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'tutorial-docusaurus/intro',
+            docId: 'frontend/intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Documentación',
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
@@ -98,6 +98,18 @@ const config = {
                 label: 'Despliegue',
                 to: '/docs/deployment/frontend',
               },
+              {
+                label: 'Testing & Seguridad',
+                to: '/docs/testing/intro',
+              },
+              {
+                label: 'Contenedores & Orquestación',
+                to: '/docs/containers-orchestation/intro',
+              },
+              {
+                label: 'CI/CD',
+                to: '/docs/cd-ci/intro',
+              },
             ],
           },
           {
@@ -126,6 +138,10 @@ const config = {
               {
                 label: 'Docker y Kubernetes',
                 href: 'https://github.com/lucferbux/Taller-Containerization',
+              },
+              {
+                label: 'CD/CI',
+                href: 'https://github.com/lucferbux/Taller-CI-CD',
               },
             ],
           },
