@@ -6,7 +6,13 @@ sidebar_position: 4
 
 Como habréis visto en el **Módulo de Front-end**, en una aplicación en React, la información se pasa de arriba a abajo (de padre a hijo) mediante *props*. Este flujo está bien para determinados casos de uso, pero para ciertas funcionalidades se puede quedar corto. Es por eso que *Context* proporciona una forma de compartir información entre componentes sin tener que pasarla explícitamente  a través de un prop de forma descendiente.
 
-En este proyecto usamos varios props para determinadas tareas.
+Antes de entrar a analizar el código, quiero dedicar unos minutos a responder una duda que pudierais tener a estas alturas, ¿En qué momento tengo que utilizar librerías de control de estados como [redux](https://redux.js.org) frente a [context](https://reactjs.org/docs/context.html)?. Pues bien, la respuesta es complicada, os dejo aquí una entrevista a su co-creador explicando [cuando hay que utilizar redux](https://youtu.be/XEt09iK8IXs?t=198), y como bien dice, actualmente hay una línea muy difusa, y para muchas funcionalidades *context* cubre todo los usos. Personalmente creo que si el proyecto ya usa *redux*, o el código está estructurado de una forma específica, por ejemplo separando completamente la lógica de estado de los componentes, es recomendable usar *redux*, si el objetivo es pasar información entre componentes y mantener ciertos estados, la combinación de **useContext** y **useState** debería ser suficiente.
+
+:::tip Uso de redux
+
+Redux sigue siendo una librería fundamental dentro del control de estado en React, pero salvo que el proyecto ya la utilice o haya un caso de uso muy concreto, es posible recrear su funcionalidad con **context**
+
+:::
 
 ## AuthContext
 
@@ -50,9 +56,11 @@ export function AuthProvider({ children }: Props) {
   }, []);
 
   return (
+    // highlight-start
     <AuthContext.Provider value={{ user, login, logout, loadUser }}>
       {children}
     </AuthContext.Provider>
+    // highlight-end
   );
 }
 ```
@@ -190,33 +198,3 @@ const Layout = (props: LayoutProps) => {
 ```
 
 En este caso hemos añadido un **título** y una **descripción** que cambiará dinámicamente dependiendo de la localización de la página. También añadiremos el flag `apple-mobile-web-app-status-bar-style` para colorear la barra de navegación de nuestro navegador del colo que queramos, en este caso del color primario.
-
-## Hooks
-
-Los Hooks son una incorporación relativamente nueva, introducidos en **React 16.8** y son funciones que permiten *"enganchar"* nuestros componentes funcionales a caraceterísticas de un componente de clase. Además de poder controlar el estado con **useState**, el ciclo de vida del componente con **useEffect** y demás funcionalidades, es posible construir nuestros propios **Hooks**. Nosotros hemos utilizado esta característica para poder utilizar nuestros *contextos* dentro de los *componentes funcionales* de la aplicación.
-
-La forma de hacerlo es muy sencilla, solo tenemos que crear una nueva función, llamar al contexto y devolverlo. Lo podemos ver claramente con los ejemplos de abajo:
-
-```tsx title="src/hooks/useApp.tsx"
-import { useContext } from "react";
-import AppContext from "../context/AppContext/AppContext";
-
-
-export default function useApp() {
-  const context = useContext(AppContext);
-
-  return context;
-}
-```
-
-```tsx title="src/hooks/useAuth.tsx"
-import { useContext } from "react";
-import AuthContext from "../context/AuthContext";
-
-
-export default function useAuth() {
-  const context = useContext(AuthContext);
-
-  return context;
-}
-```

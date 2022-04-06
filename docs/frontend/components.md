@@ -1,5 +1,5 @@
 ---
-sidebar_position: 10
+sidebar_position: 11
 ---
 
 # Componentes
@@ -79,10 +79,234 @@ Dentro de *Routes* tenemos cada uno de los componentes que renderizan las págin
 
 Carpeta donde se encuentran los componentes que van a formar parte del *background* o fondo de nuestra aplicación. En nuestro caso solo lo usaremos dentro de la `Landing Page` para dar ese efecto de fondo continuo con la barra de navegación, pero podemos crear más para las distintas secciones.
 
+```tsx title="src/components/background/WaveLanding.tsx"
+import React from "react"
+import styled from "styled-components"
+import background from "./background-landing.svg"
+import backgroundDark from "./background-landing-dark.svg"
+
+const WaveLanding = () => {
+  return (
+    <Wrapper>
+
+      <Wave
+        src={background}
+        alt="Background Image"
+      />
+
+    </Wrapper>
+  )
+}
+
+export default WaveLanding
+
+const Wrapper = styled.div`
+  position: relative;
+`
+const Wave = styled.img`
+  position: absolute;
+  top: -100px;
+  z-index: -1;
+  @media (min-width: 1440px) {
+    width: 100%;
+  }
+  @media (prefers-color-scheme: dark) {
+    content: url(${backgroundDark});
+  }
+`
+```
+
 ## Elements
 
 Carpeta donde almacenar los distintos componentes de *UX/UI* del sistema. De momento tendremos nuestro componente de carga, un *spinner* que se mostrará al realizar peticiones asíncronas y esperar su resultado.
 
+```tsx title="src/components/elements/Loader.tsx"
+import styled from "styled-components";
+import icnLoader from "./loader.svg";
+import useApp from "../../hooks/useApp";
+import { themes } from "../../styles/ColorStyles";
+import { Caption } from "../../styles/TextStyles";
+
+export default function Loader() {
+  const { notifications } = useApp();
+  const loaderMessage = () => notifications[notifications.length - 1];
+
+  if (notifications.length > 0) {
+    return (
+      <LoaderWrapper>
+        <LoaderCard>
+          <LoaderImg src={icnLoader} alt={loaderMessage()} />
+          <LoaderMsg>{loaderMessage()}</LoaderMsg>
+        </LoaderCard>
+      </LoaderWrapper>
+    );
+  } else {
+    return <></>;
+  }
+}
+
+const LoaderWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: ${themes.light.loadingScreen};
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const LoaderCard = styled.div`
+  font-size: 24px;
+  text-align: center;
+  color: ${themes.dark.text1};
+
+`;
+
+const LoaderImg = styled.img`
+  margin: 0 auto;
+  margin-bottom: 20px;
+`;
+
+const LoaderMsg = styled(Caption)``;
+```
+
 ## Cards
 
 `Cards` podría estar perfectamente dentro de la carpeta `Elements`, pero hemos decidido mantenerlo fuera ya que es uno de los recursos más utilizados a lo largo de todo el proyecto.
+
+```tsx title="src/components/cards/AboutMeCard.tsx"
+import React from "react";
+import { useTranslation } from "react-i18next";
+import styled from "styled-components";
+import { AboutMe } from "../../model/aboutme";
+import { themes } from "../../styles/ColorStyles";
+import AboutMeCardRow from "./AboutMeCardRow";
+
+import avatarCard from "./Avatar.jpg";
+
+interface AboutMeCardProps {
+  aboutMe: AboutMe;
+}
+
+const AboutMeCard = (props: AboutMeCardProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <Wrapper>
+      <ImageWrapper src={avatarCard} />
+      <InfoWrapper>
+        <InfoSection>
+          <AboutMeCardRow
+            title={t("aboutMeCard.name")}
+            value={props.aboutMe.name}
+          />
+          {props.aboutMe.birthday && (
+            <AboutMeCardRow
+              title={t("aboutMeCard.birthdate")}
+              value={props.aboutMe.birthday}
+            />
+          )}
+          {props.aboutMe.nationality && (
+            <AboutMeCardRow
+              title={t("aboutMeCard.nationality")}
+              value={props.aboutMe.nationality}
+            />
+          )}
+        </InfoSection>
+
+        <InfoSection>
+          {props.aboutMe.job && (
+            <AboutMeCardRow
+              title={t("aboutMeCard.occupation")}
+              value={props.aboutMe.job}
+            />
+          )}
+          {props.aboutMe.github && (
+            <AboutMeCardRow
+              title={t("aboutMeCard.github")}
+              value={props.aboutMe.github}
+              isLink={true}
+            />
+          )}
+        </InfoSection>
+      </InfoWrapper>
+    </Wrapper>
+  );
+};
+
+const Wrapper = styled.div`
+  ${themes.light.card};
+  padding: 20px;
+  position: relative;
+  margin: 20px;
+  border-radius: 20px;
+  display: grid;
+  grid-template-rows: auto auto;
+  place-items: center;
+  row-gap: 30px;
+  min-width: 300px;
+
+  @media (prefers-color-scheme: dark) {
+    ${themes.dark.card};
+  }
+
+  @media (max-width: 1080px) {
+    padding: 20px 40px 40px 40px;
+    grid-template-columns: 40% auto;
+    grid-template-rows: auto;
+    column-gap: 60px;
+    
+  }
+
+  @media (max-width: 810px) {
+    padding: 20px;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto;
+    max-width: 600px;
+    column-gap: 0px;
+  }
+
+  & .icon {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    width: 30px;
+    fill: black;
+
+    @media (prefers-color-scheme: dark) {
+      fill: white;
+    }
+  }
+`;
+
+const ImageWrapper = styled.img`
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+
+  @media (max-width: 1024px) {
+    max-height: 400px;
+  }
+
+`;
+
+const InfoWrapper = styled.div`
+  display: grid;
+  row-gap: 30px;
+  align-content: start;
+  justify-self: start;
+`;
+
+const InfoSection = styled.div`
+  display: grid;
+  row-gap: 2px;
+  align-content: start;
+  justify-self: start;
+`;
+
+export default AboutMeCard;
+```
