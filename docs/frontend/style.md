@@ -108,3 +108,46 @@ const InfoKey = styled(MediumText)`
   }
 `;
 ```
+
+## Modo Oscuro
+
+En la sección de colores, hemos podido observar que tenemos variaciones para un modo oscuro, esto es así porque a lo largo del proyecto vamos a implementar un modo oscuro gracias al selector css `prefers-color-scheme: dark`, todos los componentes y estilos generales que queramos adapatar podrán añadir variar su estilo y componente aplicando el selector, como podemos ver a continuación:
+
+```ts title="src/style/GlobalStyle.ts"
+import { createGlobalStyle } from "styled-components"
+import { themes } from "./ColorStyles"
+
+export const GlobalStyle = createGlobalStyle`
+    body {
+        background: ${themes.light.backgroundColor};
+        @media (prefers-color-scheme: dark) {
+          background: ${themes.dark.backgroundColor};
+        }   
+    }
+`
+```
+
+```tsx title="src/components/layout/headr.tsx"
+const Wrapper = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* max-width: 1234px; */
+  height: 30px;
+  left: 0px;
+  right: 0px;
+  margin: 0px auto;
+  padding: 30px 30px;
+  z-index: 3;
+  background-color: ${themes.light.primary};
+
+  @media(prefers-color-scheme: dark) {
+      background-color: ${themes.dark.primary};
+  }
+`;
+```
+
+Así nuestra página imitará el comportamiento del sistema en el que se ejecute.
+
+![dark mode](../../static/img/tutorial/front/6_dark_mode.png)
