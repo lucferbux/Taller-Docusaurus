@@ -94,12 +94,14 @@ Para ello vamos a modificar nuestro proyecto, primero añadiendo el fichero [okt
 
 ```yaml title="okteto-pipeline"
 deploy:
-  - okteto build -t okteto.dev/api:latest -f ./api/prod.Dockerfile ./api
-  - okteto build -t okteto.dev/nginx:latest -f nginx/Dockerfile .
+  - okteto build -t okteto.dev/api:${OKTETO_GIT_COMMIT} -f ./api/prod.Dockerfile ./api
+  - okteto build -t okteto.dev/nginx:${OKTETO_GIT_COMMIT} -f nginx/Dockerfile .
+  - cd delivery/kubernetes/overlays/okteto && kustomize edit set image api-express=okteto.dev/api:${OKTETO_GIT_COMMIT} 
+  - cd delivery/kubernetes/overlays/okteto && kustomize edit set image front-nginx=okteto.dev/nginx:${OKTETO_GIT_COMMIT}
   - kubectl apply -k delivery/kubernetes/overlays/okteto
 ```
 
-Dentro de este *overlay* podemos observar como en el `kustomization.yaml` vamos a reemplazar los valores de la imagenes del despliegue por la última imágen que acabamos de construir con okteto, usando el recurso [patchesJson6902](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/#customizing) para reemplazar los valores de *base*.
+Dentro de este *overlay* podemos observar como en el `kustomization.yaml` vamos a reemplazar los valores de la imagenes del despliegue por la última imágen que acabamos de construir con okteto, esto lo conseguimos gracias a `kustomize edit set image`, que **modificará el fichero de kustomization.yaml con la imagen tageada correctamente**, en este caso con el commit que estamos realizando en ese momento. La razón de hacer esto es porque al ejecutar el comando `kubectl apply`, si la imagen tiene un tag `:lates` no forzará la creación de los nuevos pods, y tendríamos que eliminarlos manualmente. Al cambiar el tag con cada deploy, forzamos a redesplegar los pods con las nuevas imágenes.
 
 ```yaml title"delivery/kubernetes/overlays/okteto/overlay/kustomization.yaml"
 ---
@@ -110,24 +112,6 @@ resources:
   - ../../base
   - mongo-pvc.yaml
   - ingress.yaml
-
-patchesJson6902:
-  - patch: |
-      - op: replace
-        path: /spec/template/spec/containers/0/image
-        value: "okteto.dev/api:latest"
-    target:
-      kind: Deployment
-      name: api-express
-      version: v1
-  - patch: |
-      - op: replace
-        path: /spec/template/spec/containers/0/image
-        value: "okteto.dev/nginx:latest"
-    target:
-      kind: Deployment
-      name: front-nginx
-      version: v1
 ```
 
 Además de esto vamos a añadir un componente [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/), que actuará como un proxy inverso, redireccionando el tráfico a los diferentes pods dependiendo de la estructura de la url.
