@@ -29,28 +29,30 @@ En esta sesión vamos a detallar los pasos que hemos seguido en clase para prepa
 
 4. Dentro del archivo `package.json` cambiamos la versión de los tipos de react para que no rompa nuestra codebase por el [semver](https://docs.npmjs.com/cli/v8/configuring-npm/package-json#dependencies) --> `"@types/react": "^17.0.34"`
 
-5. A partir de ahora, vamos a aplicar los cambios para añadir la [estructura del proyecto](./scaffolding).
+5. Volvemos a instalar todo con `npm run install`.
 
-6. Reemplazamos los ficheros de la [carpeta public](./scaffolding#carpeta-public).
+6. A partir de ahora, vamos a aplicar los cambios para añadir la [estructura del proyecto](./scaffolding).
 
-7. Añadimos la carpeta `models` con los [modelos de la aplicación](./models).
+7. Reemplazamos los ficheros de la [carpeta public](./scaffolding#carpeta-public).
 
-8. Modificamos el archivo `index.tsx` e `index.css` para añadir la lógica global y los estilos globales.
+8. Añadimos la carpeta `models` con los [modelos de la aplicación](./models).
 
-9. Modificamos la estructura de `app.tsx` y la movemos a la carpeta `components`.
+9. Modificamos el archivo `index.tsx` e `index.css` para añadir la lógica global y los estilos globales.
 
-10. Añadir la carpeta de `styles` para añadir los [estilos](./style).
+10. Modificamos la estructura de `app.tsx` y la movemos a la carpeta `components`.
 
-11. Añadimos la carpeta `constant` con las constantes del proyecto.
+11. Añadir la carpeta de `styles` para añadir los [estilos](./style).
 
-11. Añadimos la carpeta `utils` con la lógica de [autenticación](./authentication) y los [data mocks](./mocks).
+12. Añadimos la carpeta `constant` con las constantes del proyecto.
 
-12. Añadir el archivo `.env` para las [variables de entorno](https://create-react-app.dev/docs/adding-custom-environment-variables/).
+13. Añadimos la carpeta `utils` con la lógica de [autenticación](./authentication) y los [data mocks](./mocks).
 
-13. Añadimos la carpeta `context` con los [contextos de autenticación y aplicación](./context), si queréis profundizar en Redux os [dejo aquí un artículo](https://dev.to/lucferbux/introduccion-a-redux-1mi3).
+14. Añadir el archivo `.env` para las [variables de entorno](https://create-react-app.dev/docs/adding-custom-environment-variables/).
 
-14. Añadimos la carpeta `hooks` con la lógica de los [hooks](./hooks).
+15. Añadimos la carpeta `context` con los [contextos de autenticación y aplicación](./context), si queréis profundizar en Redux os [dejo aquí un artículo](https://dev.to/lucferbux/introduccion-a-redux-1mi3).
 
-15. Añadimos la carpeta `locales` y el fichero `i18n.ts` para la [internacionalización](./i18n).
+16. Añadimos la carpeta `hooks` con la lógica de los [hooks](./hooks).
 
-16. Dentro de la carpeta `components` implementamos la [navegación](./navigation) y el resto de [componentes](./components).
+17. Añadimos la carpeta `locales` y el fichero `i18n.ts` para la [internacionalización](./i18n).
+
+18. Dentro de la carpeta `components` implementamos la [navegación](./navigation) y el resto de [componentes](./components).
