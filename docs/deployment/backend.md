@@ -1,8 +1,10 @@
 ---
-sidebar_position: 3
+sidebar_position: 2
 ---
 
-# Backend - Heroku
+# Backend - Heroku (Deprecado)
+
+**Esta forma sigue funcionando, pero actualmente el despliegue en heroku NO es gratuito, hemos incluido una [nueva sección](./backendrender) con render**
 
 Para el despliegue del BackEnd en producción podemos usar diferentes servicios y plataformas. Nuestro objetivo final es tener el frontend en el servicio de [Netlify](https://www.netlify.com) que conecte con nuestro backend en [Heroku](https://www.heroku.com). El esquema final sería el siguiente.
 

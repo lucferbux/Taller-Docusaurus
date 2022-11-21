@@ -48,11 +48,19 @@ Como bien presenta [esta web](https://makefile.site/#subscribe), podemos utiliza
 ```makefile title="Makefile"
 .PHONY: dev-api
 dev-api:
-    cd backend && npm run dev
+    cd backend && npm run start:dev
 
 .PHONY: dev-ui
 dev-ui:
-    cd ui && npm run start
+    cd ui && npm run start:dev
+
+.PHONY: install-ui
+install-ui:
+    cd ui && npm install
+
+.PHONY: install-api
+install-api:
+    cd api && npm install
 ```
 
 Para esta sesión, crearemos dos comandos, uno llamado `dev-api`, que ejecutará en modo desarrollador nuestro *backend* y otro llamado `dev-ui`, que hará lo propio con el *frontend*. Solo tendremos que ejecutarlos con `make dev-api` o `make dev-ui` y lanzaremos nuestro proyecto.

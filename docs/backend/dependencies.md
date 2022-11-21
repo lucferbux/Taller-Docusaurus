@@ -35,3 +35,9 @@ Swagger es un conjunto de herramientas de software de código abierto para dise�
 Herramienta gestión de variables entorno. Convierte elementos dentro de un archivo `.env` en variables de entorno *process.env*. Guardar las configuraciones del entorno separadas del código es un pilar fundamental dentro de la [metodología de los 12 factores](https://12factor.net/config).
 
 [Enlace a la documentación](https://github.com/motdotla/dotenv)
+
+## Winston
+
+Logger para express que permite configurar de forma sencilla múltiples configuraciones y que cuenta con soporte nativo múltiples formatos dentro de JavaScript.
+
+[Enlace a la documentación](https://github.com/winstonjs/winston)
