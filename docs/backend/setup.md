@@ -11,7 +11,7 @@ En esta sesión vamos a detallar los pasos que hemos seguido en clase para conti
 ```bash
 mkdir ui \
 && mv -f -v * ui  \
-&& mv -f -v -t ui ui .gitignore .env  \
+&& mv -f -v -t ui .gitignore .env  \
 && backend
 ```
 
