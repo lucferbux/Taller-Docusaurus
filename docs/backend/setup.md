@@ -11,8 +11,9 @@ En esta sesión vamos a detallar los pasos que hemos seguido en clase para conti
 ```bash
 mkdir ui \
 && mv -f -v * ui  \
-&& mv -f -v -t ui .gitignore .env  \
-&& backend
+&& mv -f -v .gitignore ui \
+&& mv -f -v .env ui  \
+&& mkdir backend
 ```
 
 2. Copiamos los archivos de la carpeta root del [proyecto base](https://github.com/lucferbux/Taller-Backend) de esta sección: `.env`, `.gitignore`, `.nodemon.json`, `package.json`, `tsconfig.json`, `tslint.json` e instalamos las dependencias con:
