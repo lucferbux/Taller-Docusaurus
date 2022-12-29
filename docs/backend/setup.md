@@ -16,7 +16,7 @@ mkdir ui \
 && mkdir backend
 ```
 
-2. Copiamos los archivos de la carpeta root del [proyecto base](https://github.com/lucferbux/Taller-Backend) de esta sección: `.env`, `.gitignore`, `.nodemon.json`, `package.json`, `tsconfig.json`, `tslint.json` e instalamos las dependencias con:
+2. Copiamos los archivos de la carpeta root del [proyecto base](https://github.com/lucferbux/Taller-Backend/tree/main/backend) de esta sección: `.env`, `.gitignore`, `.nodemon.json`, `package.json`, `tsconfig.json`, `tslint.json` e instalamos las dependencias con:
 
 ```bash
 npm install

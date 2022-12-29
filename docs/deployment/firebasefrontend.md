@@ -1,8 +1,8 @@
 ---
-sidebar_position: 3
+sidebar_position: 7
 ---
 
-# Cambios en el Frontend
+# Firebase - Cambios Front
 
 ## Arquitectura general
 
