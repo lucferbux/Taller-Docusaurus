@@ -91,10 +91,6 @@ const config = {
                 to: '/docs/bbdd/intro',
               },
               {
-                label: 'Firebase',
-                to: '/docs/firebase/intro',
-              },
-              {
                 label: 'Despliegue',
                 to: '/docs/deployment/frontend',
               },
