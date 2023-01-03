@@ -6,7 +6,7 @@ sidebar_position: 6
 
 Esta sección está pensada para el proyecto de [firebase](https://github.com/lucferbux/Taller-Firebase)
 
-Como complemento adicional al despliegue en [Netlify, Heroku y Atlass](./backendbbdd), vamos a comentar rápidamente otras alternativas a estos servicios antes mencionados. En este caso vamos a hablar de [Firebase](https://firebase.google.com/) por la simple razón de ser una plataforma muy completa que he usado extensamente a lo largo de muchos años en diversos proyectos.
+Como complemento adicional al despliegue en [Netlify, Render y Atlass](./backendbbddrender), vamos a comentar rápidamente otras alternativas a estos servicios antes mencionados. En este caso vamos a hablar de [Firebase](https://firebase.google.com/) por la simple razón de ser una plataforma muy completa que he usado extensamente a lo largo de muchos años en diversos proyectos.
 
 **Firebase** se podría definir de muchas maneras. La más general podría ser que es una plataforma que ofrece servicios para acelerar el desarrollo de aplicaciones. Tiene un enfoque **BaaS** o **Backend as a Service**, ofreciendo servicios como **autenticación**, **bbdd en tiempo real**, **hosting**, **funciones de ML**, **analíticas**, **mensajería**, **notificationes** y mucho más.
 
