@@ -6,8 +6,6 @@ sidebar_position: 7
 
 La carpeta `components` contiene todos los ficheros que definirán, modelarán, y se encargarán del tratamiento de los datos del servidor. Actualmente nuestro servicio cuenta con los siguientes modelos: `AboutMe`, para la información que poblará la carta de *About Me*, `Auth`, con el modelo de autenticación con el servicio, `Projects` con los datos de los proyectos y por último `User`, con el modelo del usuario autenticado.
 
-Además de estas carpetas, que cada uno contendrá un fichero para las distintas funcionalidades, tendremos el archivo `validation.ts` con la lógica de validación mediante [Joi](dependencies#joi).
-
 ## Interfaz
 
 La parte donde se declara los métodos de tratamiento de datos que podremos realizar sobre el tipo de dato en concreto.
