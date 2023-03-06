@@ -4,7 +4,7 @@ sidebar_position: 12
 
 # Componentes
 
-Vamos a finalizar la sesión hablando por encima de los componentes de nuestro proyecto. Como ya sabemos los **componentes** son un elmento esencial de **React** y es por ello que la mayoría de elementos de nuestra web app van a ser componentes reutilizables. Como ya indicamos **Create React App** tiene cierta flexibilidad a la hora de organizar nuestro repositorio, es por ello que hay diversas maneras de categorizar nuestros componentes, ahora vamos a hablar de la que hemos seguido en este proyecto.
+Vamos a finalizar la sesión hablando por encima de los componentes de nuestro proyecto. Como ya sabemos los **componentes** son un elmento esencial de **React** y es por ello que la mayoría de elementos de nuestra web app van a ser componentes reutilizables. Como ya indicamos **Vite** tiene cierta flexibilidad a la hora de organizar nuestro repositorio, es por ello que hay diversas maneras de categorizar nuestros componentes, ahora vamos a hablar de la que hemos seguido en este proyecto.
 
 Antes de nada, vamos a hablar de `App.tsx` nuestro primer [componente funcional](https://reactjs.org/docs/components-and-props.html#function-and-class-components) de la carpeta y el punto de inicio de nuestra aplicación. Este componente se llama en la base de `index.ts` y básicamente se encarga de la renderización de las páginas de nuestra webapp, controladas por el [componente de navegación](./navigation). Así, podemos ver que primero renderizamos el componente `<Router>` encargado de la navegación, luego `<Layout>`, encargado de la estructura de la página y del que hablaremos ahora, y luego en orden los componentes `LandingPage`, `Login`, `Dashboard` y `Admin`, las diferentes "páginas" de nuestro proyecto.
 

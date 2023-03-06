@@ -376,10 +376,10 @@ data:
             "timestamp": 765817712000
         },
         {
-            "title": "Create React App",
+            "title": "Vite",
             "description": "Toolchain para la creación de proyectos basados en React, contiene lo báisco para crear proyectos basados en single-page apps",
             "version": "4.0.3",
-            "link": "https://create-react-app.dev",
+            "link":"https://vitejs.dev/",
             "tag": "Toolchain, React, Bootstraping",
             "timestamp": 765817712001
         },

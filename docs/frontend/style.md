@@ -4,7 +4,7 @@ sidebar_position: 7
 
 # Estilo
 
-Al igual que otras funcionalidades dentro de **Create React App**, hay múltiples maneras de implementar el estilo de nuestra webapp. En este caso, hemos utilizado una combinación de librerías y organización del código para hacer nuestros estilos lo más reusables y personalizables posibles.
+Al igual que otras funcionalidades dentro de **Vite**, hay múltiples maneras de implementar el estilo de nuestra webapp. En este caso, hemos utilizado una combinación de librerías y organización del código para hacer nuestros estilos lo más reusables y personalizables posibles.
 
 ## Estilos de componente
 

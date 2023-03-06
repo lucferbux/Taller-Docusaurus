@@ -79,7 +79,7 @@ networks:
 
 ## Frontend
 
-Viendo los ficheros para crear nuestro contenedor *frontend* nos podemos fijar primero en el *Dockerfile*. En este caso nos basamos en un contenedor base `node`, vamos a definir nuestro entorno en la ruta `/usr/src/app`, vamos a instalar la librería `react-script` para poder ejecutar la toolchain de *create react app* y ya por último copiaremos el fichero `package.json`, isntalaremos las dependencicas y luego copiaremos el resto del código.
+Viendo los ficheros para crear nuestro contenedor *frontend* nos podemos fijar primero en el *Dockerfile*. En este caso nos basamos en un contenedor base `node`, vamos a definir nuestro entorno en la ruta `/usr/src/app`, vamos a instalar la librería `react-script` para poder ejecutar la toolchain de *vite* y ya por último copiaremos el fichero `package.json`, isntalaremos las dependencicas y luego copiaremos el resto del código.
 
 ```dockerfile title="ui/Dockerfile"
 FROM node:17-alpine3.14
@@ -177,12 +177,13 @@ db.projects.insertMany([
         "timestamp": 765817712000
     },
     {
-        "title": "Create React App",
-        "description": "Toolchain para la creación de proyectos basados en React, contiene lo báisco para crear proyectos basados en single-page apps",
-        "version": "4.0.3",
-        "link": "https://create-react-app.dev",
-        "tag": "Toolchain, React, Bootstraping",
-        "timestamp": 765817712001
+        "id":"789asdfas89",
+        "title":"Vite",
+        "description":"Toolchain para la creación de proyectos basados en React, contiene lo báisco para crear proyectos basados en single-page apps",
+        "version":"4.0.3",
+        "link":"https://vitejs.dev/",
+        "tag":"Toolchain, React, Bootstraping",
+        "timestamp":"765817712001"
     },
     {
         "title": "Styled components",

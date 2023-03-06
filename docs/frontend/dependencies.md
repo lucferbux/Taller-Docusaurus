@@ -12,11 +12,11 @@ React es el Framework web basado en componentes de Facebook. Cuenta con una curv
 
 [Enlace a documentación](https://reactjs.org/docs/hello-world.html)
   
-## Create React App
+## Vite
 
-Toolchain para la creación de proyectos basados en React, contiene lo báisco para crear proyectos basados en single-page apps. React tiene una cierta complejidad a la hora de configurar proyectos, debido a la configuración interna de dependencias como **WebPack**. Existen soluciones alternativas como [Gatsby](https://www.gatsbyjs.org/) o [Next.js](https://nextjs.org/). Podéis ver las bondades de cada uno en este [blog](https://dev.to/benjaminmock/gatsby-vs-next-js-vs-create-react-app-26i7).
+Toolchain para la creación de proyectos basados en React, contiene lo báisco para crear proyectos basados en single-page apps. React tiene una cierta complejidad a la hora de configurar proyectos, debido a la configuración interna de dependencias como **bundleres**. Existen soluciones alternativas como [Gatsby](https://www.gatsbyjs.org/) o [Next.js](https://nextjs.org/). Por diversos motivos es la toolchain más recomendada para proyectos SPA por encima de [create-react-app](https://create-react-app.dev).
 
-[Enlace a documentación](https://create-react-app.dev)
+[Enlace a documentación](https://vitejs.dev/)
 
 ## Styled Components
 

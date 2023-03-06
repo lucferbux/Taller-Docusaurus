@@ -47,13 +47,13 @@ Podemos intentar arreglar automáticamente estas vulnerabilidades añadiendo el 
 
 Ya hemos hablado anteriormente de los ficheros de entorno. Estos ficheros nos ayudan a configurar ciertos aspectos de nuesro código, como el entorno donde se ejecuta, los endpoints en las conexiones o la inserción de credenciales y similares.
 
-Hast ahora hemos tenido un fichero `.env` en el que íbamos añadiendo nuestra información, y ésta era procesada por la librería [dotenv](https://github.com/motdotla/dotenv) en el backend y por el propio [create-react-app](https://create-react-app.dev/docs/adding-custom-environment-variables/) en el frontend. El problema que se nos presenta es que estos ficheros los tenemos incluidos en el control de versiones de nuestro proyecto, y esto puede llevar a situaciones no deseadas, como añadir nuestras propias credenciales, olvidarnos de ello, **commitear** los cambios y **pushearlos** a nuestro repositorio.
+Hast ahora hemos tenido un fichero `.env` en el que íbamos añadiendo nuestra información, y ésta era procesada por la librería [dotenv](https://github.com/motdotla/dotenv) en el backend y por el propio [vite](https://vitejs.dev/guide/env-and-mode.html) en el frontend. El problema que se nos presenta es que estos ficheros los tenemos incluidos en el control de versiones de nuestro proyecto, y esto puede llevar a situaciones no deseadas, como añadir nuestras propias credenciales, olvidarnos de ello, **commitear** los cambios y **pushearlos** a nuestro repositorio.
 
 Para ello hay ciertas estrategias, hoy os voy a enseñar una de ellas que es bastante popular y aceptada. El uso de múltiples arcihvos de entorno. Su configuración es bastante sencilla.
 
 ### Frontend
 
-En el frontend no hacer falta hacer nada, *create-react-app* ya viene por defecto configurado para el uso de múltiples ficheros de entorno, simplemente tendremos que crear `.env.local` en el mismo directorio que `.env`, y sobreescribir los valores sensibles en ese archivo, ya que también está incluído en nuestro `.gitignore`.
+En el frontend no hacer falta hacer nada, *vite* ya viene por defecto configurado para el uso de múltiples ficheros de entorno, simplemente tendremos que crear `.env.local` en el mismo directorio que `.env`, y sobreescribir los valores sensibles en ese archivo, ya que también está incluído en nuestro `.gitignore`.
 
 ### Backend
 
