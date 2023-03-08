@@ -10,13 +10,15 @@ En esta sesión vamos a detallar los pasos que hemos seguido en clase para conti
 
 ```bash
 mkdir ui \
-&& mv -f -v * ui  \
-&& mv -f -v .gitignore ui \
-&& mv -f -v .env ui  \
-&& mkdir backend
+&& mv *[^ui]* ui  \
+&& mv .gitignore ui \
+&& mv .env ui  \
+&& mv .eslintrc ui  \
+&& mv .eslintignore ui  \
+&& mkdir api
 ```
 
-2. Copiamos los archivos de la carpeta root del [proyecto base](https://github.com/lucferbux/Taller-Backend/tree/main/backend) de esta sección: `.env`, `.gitignore`, `.nodemon.json`, `package.json`, `tsconfig.json`, `tslint.json` e instalamos las dependencias con:
+2. Copiamos los archivos de la carpeta root del [proyecto base](https://github.com/lucferbux/Taller-Backend/tree/main/backend) de esta sección: `.env`, `.gitignore`, `.nodemon.json`, `package.json`, `tsconfig.json`, `.eslintrc` e instalamos las dependencias con:
 
 ```bash
 npm install

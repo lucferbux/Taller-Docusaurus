@@ -14,7 +14,7 @@ Ya habíamos hablado de cómo levantar tanto el *backend* como el *frontend* med
 # Init Scripts
 .PHONY: dev-api
 dev-api:
-    cd backend && npm run dev
+    cd api && npm run dev
 
 .PHONY: dev-ui
 dev-ui:
@@ -79,7 +79,7 @@ install-ui:
 
 .PHONY: install-backend
 install-backend:
-    cd backend && npm install
+    cd api && npm install
 
 .PHONY: install-dependencies
 install-dependencies: install-ui install-backend

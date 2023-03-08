@@ -36,7 +36,7 @@ Este despliegue está orientado para el proyecto de [backend](https://github.com
 ![Render Connect Repo](/img/tutorial/deployment/render/3-connect-repository.png)
 4. Una vez conectado, elige el repositorio que quieras desplegar, (en nuestro caso es el **Taller-Backend**).
 ![Render Select Repo](/img/tutorial/deployment/render/4-select-repository.png)
-5. Añade los datos que ves en la captura, en este caso el nombre puedes personalizarlo, **root repository** lo indicamos con `backend` ya que es la carpeta donde se encuentra nuestro backend, el **entorno** es `Node`, la región puede ser cualquiera, elegimos la **rama** que queremos desplegar, en nuestro caso `final_version` y luego ponemos el **compando de compilación**, para compilar el proyecto y el **comando de ejecución**.
+5. Añade los datos que ves en la captura, en este caso el nombre puedes personalizarlo, **root repository** lo indicamos con `api` ya que es la carpeta donde se encuentra nuestro backend, el **entorno** es `Node`, la región puede ser cualquiera, elegimos la **rama** que queremos desplegar, en nuestro caso `final_version` y luego ponemos el **compando de compilación**, para compilar el proyecto y el **comando de ejecución**.
 ![Render Add Info](/img/tutorial/deployment/render/5-add-info.png)
 6. Ahora comprueba an los eventos que se despliega el repositorio, que estará disponible en la url que aparece debajo del nombre, para probarla escribe en tu navegador `https://<ruta-generada>/v1/aboutme`.
 ![Render Deploy](/img/tutorial/deployment/render/6-deploy.png)

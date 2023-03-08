@@ -13,6 +13,7 @@ En esta sesión vamos a detallar los pasos que hemos seguido en clase para conti
     3. Creamos el validador de Joi `validation.ts` siguiendo la sección de [Joi](./joi).
     4. Adaptamos el archivo `service.ts` haciendo uso del nuevo modelo y validador.
     5. Actualizamos la conexión a la bbdd en el *backend* siguiendo la sección de [inicialización de bbbdd](./mongoose#inicialización).
+    6. Añadiremos las *variables de entorno* actualizadas en nuestro fichero `.env`
 3. Actualizamos nuestro fichero `Makefile` según la sección [Makefile](./makefile).
 4. Añadimos los [scripts bbdd](./scripts) y seguimos las instrucciones para poblar nuestra bbdd local.
 5. Actualizamos el frontend con [nuevos contextos](./frontend#contexto-para-proyectos) y [nuevos hooks](./frontend#nuevos-hooks), añadimos un [botón para actualizar](./frontend#botón-de-actualizar) un proyecto e [implementar la lógica en admin](./frontend#cambios-en-admin) para permitir actualizar información.

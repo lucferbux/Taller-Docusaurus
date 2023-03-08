@@ -12,7 +12,7 @@ El primer cambio más evidente al abrir el *frontend* es la inclusión de la car
 
 ```ts title="ui/src/api/api-client-factory.ts"
 export default function createApiClient(): ApiClient {
-  if (process.env.NODE_ENV === "production") {
+  if (import.meta.env.PROD) {
     if (API_BASE_URI !== undefined) {
       return new HttpApiClient(API_BASE_URI);
     } else {
