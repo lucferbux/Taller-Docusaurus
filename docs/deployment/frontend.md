@@ -21,7 +21,7 @@ Este despliegue está pensado para el proyecto [frontend](https://github.com/luc
 ![4 Git Provider](/img/tutorial/deployment/netlify/4_git_provider.png)
 4. En la siguiente página elegimos el proyecto que queremos desplegar.
 ![5 Git Projects](/img/tutorial/deployment/netlify/5_git_projects.png)
-5. Ahora vamos a elegir la rama que queremos desplegar, en nuestro caso `main`, el **base directory** que lo dejaremos vacío de momento, **build command**, en este caso ``npm run build`` y el directorio resultante, ``build``.
+5. Ahora vamos a elegir la rama que queremos desplegar, en nuestro caso `main`, el **base directory** que lo dejaremos vacío de momento, **build command**, en este caso ``npm run build`` y el directorio resultante, ``dist``.
 ![6 selection](/img/tutorial/deployment/netlify/11_selection_base.png)
 6. Una vez pulsemos el botón de **Deploy site** Netlify accederá a nuestro repositorio, compilará el código y desplegará la web estática en su servicio de hosting.
 ![8 Deployment](/img/tutorial/deployment/netlify/8_deployment.png)

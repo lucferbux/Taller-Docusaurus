@@ -15,7 +15,7 @@ En este caso en particular, hemos usado una estructura bastante genérica. Tenem
 
 En la **raíz del proyecto** encontramos diversos archivos de configuración y documentación general. Estos ficheros se encuentran aquí por su facilidad de acceso y debido a que por convención, todas las herramientas esperan esta información y configuración en la carpeta principal del proyecto. Estos archivos son:
 
-* **package.json & package-lock.json**: Especificación de la configuración que espera un proyecto **npm**. Aquí se encuentran las dependencias, metadatos, comandos de ejecución y demás información acerca de nuestro proyecto en formato *JSON*. **Package-lock.json** se genera automáticamente en cada operación que **npm** modifique el **package.json** o **node_modules**.
+* **package.json & package-lock.json**: Especificación de la configuración que espera un proyecto **npm**. Aquí se encuentran las dependencias, metadatos, comandos de ejecución y demás información acerca de nuestro proyecto en formato *JSON*. **package-lock.json** se genera automáticamente en cada operación que **npm** modifique el **package.json** o **node_modules**.
 * **node_modules**: Carpeta que aparecerá una vez ejecutemos `npm install`. Contiene el código de todas las dependencias de nuestro proyecto.
 * **tsconfig.ts**: Fichero de configuración de typescript. Podéis ver sus opciones en el [curso de TypeScript](https://javascript-course-threepoints.netlify.app/typescript/3_entorno/index.html).
 * **README**: Archivo que contiene información acerca del proyecto en formato **markdown**. En muchos proveedores de control de versiones como [Github](https://github.com) o [Gitlab](https://about.gitlab.com) convierten este fichero en **HTML** para renderizarlo en la página principal.
@@ -23,6 +23,8 @@ En la **raíz del proyecto** encontramos diversos archivos de configuración y d
 * **.gitignore**: Fichero que indica a git que archivos ignorar y no incluir en el control de versiones. Muy útil para excluir cosas como **node_modules** o ficheros de configuración como **.env**.
 * **.env**: Fichero de configuración que permite almacenar variables de entorno que luego librerías de JavaScript o en este caso el propio framework de [Vite](https://vitejs.dev/guide/env-and-mode.html) transformará en variables en tiempo de compilación.
 * **doc**: Carpeta donde almacenar documentación y recursos.
+* **vite.config.ts**: Configuración interna de **vite**.
+* **eslintrc** y **eslintignore**: Ficheros de configuración para el linter, veremos esto en la sección de [linting](../cd-ci/linter).
 * **index.html**: Entrada a nuestra aplicación, vite usará este html como estructura, que podremos editar a nuestro antojo.
 
 ```html title="public/index.html"

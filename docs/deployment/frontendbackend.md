@@ -16,7 +16,7 @@ Este despliegue está orientado para el proyecto de [bbdd](https://github.com/lu
 2. En el dashboard principal, en el botón de **Add new site**, selecciona la opción **Import an existing project**.
 3. Ahora vamos a tener que conectar Netlify con nuestro **repositorio de GitHub**, aquí podéis elegir dar acceso a todos los respositorios o elegir a cuáles de ellos puede tener acceso.
 4. En la siguiente página elegimos el proyecto que queremos desplegar.
-5. Este es el primer paso diferente, aquí seleccionaremos la rama, en nuestro caso `main`, el **base directory** que para nuestro proyecto monorepositorio será `ui`, **build command**, en este caso ``npm run build`` y el directorio resultante, que en este caso será ``ui/build``.
+5. Este es el primer paso diferente, aquí seleccionaremos la rama, en nuestro caso `main`, el **base directory** que para nuestro proyecto monorepositorio será `ui`, **build command**, en este caso ``npm run build`` y el directorio resultante, que en este caso será ``ui/dist``.
 ![6 selection config](/img/tutorial/deployment/netlify/7_configuration.png)
 6. Una vez pulsemos el botón de **Deploy site** Netlify accederá a nuestro repositorio, compilará el código y desplegará la web estática en su servicio de hosting.
 7. Esperamos unos minutos hasta que el proyecto esté desplegado.

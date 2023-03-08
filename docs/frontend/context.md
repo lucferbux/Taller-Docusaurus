@@ -39,7 +39,6 @@ export function AuthProvider({ children }: Props) {
     async (username: string, password: string) => {
       try {
         const result = await mockLogin(username, password);
-        console.log(result);
         setAuthToken(result.token);
         setLogoutIfExpiredHandler(setUser);
         loadUser();
@@ -56,13 +55,13 @@ export function AuthProvider({ children }: Props) {
   }, []);
 
   return (
-    // highlight-start
     <AuthContext.Provider value={{ user, login, logout, loadUser }}>
       {children}
     </AuthContext.Provider>
-    // highlight-end
   );
 }
+
+export default AuthContext;
 ```
 
 Compo podemos ver, este contexto usa algunos de los métodos declarados en `src/utils/auth.ts` para controlar la autenticación en nuestra aplicación. Al iniciar el componente, comprobará si tenemos un [JWT](../backend/jwt.md) válido almacenado en el navegador, si es así, cargará en el *estado interno* el usuario, y si no eliminará el JWT invalido y pondrá un usuario indefinido en el *estado interno*.
@@ -95,6 +94,8 @@ export function AppProvider({ children }: Props) {
     </AppContext.Provider>
   );
 }
+
+export default AppContext;
 ```
 
 Este contexto sirve para mandar notificaciones enter componentes, en este caso una notificación con un mensaje (*payload*). Lo utilizaremos principalmente para mostrar un spinner cuando carguemos datos en el dashboard principal, como podéis ver a continuación.
@@ -123,20 +124,17 @@ El estado de las notificaciones se controla mediante *reducers*. Los [reducers](
 El concepto de **reducer** se volvió popular en con su introducción en la librería [Redux](https://redux.js.org). No hace falta que sepas *Redux* para implementar este concepto, ya que básicamente los **reducers** sirven para controlar el estado de la aplicación sin *efectos secundarios*, es decir, que dado un *parámetro* en una función reductora, el resultado siempre será el mismo si en argumento es igual.
 
 ```tsx title="src/context/AppContext/notificationsReducer.tsx"
-const createReducer = (reducer: any) => (
-  state: any,
-  action: actionType
-) => reducer[action.type](state, action);
+const createReducer = (reducer: any) => (state: any, action: ActionType) =>
+  reducer[action.type](state, action);
 
-
-const pushNotification = (state: any, action: actionType) => {
-  const newState = state.slice(); // Clone the array with new memory space
+const pushNotification = (state: any, action: ActionType) => {
+  const newState = state.slice();
   newState.push(action.payload);
   return newState;
 };
 
 const popNotification = (state: any) => {
-  const newState = state.slice(); // Clone the array with new memory space
+  const newState = state.slice();
   newState.pop();
   return newState;
 };
@@ -145,6 +143,8 @@ const notificationsReducer = {
   [PUSH_NOTIFICATION]: pushNotification,
   [POP_NOTIFICATION]: popNotification,
 };
+
+export default createReducer(notificationsReducer);
 ```
 
 En el caso de nuestro código, tenemos la función `createReducer` que creará un nuevo *reducer* dado un objeto con unas acciones. Este objeto en nuestro caso será `notificationsReducer` que tendrá dos acciones, **PUSH_NOTIFICATIONS**, que llamará a la función `pushNotifications`, para añadir una nueva notificación al sistema con un *payload* y **POP_NOTIFICATION**, para eliminar la notificación.

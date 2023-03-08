@@ -64,7 +64,7 @@ MongoDB aporta escalabilidad horizontal como parte de su funcionalidad fundament
 
 Lo primero de todo, vamos a tener que instalar mongoDB en nuestro entorno local. Para ello lo mejor es dirigirse a la [https://docs.mongodb.com/manual/installation/](sección de instalación) de MongoDB para elegir la forma correcta para nuestro sistema.
 
-Posteriormente vamos a inicializar el servicio de mongoDB mediante el comando `make mongo-start`. Con esto podemos comprobar que nuestro servicio está levantado escribiendo en la terminal `mongo`.
+Posteriormente vamos a inicializar el servicio de mongoDB mediante el comando `make mongo-start`. Con esto podemos comprobar que nuestro servicio está levantado escribiendo en la terminal `mongosh`.
 
 ![Mongo init](../../static/img/tutorial/bbdd/mongo-init.png)
 *Mongo init en la terminal*

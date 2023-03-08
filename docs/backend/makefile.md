@@ -48,7 +48,7 @@ Como bien presenta [esta web](https://makefile.site/#subscribe), podemos utiliza
 ```makefile title="Makefile"
 .PHONY: dev-api
 dev-api:
-    cd backend && npm run start:dev
+    cd api && npm run start:dev
 
 .PHONY: dev-ui
 dev-ui:

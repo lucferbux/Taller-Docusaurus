@@ -24,7 +24,7 @@ cd personal-portfolio \
 3. Instalación las [dependencias de desarrollo](https://docs.npmjs.com/specifying-dependencies-and-devdependencies-in-a-package-json-file)
 
 ```bash
-npm install --save-dev eslint prettier @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react @types/react-router-dom@5.1.7 @types/styled-components@5.1.7 @types/react-i18next@8.1.0  
+npm install --save-dev eslint prettier @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react @types/react-router-dom@5.1.7 @types/styled-components@5.1.7 @types/react-i18next@8.1.0 @types/node@18.14.6
 ```
 
 4. Vamos ahora a instalar las dependencias para el linter, veremos este concepto en la última sesión de [CI/CD](../cd-ci/linter.md), pero dejaremos instalado el linter desde un inicio.

@@ -25,7 +25,7 @@ EOF
 * **mongodelete.sh**: Elimina la base de datos llamada `portfolio_db` donde se conecta nuestro *backend*.
 
 ```bash title="mongodelete.sh"
-mongo portfolio_db --eval "db.dropDatabase();"
+mongosh portfolio_db --eval "db.dropDatabase();"
 ```
 
 * **mongoexport.sh**: Exporta los datos que tenemos actualmente en nuestra base de datos a la carpeta `/exports`.

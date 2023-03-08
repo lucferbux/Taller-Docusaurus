@@ -67,24 +67,30 @@ Con esto creamos una *Cookie* que tiene una fecha de expiración igual a nuestro
 
 ### HTTP Proxy
 
-Uno de los primeros cambios para nuestro desarrollo es añadir un proxy a nuestro frontend. En la fase de desarrollo, usamos el *frotnend* en el puerto *3000* y el *backend* en el puerto *4000* (según lo teníamos configurado en su [variable de entorno](../frontend/scaffolding#ficheros-de-configuración)). El problema es que una cookie necesita que las dos aplicaciones se ejecuten en el mismo puerto, esto es fácil usando un [proxy de las apis](https://create-react-app.dev/docs/proxying-api-requests-in-development/) en desarrollo. Solo tendremos que añadir la siguiente linea a nuestro *package.json* para habilitarlo.
+Uno de los primeros cambios para nuestro desarrollo es añadir un proxy a nuestro frontend. En la fase de desarrollo, usamos el *frotnend* en el puerto *3000* y el *backend* en el puerto *4000* (según lo teníamos configurado en su [variable de entorno](../frontend/scaffolding#ficheros-de-configuración)). El problema es que una cookie necesita que las dos aplicaciones se ejecuten en el mismo puerto, esto es fácil usando un [proxy de vite](https://vitejs.dev/config/server-options.html#server-proxy) en desarrollo. Solo tendremos que añadir la siguiente linea a nuestro *vite.config.ts* para habilitarlo.
 
-```json title="ui/package.json"
-{
-  "name": "personal-portfolio-frontend",
-  "version": "0.1.0",
-  ...
-  "proxy": "http://localhost:4000"
-}
+```typescript title="vite.config.ts"
+export default defineConfig({
+  test: vitestConfig.test,
+  plugins: [react()],
+  server: {
+    proxy: {
+      // string shorthand: http://localhost:5173/auth -> http://localhost:4000/auth
+      '/auth': 'http://localhost:4000',
+      // string shorthand: http://localhost:5173/v1 -> http://localhost:4000/v1
+      '/v1': 'http://localhost:4000',
+    },
+  },
+});
 ```
 
 Además de esto, tendremos que eliminar el endpoint de nuestro fichero `.env` ya que ahora react será el que haga el proxy en desarrollo a la dirección que le hemos indicado.
 
 ```bash title="ui/.env"
-REACT_APP_LOCALE=es-
+VITE_LOCALE=es-ES
 
-REACT_APP_BASE_URI=
-REACT_APP_API_URI=
+VITE_BASE_URI=
+VITE_API_URI=
 ```
 
 ### Añadir ruta logout

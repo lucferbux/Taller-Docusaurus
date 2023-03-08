@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'ThreePoints',
+  title: 'Taller Master FullStack',
   tagline: 'Documentación del Taller',
   url: 'https://taller-threepoints-docs.netlify.app',
   baseUrl: '/',

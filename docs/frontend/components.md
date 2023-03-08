@@ -10,31 +10,31 @@ Antes de nada, vamos a hablar de `App.tsx` nuestro primer [componente funcional]
 
 ```tsx title="src/components/App.tsx"
 const App = () => {
-  
   // TODO: Change redirect to Dashboard
   return (
     <Router>
       <Layout>
-        <Switch>
-          <Route exact path="/">
-            <LandingPage />
-          </Route>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-          <PrivateRoute path="/admin">
-            <Admin />
-          </PrivateRoute>
-          <Redirect from="*" to="/" />
-        </Switch>
-        <Loader/>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="admin"
+            element={
+              <PrivateRoute>
+                <Admin />
+              </PrivateRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="." replace />} />
+        </Routes>
+        <Loader />
       </Layout>
     </Router>
   );
-}
+};
+
+export default App;
 ```
 
 ## Layout
