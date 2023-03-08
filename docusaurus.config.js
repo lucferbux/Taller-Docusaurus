@@ -72,6 +72,10 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      metadata: [
+        {name: 'theme-color', media:'(prefers-color-scheme: light)', content: '#ffffff'},
+        {name: 'theme-color', media:'(prefers-color-scheme: dark)', content: '#242526'},
+      ],
       colorMode: {
         defaultMode: 'light',
         disableSwitch: true,
