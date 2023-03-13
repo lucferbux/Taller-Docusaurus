@@ -33,9 +33,9 @@ services:
       context: ./ui
       dockerfile: Dockerfile
     environment:
-      REACT_APP_PROXY_HOST: http://api:4000
+      VITE_PROXY_HOST: http://api:4000
     ports:
-      - 3000:3000
+      - 5173:5173
     depends_on:
       - api
     networks:
@@ -62,7 +62,7 @@ services:
 
   mongodb:
     container_name: mongodb
-    image: mongo:latest
+    image: mongo:5.0.8
     restart: always
     environment:
         MONGO_INITDB_DATABASE: portfolio_db
@@ -82,14 +82,13 @@ networks:
 Viendo los ficheros para crear nuestro contenedor *frontend* nos podemos fijar primero en el *Dockerfile*. En este caso nos basamos en un contenedor base `node`, vamos a definir nuestro entorno en la ruta `/usr/src/app`, vamos a instalar la librería `react-script` para poder ejecutar la toolchain de *vite* y ya por último copiaremos el fichero `package.json`, isntalaremos las dependencicas y luego copiaremos el resto del código.
 
 ```dockerfile title="ui/Dockerfile"
-FROM node:17-alpine3.14
+FROM node:18-alpine3.17
 WORKDIR /usr/src/app
-RUN npm install react-scripts@4.0.3 -g
 COPY package*.json ./
 ADD package.json /usr/src/app/package.json
 RUN npm install
 COPY . .
-CMD ["npm", "run", "start:docker"];
+CMD ["npm", "run", "docker"];
 ```
 
 Para no copiar ciertas carpetas a nuestro contenedor como por ejemplo *build* o *node_modules*, que crearía incongruencias en nuestra instalación, contamos con un fichero llamado `.dockerignore` que funciona de forma similar a `.gitignore`, simplemente indicaremos que carpetas o ficheros excluiremos y docker los ignorará a la hora de crear nuestra imagen.
@@ -99,27 +98,40 @@ build
 node_modules
 ```
 
-Por otro lado, para poder parametrizar el valor del proxy que creamos en la clase anterior, creamos un nuevo fichero llamado `setUpProxy.js`, que se ejecutará al iniciar nuestro proyecto y creamos una nueva variable de entorno llamada `REACT_APP_PROXY_HOST` para parametrizar este valor.
+Por otro lado, para poder parametrizar el valor del proxy que creamos en la clase anterior, vamos a coger esa variable en la configuración de vite.
 
-```jsx title="ui/src/setUpProxy.js"
-const { createProxyMiddleware } = require('http-proxy-middleware');
+```jsx title="ui/src/vite.config.ts"
+/// <reference types="vitest" />
+import { defineConfig, loadEnv } from 'vite';
+import type { UserConfig as VitestUserConfigInterface } from 'vitest/config';
+import react from '@vitejs/plugin-react'
 
-module.exports = function(app) {
-  app.use(
-    '/v1',
-    createProxyMiddleware({
-      target: process.env.REACT_APP_PROXY_HOST,
-      changeOrigin: true,
-    })
-  );
-  app.use(
-    '/auth',
-    createProxyMiddleware({
-      target: process.env.REACT_APP_PROXY_HOST,
-      changeOrigin: true,
-    })
-  );
+const vitestConfig: VitestUserConfigInterface = {
+  test: {
+    deps: {
+      inline: [/@just-web/, /just-web-react/]
+    },
+    setupFiles: ['src/setupTest.ts'],
+    environment: 'jsdom',
+  }
 };
+
+export default ({ mode }) => {
+  process.env = {...process.env, ...loadEnv(mode, process.cwd())};
+
+  return defineConfig({
+    test: vitestConfig.test,
+    plugins: [react()],
+    server: {
+      proxy: {
+        // string shorthand: http://localhost:5173/auth -> http://localhost:4000/auth
+        '/auth': process.env.VITE_PROXY_HOST,
+        // string shorthand: http://localhost:5173/v1 -> http://localhost:4000/v1
+        '/v1': process.env.VITE_PROXY_HOST,
+      },
+    },
+  });
+}
 ```
 
 ## Backend y bbdd
@@ -127,13 +139,13 @@ module.exports = function(app) {
 El fichero *Dockerfile* del *backend* es bastante parecido al del *frontend*. Está basado también en una imagen `node` y básicamente reproduce los mismo pasos, cambia el directorio a `/usr/src/app`, copia el `package.json`, instala las dependencias y luego copia el código del backend. En esta copia también ignora las carpetas `build` y `node_modules` al incluirlas en el fichero `.dockerignore`.
 
 ```dockerfile title="api/Dockerfile"
-FROM node:17-alpine3.14
+FROM node:18-alpine3.17
 WORKDIR /usr/src/app 
 COPY package*.json ./
 ADD package.json /usr/src/app/package.json
 RUN npm install
 COPY . .
-CMD ["npm", "run", "start:dev"];
+CMD ["npm", "run", "dev"];
 ```
 
 ```.dockerignore title="api/.dockerignore"

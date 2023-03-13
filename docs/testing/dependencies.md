@@ -24,11 +24,11 @@ Helmet es una librería que permite securizar nuestro servidor Express añadiend
 
 [Enlace a documentación](https://www.npmjs.com/package/helmet)
 
-## Jest
+## Vitest
 
 Framework JavaScript centrado en *testing*, que permite crear *test de integración e unitarios* de forma sencilla y sin apenas configuración.
 
-[Enlace a documentación](https://jestjs.io)
+[Enlace a documentación](https://vitest.dev)
 
 ## React Testing Library
 

@@ -4,7 +4,7 @@ sidebar_position: 7
 
 # Testing FrontEnd
 
-Ahora vamos a hablar de *Jest* y *React Testing library*. Jest es una librería open source escrita en JavaScript, muy optimizada para apliaciones *React* que permite implementar *tests unitarios* y junto a *react-testing-library*, escribir test de integración en nuestro proyecto.
+Ahora vamos a hablar de *Vitest* y *React Testing library*. Vitest es una librería open source escrita en JavaScript, muy optimizada para apliaciones basadas en *Vite* que permite implementar *tests unitarios* y junto a *react-testing-library*, escribir test de integración en nuestro proyecto.
 
 Ambas librerías vienen instaladas por defecto en nuestro proyecto, ya que lo creamos con la *toolchain* `vite`. Ahora bien, si fuese necesario incluirlo, solo habría que ejecutar los siguientes comandos:
 
@@ -262,7 +262,7 @@ Como podemos ver aquí tenemos un test más complejo, estamos haciendo uso de *m
 
 ## Tests Unitarios
 
-Para los tests unitarios sí que vamos a hacer uso de *Jest*, tanto para las *aserciones* en las respuestas de nuestro código como para *mockear* ciertos módulos, como por ejemplo toda nuestra API. La estructura es bastante clara, primero declaramos todos los elementos que queremos *mockear*, y declaramos nuestro *ApiClient* como un [jest Mock Functions](https://jestjs.io/docs/mock-functions). Esto hará que cada vez que sea llamada por nuestro código, *Jest* lo interceptará y podrá definir el valor de retorno que nosotros queramos.
+Para los tests unitarios sí que vamos a hacer uso de *Vitest*, tanto para las *aserciones* en las respuestas de nuestro código como para *mockear* ciertos módulos, como por ejemplo toda nuestra API. La estructura es bastante clara, primero declaramos todos los elementos que queremos *mockear*, y declaramos nuestro *ApiClient* como un las funciones mock de vitest. Esto hará que cada vez que sea llamada por nuestro código, *Vitest* lo interceptará y podrá definir el valor de retorno que nosotros queramos.
 
 Ahora solo tenemos que declarar los *test suites*, podremos al igual que con otras librerías invocar *hooks* para que se ejecuten antes o después de cada test, en nuestro caso lo haremos para limpiar el *localstorage* y eliminar todos los *timers* que tengamos. Una vez hecho eso, ejecutamos cada test y realizamos una *aserción* con el método `expect`.
 

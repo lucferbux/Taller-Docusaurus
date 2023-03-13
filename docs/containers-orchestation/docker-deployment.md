@@ -65,7 +65,7 @@ services:
 
   mongodb:
     container_name: mongodb
-    image: mongo:latest
+    image: mongo:5.0.8
     restart: always
     environment:
         MONGO_INITDB_DATABASE: portfolio_db
@@ -92,17 +92,16 @@ Sabiendo esto podemos definir un proxy inverso como una herramienta que redirige
 En nuestro nuevo *Dockerfile* vamos a tener dos pasos, el primero para compilar la imagen de nuestro *frontend*, con una receta muy similar a la que teníamos en el [entorno de desarrollo](./docker-development), para luego definir el contenedor *nginx*, copiando la configuración definida, los certificados creados y el código compilado en el paso anterior gracias a la directiva `--from=builder` y haber llamado al primer paso `AS builder`.
 
 ```dockerfile title="nginx/Dockerfile"
-FROM node:17-alpine3.14 AS builder
+FROM node:18-alpine3.17 AS builder
 WORKDIR /usr/src/app
-RUN npm install react-scripts@4.0.3 -g
 COPY ui/package*.json ./
 ADD ui/package.json /usr/src/app/package.json
 RUN npm install
 COPY ./ui/ .
-RUN npm run build:docker
+RUN npm run build
 
 
-FROM nginx:1.21.6-alpine
+FROM nginx:1.21.6-alpine AS runtime
 ENV NGINX_PORT 80
 ENV NGINX_HTTPS_PORT 443
 ENV FORCE_HTTPS 'false'
@@ -112,7 +111,7 @@ COPY ./nginx/default.conf.template /etc/nginx/templates/
 # Copy certificates
 COPY ./nginx/certificates/ /var/certificates
 # Copy deployment
-COPY --from=builder /usr/src/app/build/ /usr/share/nginx/html
+COPY --from=builder /usr/src/app/dist/ /usr/share/nginx/html
 ```
 
 Esta sería la configuración de `nginx`, no me voy a detener mucho porque tampoco es muy relevante que conozcáis esta herramienta en profundidad, pero básicamente definimos los puertos abiertos con `listen`, indicamos los certificados con `ssl_certificate`, indicamos si forzamos *https* con `if ($http_traffic = "true")`, y con la directiva `location /...` definimos las reglas para servir contenido, bien sea devolviendo contenido estático con `index  index.html index.htm;` o redirigiendo el tráfico a nuestro backend con `proxy_pass http://backendapi;`.
@@ -221,7 +220,7 @@ mv localhost.pem certificates/
 En el *Dockerfile* del backend hacemos el mismo proceso que con *nginx*, primero definimos un primer paso para compilar el código para luego definir otro contenedor y ejecutar el servidor en producción.
 
 ```dockerfile title="api/prod.Dockerfile"
-FROM node:17-alpine3.14 AS builder
+FROM node:18-alpine3.17 AS builder
 WORKDIR /usr/src/app 
 COPY package*.json ./
 ADD package.json /usr/src/app/package.json
@@ -230,7 +229,7 @@ COPY . .
 RUN npm run build
 
 
-FROM node:17-alpine3.14
+FROM node:18-alpine3.17 as runtime
 WORKDIR /usr/src/app 
 COPY package*.json ./
 ADD package.json /usr/src/app/package.json
