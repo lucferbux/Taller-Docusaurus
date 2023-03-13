@@ -18,13 +18,13 @@ mkdir workshop \
 
 ```bash
 cd personal-portfolio \
-&& npm install react-router@6.8.2 react-router-dom@6.8.2 i18next@19.9.2 i18next-browser-languagedetector@6.0.1 react-i18next@11.8.10  jwt-decode@3.1.2 react-helmet-async@1.3.0 lottie-react@2.3.1 styled-components@5.2.1
+&& npm install react-router@6.8.2 react-router-dom@6.8.2 i18next@19.9.2 i18next-browser-languagedetector@6.0.1 react-i18next@12.2.0  jwt-decode@3.1.2 react-helmet-async@1.3.0 lottie-react@2.3.1 styled-components@5.2.1
 ```
 
 3. Instalación las [dependencias de desarrollo](https://docs.npmjs.com/specifying-dependencies-and-devdependencies-in-a-package-json-file)
 
 ```bash
-npm install --save-dev eslint prettier @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react @types/react-router-dom@5.1.7 @types/styled-components@5.1.7 @types/react-i18next@8.1.0 @types/node@18.14.6
+npm install --save-dev eslint prettier @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react @types/react-router-dom@5.1.7 @types/styled-components@5.1.7 @types/node@18.14.6
 ```
 
 4. Vamos ahora a instalar las dependencias para el linter, veremos este concepto en la última sesión de [CI/CD](../cd-ci/linter.md), pero dejaremos instalado el linter desde un inicio.

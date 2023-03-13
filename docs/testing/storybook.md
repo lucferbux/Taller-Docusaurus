@@ -8,7 +8,7 @@ Por último vamos a hablar de Storybook. Storybook es una herramienta *open sour
 
 ## Instalación
 
-Primero tenemos que instalar *Storybook* en nuestro proyecto. Para ello la herramienta cuenta con una utilidad para instalar sus dependencias y comandos de forma sencilla. Solo tenemos que ejecutar `npx sb init` dentro de la carpeta `ui` y seguir las instrucciones para instalarlo.
+Primero tenemos que instalar *Storybook* en nuestro proyecto. Para ello la herramienta cuenta con una utilidad para instalar sus dependencias y comandos de forma sencilla. Solo tenemos que ejecutar `npx sb@next init --builder=vite` dentro de la carpeta `ui` y seguir las instrucciones para instalarlo.
 
 Una vez completado, vamos a comprobar que todo funciona correctamente ejecutando el comando `npm run storybook` y añadiendo un nuevo *PHONY target* a nuestro fichero *Make*. Una vez ejecutado podremos ver los ejemplos por defecto.
 
@@ -45,23 +45,27 @@ export const AboutMeCardStory: ComponentStory<typeof AboutMeCard> = () => {
 
 Al hacerlo, automáticamente nos aparecerá un nuevo componente en nuestro libro. Aunque tenemos que hacer algunos ajustes más para que funcione correctamente. Primero tenemos que dar soporte a `i18next` dentro de *storybook*. Para ello tenemos que instalar la siguiente dependencia: `npm i -D storybook-react-i18next` y añadir los siguientes archivos a la carpeta `.storyboard`.
 
-```js title="main.js"
-module.exports = {
-  "stories": [
-    "../src/**/*.stories.mdx",
-    "../src/**/*.stories.@(js|jsx|ts|tsx)"
-  ],
-  "addons": [
+```js title="main.ts"
+import type { StorybookConfig } from "@storybook/react-vite";
+const config: StorybookConfig = {
+  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
+  addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
-    'storybook-react-i18next',
   ],
-  "framework": "@storybook/react"
-}
+  framework: {
+    name: "@storybook/react-vite",
+    options: {},
+  },
+  docs: {
+    autodocs: "tag",
+  },
+};
+export default config;
 ```
 
-```js title="i18next.js"
+```js title="i18next.ts"
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -94,24 +98,33 @@ i18n
 export default i18n;
 ```
 
-```js title="preview.js"
-import {i18n} from './i18next.js';
+```js title="preview.ts"
+import type { Preview } from "@storybook/react";
+import i18n from './i18next.js';
+import '../src/main.css';
 
-export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
-  i18n,
-  locale: 'en',
-  locales: {
-    en: 'English',
-    es: 'Spanish',   
-  },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
+const preview: Preview = {
+  parameters: {
+    backgrounds: {
+      default: "light",
+    },
+    i18n,
+    locale: 'en',
+    locales: {
+      en: 'English',
+      es: 'Spanish',   
+    },
+    actions: { argTypesRegex: "^on[A-Z].*" },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/,
+      },
     },
   },
-}
+};
+
+export default preview;
 ```
 
 Con esto conseguiremos visualizar correctamente nuestro componente.

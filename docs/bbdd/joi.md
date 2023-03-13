@@ -13,7 +13,7 @@ Joi nos permite validar los datos y esquemas para JavaScript. Es muy útil para 
 Como podemos observar, podemos crear una clase validación con distintos métodos que servirán para la evaluación de nuestros datos antes de operaciones con **moongose**. Podremos trabajar con distintos tipos de datos a través de los métodos `Joi.string()`, `Joi.number()`...
 
 ```ts title="backend/src/components/Projects/validation.ts"
-import * as Joi from '@hapi/joi';
+import * as Joi from 'joi';
 import Validation from '@/components/validation';
 import { IProjectsModel } from './model';
 
