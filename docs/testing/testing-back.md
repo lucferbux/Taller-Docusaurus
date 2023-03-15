@@ -9,7 +9,15 @@ La configuración es relativamente sencilla, aunque ya la hemos realizado *previ
 
 ## Ejecutar Tests en Node
 
-Lo primero de todo, es que si nos fijamos bien en el script de testing, `NODE_ENV=test mocha --require ts-node/register test/index.js --exit`, estamos directamente indicando a *mocha* el fichero de entrada de nuestros test, en nuestro caso `test/index.js`, vamos a ver qué incluye.
+Lo primero que haremos es actualizar el backend para añadir todas las dependencias necesarias para el testing
+
+```bash
+> cd backend
+> npm install dotenv-flow@3.2.0	express-rate-limit@6.2.1
+> npm install --save-dev @types/chai@4.2.4 @types/dotenv-flow@3.2.0 chai@4.3.7 jsdoc@4.0.2 mocha@10.2.0 supertest@6.3.3
+```
+
+Ahora vamos a proceder con la configuración, es que si nos fijamos bien en el script de testing, `NODE_ENV=test mocha --require ts-node/register test/index.js --exit`, estamos directamente indicando a *mocha* el fichero de entrada de nuestros test, en nuestro caso `test/index.js`, vamos a ver qué incluye.
 
 ```js title="backend/test/index.js"
 const alias = require('module-alias');

@@ -76,26 +76,6 @@ Nos va a añadir 11 paquetes que ayudará a nuestra aplicación a bloquear códi
 
 Si queréis consultar todas las librerías, las tenéis recogidas junto a las cabeceras que añaden en el [repositorio oficial](https://github.com/helmetjs/helmet).
 
-## Forzar http en desarrollo
-
-Podemos probar si nuestra aplicación funciona correctamente mediante *https* levantando el entorno de desarrollo con *https* habilitado. Para ello solo tendremos que ejecutar `HTTPS=true npm start` o añadir un nuevo comando a nuestro `package.json`. Al hacerlo levantaremos nuestro entorno usando *https*, aunque sea con un certificado invalido
-
-```json title="ui/package.json"
-{
-  ...
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "start-secure": "HTTPS=true npm start"
-  },
-  ...
-}
-```
-
-![https](../../static/img/tutorial/security/5_https.png)
-
 ## Mongoose y Joi
 
 Al igual que con *Helmet*, voy a parar a hablar un momento acerca de los beneficios de implementar *Moongose* en nuestro proyecto. Al tener estructurado nuestro proyecto con los [Schemas](https://mongoosejs.com/docs/guide.html) de *Mongoose* y encima al tener la capa de validación extra de [Joi](https://joi.dev/api/?v=17.6.0) podemos asegurarnos que nuestra aplicación no es vulnerable a ataques *NoSQL*.
