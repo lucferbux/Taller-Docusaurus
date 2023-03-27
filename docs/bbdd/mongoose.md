@@ -108,3 +108,55 @@ Al realizar esto, podremos exportar nuestro Modelo utilizando nuestro *Documento
 ```ts title="backend/src/components/Projects/model.ts"
 export default connections.db.model<IProjectsModel>('ProjectsModel', ProjectsSchema);
 ```
+
+## Variables de entorno
+
+Además de todo esto, vamos a añadir las variables de entorno para la conexión de Mongoose con nuestra instancia de Mongo.
+
+```tsx title="api/src/config/env/index.tsx
+interface IConfig {
+  port: string | number;
+  // highlight-start
+  database: {
+    MONGODB_URI: string;
+    MONGODB_DB_MAIN: string;
+  };
+  // highlight-end
+  secret: string;
+}
+
+const NODE_ENV: string = process.env.NODE_ENV || 'development';
+
+const development: IConfig = {
+  port: process.env.PORT || 3000,
+  // highlight-start
+  database: {
+    MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/',
+    MONGODB_DB_MAIN: process.env.MONGODB_DB_MAIN || 'example_db'
+  },
+  // highlight-end
+  secret: process.env.SECRET || 'secret'
+};
+
+const production: IConfig = {
+  port: process.env.PORT || 3000,
+  // highlight-start
+  database: {
+    MONGODB_URI: process.env.MONGODB_URI || 'mongodb://production_uri/',
+    MONGODB_DB_MAIN: process.env.MONGODB_DB_MAIN || 'example_db'
+  },
+  // highlight-end
+  secret: process.env.SECRET || 'secret'
+};
+
+const test: IConfig = {
+  port: process.env.PORT || 3000,
+  // highlight-start
+  database: {
+    MONGODB_URI: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/',
+    MONGODB_DB_MAIN: `${process.env.MONGODB_DB_MAIN || 'example_db'}_testing`
+  },
+  // highlight-end
+  secret: process.env.SECRET || 'secret'
+};
+```

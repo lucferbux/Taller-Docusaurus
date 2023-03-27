@@ -140,13 +140,15 @@ export function setLogoutIfExpiredHandler(
   if (!token) {
     return;
   }
-
+  // highlight-start
   logoutIfExpiredHandlerId = setTimeout(
     () => setUser(undefined),
     token.expirationTimestampInMillis - Date.now()
   );
+  // highlight-end
 }
 ...
+// highlight-start
 function isTokenActive(): boolean {
   const token = getToken();
   const currentTimestamp = Date.now();
@@ -156,6 +158,7 @@ function isTokenActive(): boolean {
     token.expirationTimestampInMillis - currentTimestamp > 0 &&
     token.notBeforeTimestampInMillis <= currentTimestamp
   );
+  // highlight-end
 }
 ```
 
@@ -175,6 +178,40 @@ const login = useCallback(
         }
     }, 
 [setUser, loadUser])
+```
+
+## Mock
+
+Vamos ahora a actualizar la interfaz de nuestros datos "Mock" para adaptarla a estos cambios:
+
+```tsx title="ui/src/utils/mock-response"
+export const mockLogin = (userName: string, password: string) =>
+  new Promise<TokenResponse>(function (resolve, rejected) {
+    setTimeout(() => {
+      if (userName === 'user@threepoints.com' && password === 'patata') {
+        resolve(
+          JSON.parse(
+            `{
+                 "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxODg0YmJiM2Q0YTRkNDk1ZDYyNGJhYyIsImVtYWlsIjoibHVjYXNmZXJuYW5kZXphcmFnb25AZ21haWwuY29tIiwiaWF0IjoxNjM2MzIyMzA3LCJleHAiOjE2MzYzMjU5MDd9.yxy7uKWXJx5rY8znRBTg5182llyH8Rs9R8C6_SM4LIg",
+                 }`
+          )
+        );
+      } else {
+        rejected(new Unauthorized());
+      }
+    }, 2000);
+  });
+// highlight-start
+export interface TokenResponse {
+  access_token: string;
+  expires_in: number;
+  token_type: string;
+}
+// highlight-end
+export interface ApiError {
+  description?: string;
+}
+....
 ```
 
 ## Dashboard

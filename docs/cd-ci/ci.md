@@ -18,8 +18,8 @@ Para crear un nuevo script para *Github Actions*, podemos bien navegar dentro de
 4. Vamos a indicar que la imagen donde vamos a ejecutar el *script* es `ubuntu-latest`.
 5. Después vamos a crear un [servicio](https://docs.github.com/en/actions/using-containerized-services/about-service-containers) para nuestra base de datos en mongo.
 6. Por último vamos a ejecutar los pasos de nuestro `job`:
-   1. `actions/checkout@v2` permite acceder al código de nuestro repositorio y usarlo.
-   2. `actions/setup-node@v2` automatiza la instalación de node. En este caso node v17.
+   1. `actions/checkout@v3` permite acceder al código de nuestro repositorio y usarlo.
+   2. `actions/setup-node@v3` automatiza la instalación de node. En este caso node v18.
    3. Ahora simplemente ejecutaremos `npm install` para instalar las dependencias, `npm run test` para ejecutar los tests y `npm run lint` para ejecutar el linter.
 
 ```yaml title=".github/workflows/ci.yml"
@@ -57,10 +57,11 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '17.x'
+          node-version: '18.x'
+          cache: 'npm'
       - run: npm install
       - run: npm run test
       - run: npm run lint

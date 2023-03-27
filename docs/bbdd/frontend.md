@@ -44,6 +44,30 @@ export function ProjectProvider({ children }: Props) {
 export default ProjectContext;
 ```
 
+Ahora tendremos que añadir el `provider` de este contexto a nuestro proyecto:
+
+```tsx title="ui/src/main.tsx"
+import { ProjectProvider } from './context/ProjectContext';
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
+root.render(
+  <React.StrictMode>
+    <HelmetProvider>
+      <AuthProvider>
+        <AppProvider>
+          // highlight-start
+          <ProjectProvider>
+            <App />
+          </ProjectProvider>
+          // highlight-end
+        </AppProvider>
+      </AuthProvider>
+    </HelmetProvider>
+  </React.StrictMode>
+);
+```
+
 ## Nuevos Hooks
 
 Como no, el *contexto* para el proyecto tiene que venir acompañado de un *hook* para poder usarse en componentes funcionales. Por otro lado, vamos a crear un nuevo contexto, esta vez para el control del estado de los menús flotantes de la aplicación. Una vez más vamos a usar `useCallback` para mantener una versión `optimizada` de nuestra función, manteniendo el estado y evitando renderizados extra. En el caso concreto de nuestro proyecto no sería necesario crear un *contexto* extra con esta lógica, pero con el fin de mostrar un ejemplo de abstracción de lógica vamos a utilizar este código.

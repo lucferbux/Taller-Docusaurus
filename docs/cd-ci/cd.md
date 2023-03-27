@@ -46,20 +46,18 @@ jobs:
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
      
       - name: context
         uses: okteto/context@latest
         with:
-          // highlight-next-line
           token: ${{ secrets.OKTETO_TOKEN }}
      
       - name: Trigger Pipeline
         uses: okteto/pipeline@latest
         with:
-          name: okteto-pipeline-yaml
+          name: my-personal-portfolio
           timeout: 8m
-
 ```
 
 ## Configuración Secreto

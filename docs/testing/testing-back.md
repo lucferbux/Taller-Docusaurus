@@ -14,48 +14,44 @@ Lo primero que haremos es actualizar el backend para añadir todas las dependenc
 ```bash
 > cd backend
 > npm install dotenv-flow@3.2.0	express-rate-limit@6.2.1
-> npm install --save-dev @types/chai@4.2.4 @types/dotenv-flow@3.2.0 chai@4.3.7 jsdoc@4.0.2 mocha@10.2.0 supertest@6.3.3
+> npm install --save-dev @types/chai@4.2.4 @types/dotenv-flow@3.2.0 chai@4.3.7 jsdoc@4.0.2 mocha@10.2.0 supertest@6.3.3 @types/mocha@10.0.1 @types/supertest@2.0.12
 ```
 
-Ahora vamos a proceder con la configuración, es que si nos fijamos bien en el script de testing, `NODE_ENV=test mocha --require ts-node/register test/index.js --exit`, estamos directamente indicando a *mocha* el fichero de entrada de nuestros test, en nuestro caso `test/index.js`, vamos a ver qué incluye.
+Ahora vamos a proceder con la configuración, es que si nos fijamos bien en el script de testing, `NODE_ENV=test mocha --require ts-node/register test/index.ts --exit`, estamos directamente indicando a *mocha* el fichero de entrada de nuestros test, en nuestro caso `test/index.ts`, vamos a ver qué incluye.
 
-```js title="backend/test/index.js"
-const alias = require('module-alias');
+```ts title="backend/test/index.ts"
+import * as alias from 'module-alias';
 alias.addAliases({
-    '@': __dirname + '/../src'
+  '@': __dirname + '/../src'
 });
 
-require('./setup');
-require('./authIntegration');
-require('./aboutMeIntegration');
-require('./projectIntegration');
+import './setup';
+import './authIntegration';
+import './aboutMeIntegration';
+import './projectIntegration';
+
 ```
 
-Básicamente hemos creado un alias para poder importar los archivos que tienen la notación moderna de *ES* y a parte todos los ficheros de nuestros test, importados en orden de ejecución, esto va a ser importante, porque nos interesa que nuestro pirmer test sea `setup.js`
+Básicamente hemos creado un alias para poder importar los archivos que tienen la notación moderna de *ES* y a parte todos los ficheros de nuestros test, importados en orden de ejecución, esto va a ser importante, porque nos interesa que nuestro pirmer test sea `setup.ts`
 
 ```js title="backend/test/setup.js"
+import AuthService from "../src/components/Auth/service";
+import AboutMeModel from "../src/components/AboutMe/model";
+import ProjectModel from "../src/components/Projects/model";
+import { db } from "../src/config/connection/connection";
+import user from "./fixtures/user.json";
+import aboutme from "./fixtures/aboutme.json";
+import projects from "./fixtures/projects.json";
+import chai from "chai";
+import { before } from "mocha";
 
-   
-const UserModel = require("../src/components/User/model").default;
-const ProjectModel = require("../src/components/Projects/model").default;
-const AboutMeModel = require("../src/components/AboutMe/model").default;
-const AuthService = require("../src/components/Auth/service").default;
-
-
-const user = require("./fixtures/user.json");
-const aboutme = require("./fixtures/aboutme.json");
-const projects = require("./fixtures/projects.json");
-
-const chai = require("chai");
 
 // Assertion style
 chai.should();
 
 before("setup database", async () => {
   try {
-    await UserModel.deleteMany({});
-    await ProjectModel.deleteMany({});
-    await AboutMeModel.deleteMany({});
+    db.dropDatabase();
   } catch (error) {
     console.error("Error Deletion AboutMe API Test");
     console.error(error);
@@ -70,23 +66,62 @@ before("setup database", async () => {
     console.error(error);
   }
 });
+
 ```
 
 Básicamente aquí estamos haciendo uso de los [hooks](https://mochajs.org/#hooks) de *mocha* para ejecutar código antes de cualquier test. Así podemos añadir a nuestra base de datos los *datos mocks* que necesitemos y siempre tener el estado ideal al inicio de nuestros tests. Además, vamos a inicializar *chai* con el tipo *assertion*.
 
-Para empezar a probar los endpoints que hemos creado, vamos a finjarnos en el ejemplo de api de autenticación.
+Para poder importar los ficheros json en TypeScript, vamos a tener que añadir la opción [esModuleInterop](https://www.typescriptlang.org/tsconfig#esModuleInterop) junto a `resolveJsonModule` para poder importar los archivos json en nuestro proyecto TypeScript.
 
-```js title="backend/test/authentication.js"
-const request = require("supertest");
+```json title="api/tsconfig.json"
+    "compilerOptions": {
+        "outDir": "./build/",
+        "baseUrl": "./",
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        // highlight-start
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        // highlight-end
+        "target": "es6",
+        "sourceMap": true,
+        "plugins": [{
+            "name": "tslint-language-service"
+        }],
+        "paths": {
+            "@/*": [
+                "src/*"
+            ]
+        }
+    },
+    "include": [
+        "./src/**/*", "test"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+```
 
-const app = require("../src/config/server/server").default;
+Al incluir este cambio debemos modificar algunas importaciones, por ejemplo `import * as express from 'express';` pasará a `import express from 'express';` para poder importar el módulo por defecto, podéis ver los cambios en las importaciones en [este commit](https://github.com/lucferbux/Taller-Testing-Security/commit/771ee9a528d9737ac572ba1a7116123e81a55f9d).
 
-const user = require("./fixtures/user.json");
+Para empezar a probar los endpoints que hemos creado, vamos a fijarnos en el ejemplo de api de autenticación.
+
+```js title="backend/test/authIntegration.ts"
+import request from "supertest";
+import app from "../src/config/server/server";
+import user from "./fixtures/user.json";
+
 
 /**
  * storing globals to access them in API requests
  */
- global.token = "";
+let global = {
+  token: "",
+  update_id: "",
+}
+global.token = "";
+global.update_id = "";
 
 describe("Authentication Integration Test", () => {
   it("login form", (done) => {
