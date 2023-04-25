@@ -24,14 +24,16 @@ cd personal-portfolio \
 3. Instalación las [dependencias de desarrollo](https://docs.npmjs.com/specifying-dependencies-and-devdependencies-in-a-package-json-file)
 
 ```bash
-npm install --save-dev eslint prettier @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react @types/react-router-dom@5.1.7 @types/styled-components@5.1.7 @types/node@18.14.6
+npm install --save-dev @types/react-router-dom@5.1.7 @types/styled-components@5.1.7 @types/node@18.14.6
 ```
 
 4. Vamos ahora a instalar las dependencias para el linter, veremos este concepto en la última sesión de [CI/CD](../cd-ci/linter.md), pero dejaremos instalado el linter desde un inicio.
 
 ```bash
-npm install --save-dev @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-airbnb-typescript eslint-plugin-jest prettier eslint-config-prettier eslint-plugin-prettier
+npm install --save-dev eslint prettier @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-airbnb-typescript eslint-config-prettier eslint-plugin-prettier eslint-plugin-import eslint-plugin-react
 ```
+
+Y por último añadiremos el plugin the airbnb y todas sus dependencias mediante la herramienta [install-peerdeps](https://www.npmjs.com/package/install-peerdeps).
 
 ```bash
 npx install-peerdeps --dev eslint-config-airbnb
@@ -45,9 +47,11 @@ npx install-peerdeps --dev eslint-config-airbnb
 
 8. Modificamos el archivo `main.tsx` e `main.css` para añadir la lógica global y los estilos globales.
 
-9. Modificamos la estructura de `app.tsx` y la movemos a la carpeta `components`.
+9. Añadir la carpeta de `styles` para añadir los [estilos](./style).
 
-10. Añadir la carpeta de `styles` para añadir los [estilos](./style).
+10. Modificamos la estructura de `app.tsx`, movemos a la carpeta `components` y añadimos la [navegación](./navigation).
+
+**Clase ->** Aquí vemos como aplicar **Styled components** en el **Landing page** y como funciona **Lottie**.
 
 11. Añadimos la carpeta `constant` con las constantes del proyecto.
 
@@ -61,4 +65,4 @@ npx install-peerdeps --dev eslint-config-airbnb
 
 16. Añadimos la carpeta `locales` y el fichero `i18n.ts` para la [internacionalización](./i18n).
 
-17. Dentro de la carpeta `components` implementamos la [navegación](./navigation) y el resto de [componentes](./components).
+17. Dentro de la carpeta `components` implementamos el resto de [componentes](./components).
