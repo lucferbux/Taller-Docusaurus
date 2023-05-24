@@ -105,6 +105,15 @@ export default class HttpApiClient implements ApiClient {
       return response.json();
     });
 
+  getDashboardInfo = (): Promise<DashboardInfo> => {
+    return Promise.all([this.getAboutMe(), this.getProjects()]).then(([aboutMe, projects]) => {
+      return {
+        aboutMe,
+        projects
+      };
+    });
+  };
+
   getProjects = (): Promise<Project[]> =>
     handleResponse(async () => {
       const response = await fetch(
@@ -180,56 +189,11 @@ const login = useCallback(
 [setUser, loadUser])
 ```
 
-## Mock
-
-Vamos ahora a actualizar la interfaz de nuestros datos "Mock" para adaptarla a estos cambios:
-
-```tsx title="ui/src/utils/mock-response"
-export const mockLogin = (userName: string, password: string) =>
-  new Promise<TokenResponse>(function (resolve, rejected) {
-    setTimeout(() => {
-      if (userName === 'user@threepoints.com' && password === 'patata') {
-        resolve(
-          JSON.parse(
-            `{
-                 "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxODg0YmJiM2Q0YTRkNDk1ZDYyNGJhYyIsImVtYWlsIjoibHVjYXNmZXJuYW5kZXphcmFnb25AZ21haWwuY29tIiwiaWF0IjoxNjM2MzIyMzA3LCJleHAiOjE2MzYzMjU5MDd9.yxy7uKWXJx5rY8znRBTg5182llyH8Rs9R8C6_SM4LIg",
-                 }`
-          )
-        );
-      } else {
-        rejected(new Unauthorized());
-      }
-    }, 2000);
-  });
-// highlight-start
-export interface TokenResponse {
-  access_token: string;
-  expires_in: number;
-  token_type: string;
-}
-// highlight-end
-export interface ApiError {
-  description?: string;
-}
-....
-```
-
 ## Dashboard
 
-Por último vamos a ver la implementación de nuestro objeto *API* en uno de los componentes en los que estábamos llamando al objeto *mock*. Como podemos ver en `Dasboard.tsx` cambiamos las llamadas a mock a una instanciación del objeto api mediante la función de factoría `createApliClient()` y después de manera bastante sencilla llamamos a las funciones para obtener los *proyectos* y *about me* de forma asíncrona con **await**.
+Por último vamos a ver la implementación de nuestro objeto *API* en uno de los componentes en los que estábamos llamando al objeto *mock*. Como podemos ver en `Dasboard.tsx` cambiamos las llamadas a mock a una instanciación del objeto api mediante la función de factoría `createApliClient()` y después de manera bastante sencilla llamamos a las funciones para obtener los *proyectos* y *about me* de forma asíncrona pasandole la llamada a nuestro custom hook `useFetchData`.
 
 ```tsx title="ui/src/components/routes/Dashboard.tsx"
-async function retrieveInfo() {
-    const api = createApiClient();
-    try {
-    startSearch(t("loader.text"));
-    const projects: Project[] = await api.getProjects();
-    const aboutme: AboutMe = await api.getAboutMe();
-    setResponse({ aboutme, projects });
-    } catch(Error) {
-    setError("Info not found");
-    } finally {
-    stopSearch();
-    }
-}
+  const apiClient = useMemo(() => createApiClient(), []);
+  const { data, isLoading, error } = useFetchData(apiClient.getDashboardInfo);
 ```

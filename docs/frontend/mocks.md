@@ -13,34 +13,49 @@ La estructura es esncilla, vamos a hacer uso de funciones que devuelvan **promes
 La primera petición va a ser la de **login**. En este caso, vamos a tener una función que acepte un *username* y un *password*, y, mediante una promesa, dictamine que si los datos son correctos envíe un **JWT** mientras que si son incorrectos devuelva el *rejected* de la promesa.
 
 ```tsx title="src/utils/mock-response.ts"
-export const mockLogin = (userName: string, password: string) => new Promise<TokenResponse>(function (resolve, rejected) {
+export const mockLogin = (userName: string, password: string) =>
+  new Promise<TokenResponse>(function (resolve, rejected) {
     setTimeout(() => {
-        if (userName === "user@threepoints.com" && password === "patata") {
-            resolve(JSON.parse(
-                `{
-                    "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgyOTM0ODIwOTM0ODkwODA5OCIsImVtYWlsIjoibHVjYXNmZXJuYW5kZXphcmFnb25AZ21haWwuY29tIiwiaWF0IjoxNjM2OTIzOTE4LCJleHAiOjE2MzY5Mjc1MTh9.3qHpT-ZKj04-QzkissGbuyCHFkgN_WXy8LkuXcrUUSw"
-                 }`
-            ));
-        } else {
-            rejected(new Unauthorized());
-        }
+      if (userName === 'user@threepoints.com' && password === 'patata') {
+        resolve(
+          JSON.parse(
+            `{"token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxODg0YmJiM2Q0YTRkNDk1ZDYyNGJhYyIsImVtYWlsIjoibHVjYXNmZXJuYW5kZXphcmFnb25AZ21haWwuY29tIiwiaWF0IjoxNjM2MzIyMzA3LCJleHAiOjE2MzYzMjU5MDd9.yxy7uKWXJx5rY8znRBTg5182llyH8Rs9R8C6_SM4LIg" }`
+          )
+        );
+      } else {
+        rejected(new Unauthorized());
+      }
     }, 2000);
-    
-})
+  });
 export interface TokenResponse {
-    token: string;
+  token: string;
 }
 export interface ApiError {
-    description?: string;
+  description?: string;
 }
-export class Unauthorized implements ApiError { }
+export class Unauthorized implements ApiError {}
 ```
 
 ## AboutMe y Projects
 
 Por otro lado, de los modelos que hemos definido anteriormente, vamos a crear la información que va a poblar nuestro *Dashboard*, siguiendo la misma estructura que en el *login*. Vamos a tener dos funciones, `mockAboutme` y `mockProjects`, que van a devolver promesas con un *timeout*, y van a contener la información en formato JSON que conformará los tipos definidos en la sección de los [modelos](./models).
 
+Vamos a agrupar las llamadas mediante `Promise.all` para pasarselo al `Dashboard`.
+
 ```tsx title="src/utils/mock-response.ts"
+export interface DashboardInfo {
+  aboutMe: AboutMe;
+  projects: Project[];
+}
+
+export const mockFetchDashboard = () =>
+  Promise.all([mockAboutme(), mockProjects()]).then(([aboutMe, projects]) => {
+    return {
+      aboutMe,
+      projects
+    };
+  });
+
 export const mockAboutme = () => new Promise<AboutMe>(function (resolve, rejected) {
     setTimeout(() => {
         resolve(JSON.parse(
