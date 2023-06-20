@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-# Backend - Heroku + BBDD
+# Backend - Heroku + BBDD (Deprecado)
 
 En este segundo despliegue, conectaremos nuestro backend de [Heroku](https://www.heroku.com) con una base de datos MongoDB que reside en [Atlass](https://www.mongodb.com/cloud/atlas). Así, nuestro esquema del despliegue se quedaría en algo parecido a esto:
 
