@@ -41,18 +41,41 @@ Los componentes deben estar abiertos para extenderse pero cerrados para modifica
 
 ```tsx
 // Antes: Un componente cerrado para modificación
-const Button: React.FC = () => {
-  return <button className="primary-button">Click me</button>;
+// Button.tsx
+import React from 'react';
+
+interface ButtonProps {
+  onClick: () => void;
+  label: string;
 }
+
+const Button: React.FC<ButtonProps> = ({ onClick, label }) => {
+  return (
+    <button onClick={onClick}>
+      {label}
+    </button>
+  );
+};
+
+export default Button;
 
 // Después: Un componente abierto para extensión
-interface ButtonProps {
-  className?: string;
+import React from 'react';
+import Button from './Button';
+
+interface IconButtonProps extends ButtonProps {
+  icon: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ className, children }) => {
-  return <button className={`primary-button ${className}`}>{children}</button>;
-}
+const IconButton: React.FC<IconButtonProps> = ({ onClick, label, icon }) => {
+  return (
+    <Button onClick={onClick} label={label}>
+      <span className="icon">{icon}</span>
+    </Button>
+  );
+};
+
+export default IconButton;
 ```
 
 ### Principio de sustitución de Liskov (LSP)
