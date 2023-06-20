@@ -16,6 +16,8 @@ Aquí pondremos la documentación pertinente para complementar lo visto en los d
 * [BBDD](https://github.com/lucferbux/Taller-BBDD)
 * [Firebase](https://github.com/lucferbux/Taller-Firebase)
 * [Testing & Security](https://github.com/lucferbux/Taller-Testing-Security)
+* [Contenedores y orquestación](https://github.com/lucferbux/Taller-Containerization)
+* [CI/CD](https://github.com/lucferbux/Taller-Containerization)
 
 Así podréis consultar detalles como arquitectura, funcionalidades, dependencias y despliegues que mostramos en clase.
 
