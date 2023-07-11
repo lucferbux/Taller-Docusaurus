@@ -62,7 +62,7 @@ MongoDB aporta escalabilidad horizontal como parte de su funcionalidad fundament
 
 ## MongoDB en nuestro proyecto
 
-Lo primero de todo, vamos a tener que instalar mongoDB en nuestro entorno local. Para ello lo mejor es dirigirse a la [https://docs.mongodb.com/manual/installation/](sección de instalación) de MongoDB para elegir la forma correcta para nuestro sistema.
+Lo primero de todo, vamos a tener que instalar mongoDB en nuestro entorno local. Para ello lo mejor es dirigirse a la [sección de instalación](https://docs.mongodb.com/manual/installation/) de MongoDB para elegir la forma correcta para nuestro sistema.
 
 Posteriormente vamos a inicializar el servicio de mongoDB mediante el comando `make mongo-start`. Con esto podemos comprobar que nuestro servicio está levantado escribiendo en la terminal `mongosh`.
 
