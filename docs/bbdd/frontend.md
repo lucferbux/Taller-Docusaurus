@@ -194,28 +194,31 @@ En el propio dashboard controlamos la lógica de *actualización/eliminación* d
 Ya por último vamos a ver la lógica de la routa *Admin*. Es muy sencillo el cambio, básicamente vamos a usar `useEffect()` para controlar el ciclo de vida del componente, comprobar si existe algún proyecto en el *contexto* de proyectos y si es así rellenar el formulario. Además, mediante el `return()` del `useEffect()` controlamos el momento que el componente se desmonta (cuando vamos a navegar a otro componente) y elimina el proyecto de la pila del *contexto*.
 
 ```tsx title="Admin.tsx"
+  const emptyProjectInput: Partial<Project> = {
+    title: '',
+    description: '',
+    link: '',
+    tag: '',
+    version: ''
+  };
+
+  const navigate = useNavigate();
+  const apiClient = useMemo(() => createApiClient(), []);
+
+  const { createOrUpdate, status, error } = useCreateOrUpdate(apiClient.createOrUpdateProject);
+  const { project, removeProject } = useProject();
+
+  const [projectInput, setProjectInput] = useState<Partial<Project>>(project || emptyProjectInput);
+
+  ...
+
   useEffect(() => {
-    if (project) {
-      fillUpForm(project);
+    if (status === 'success') {
+      removeProject();
+      navigate('/dashboard');
     }
-
     return () => {
-      setProjectOrUndefined(undefined);
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
+      removeProject();
     };
-  }, [timeoutId, setProjectOrUndefined, project]);
-
-...
-
-  function fillUpForm(project: Project) {
-    setErrorMsg("");
-    setSuccessMsg("");
-    setTitle(project.title);
-    setLink(project.link);
-    setDescription(project.description);
-    setTags(project.tag);
-    setVersion(project.version);
-  }
+  }, [status, removeProject, navigate]);
 ```
