@@ -5,6 +5,7 @@ sidebar_position: 9
 # Storybook
 
 Por último vamos a hablar de Storybook. Storybook es una herramienta *open source* que nos permite desarrollar componentes y páginas de forma aislada, permitiendo probar atributos como *props*, *estado*, *ciclos de vida*...
+Es una gran herramienta para complementar nuestro stack de testing y añadir una capa de documentación a nuestros components.
 
 ## Instalación
 
@@ -16,30 +17,38 @@ Una vez completado, vamos a comprobar que todo funciona correctamente ejecutando
 
 ## Añadir un nuevo componente
 
-Podemos añadir nuevos componentes en cualquier parte de nuestro proyecto creando un nuevo fichero con la extensión `.storyboard.tsx`. Vamos a probar a replicar el componente *AboutMeCard*, para ello crearemos un nuevo fichero llamado `AboutMeCard.storyboard.tsx` en el mismo directorio y añadiremos lo siguiente
+Para empezar a añadir componentes a **Storyboard**, se recomienda usar el [Component Story Format](https://storybook.js.org/docs/7.0/react/api/csf) (CSF), que es un estandard abierto basado en módulos ES6.
+
+Podemos añadir nuevos componentes en cualquier parte de nuestro proyecto creando un nuevo fichero con la extensión `.storyboard.tsx`. Las stories por defecto van a tener dos componentes principales, **Meta**, que contendrá los metadatos de la Story y **StoryObj** que definirá el objeto a partir de los metadatos.
 
 ```ts title="ui/src/components/cards/AboutMeCard.storyboard.tsx"
-import React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import type { Meta, StoryObj } from '@storybook/react';
 
-import AboutMeCard from "./AboutMeCard";
+import AboutMeCard from './AboutMeCard';
 
-export default {
-  title: "ThreePoints/AboutMeCard",
+const meta: Meta = {
+  title: 'ThreePoints/AboutMeCard',
   component: AboutMeCard,
-} as ComponentMeta<typeof AboutMeCard>;
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'centered'
+  }
+} satisfies Meta<typeof AboutMeCard>;
 
-export const AboutMeCardStory: ComponentStory<typeof AboutMeCard> = () => {
-  const aboutMe = {
-    _id: "8a9sdfasdf989fd",
-    name: "Lucas Fernández Aragón",
-    birthday: 765817712000,
-    nationality: "Spain",
-    job: "Red Hat",
-    github: "https://github.com/lucferbux",
-  };
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-  return <AboutMeCard aboutMe={aboutMe} />;
+export const Primary: Story = {
+  args: {
+    aboutMe: {
+      _id: '8a9sdfasdf989fd',
+      name: 'Lucas Fernández Aragón',
+      birthday: 765817712000,
+      nationality: 'Spain',
+      job: 'Red Hat',
+      github: 'https://github.com/lucferbux'
+    }
+  }
 };
 ```
 
@@ -136,49 +145,68 @@ Con esto conseguiremos visualizar correctamente nuestro componente.
 Ahora vamos a explorar un componente más complejo. Vamos a utilizar `ProjectCard` como ejemplo para ver como crear variaciones del `ComponentStory` dependiendo de los argumentos.
 
 ```tsx title="ui/src/components/cards/ProjectCard.stories.tsx"
-export default {
-  title: "ThreePoints/ProjectCard",
-  component: ProjectCard,
-} as ComponentMeta<typeof ProjectCard>;
+import type { Meta, StoryObj } from '@storybook/react';
+import ProjectCard from './ProjectCard';
+
+import { Project } from '../../model/project';
+import { User } from '../../model/user';
 
 const project: Project = {
-  _id: "8a9sdfasdf989fd",
-  title: "React",
-  description: "React es el Framework web basado en componentes de Facebook. Cuenta con una curva de aprendizaje corta y mucha flexibilidad",
-  version: "17.0.1",
-  link: "https://reactjs.org/docs/hello-world.html",
-  tag: "JavaScript, Typescript, React",
+  _id: '8a9sdfasdf989fd',
+  title: 'React',
+  description:
+    'React es el Framework web basado en componentes de Facebook. Cuenta con una curva de aprendizaje corta y mucha flexibilidad',
+  version: '17.0.1',
+  link: 'https://reactjs.org/docs/hello-world.html',
+  tag: 'JavaScript, Typescript, React',
   timestamp: 765817712000
 };
 
-const userLoggged: User = { active: true, _id: "a8sfd9sf", email: "johndoe@gmail.com" }
+const userLoggged: User = {
+  active: true,
+  id: 'a8sfd9sf',
+  email: 'johndoe@gmail.com'
+};
 
-const Template: ComponentStory<typeof ProjectCard> = (args) => <ProjectCard {...args} />;
+const meta: Meta = {
+  title: 'ThreePoints/ProjectCard',
+  component: ProjectCard,
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'padded'
+  }
+} satisfies Meta<typeof ProjectCard>;
 
-export const LoggedOut = Template.bind({});
-LoggedOut.args = {
-  project: project,
-  closeButton: () => {},
-  updateButton: () => {},
-  user: undefined
-}
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const LoggedIn = Template.bind({});
-LoggedIn.args = {
-  project: project,
-  closeButton: () => {},
-  updateButton: () => {},
-  user: userLoggged
-}
+export const LoggedOut: Story = {
+  args: {
+    project: project,
+    closeButton: () => {},
+    updateButton: () => {},
+    user: undefined
+  }
+};
 
-export const Caption = Template.bind({});
-Caption.args = {
-  project: project,
-  closeButton: () => {},
-  updateButton: () => {},
-  user: undefined,
-  captionText: "New version"
-}
+export const LoggedIn: Story = {
+  args: {
+    project: project,
+    closeButton: () => {},
+    updateButton: () => {},
+    user: userLoggged
+  }
+};
+
+export const Caption: Story = {
+  args: {
+    project: project,
+    closeButton: () => {},
+    updateButton: () => {},
+    user: undefined,
+    captionText: 'New version'
+  }
+};
 ```
 
 Como podemos observar, ahora vamos a ir cambiando los argumentos que se pasarán como props para observar como reacciona nuestro componente. Así podremos desde la UI de Storyboard hacer testing visual dependiendo de *estados*, *acciones* y *props*.

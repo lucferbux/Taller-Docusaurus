@@ -86,6 +86,8 @@ Para empezar a crear tests en react, solo tenemos que empezar a crear ficheros c
 * Archivos con extensión `.test.ts`.
 * Archivos con extensión `.spec.js`.
 
+Para este tipo de tests haremos uso de **react-testing-library** para renderizar los componentes de react y **vitest** para las aserciones.
+
 Desde la documentación oficial de *vite* recomiendan utilizar la primera opción, mantener carpetas `__tests__` en los directorios donde estemos testeando nuestro código, así las importaciones se mantienen cortas. Vamos a crear un par de ejemplos para probar algunos componentes.
 
 ```ts title="ui/src/components/layouts/__tests__/HeaderTest.ts.tsx"
@@ -134,120 +136,134 @@ Este ejemplo sencillo comprueba los tags que usamos con i18next para traducir nu
 Ya tenemos nuestro primer test, vamos a añadir unos cuantos componentes más para aumentar el coverage de nuestro proyecto.
 
 ```ts title="ui/src/components/card/__tests__/ProjectCardTests.ts.tsx"
+import React from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { render, screen } from '@testing-library/react';
+import ProjectCard from '../ProjectCard';
+import { Project } from '../../../model/project';
+import { User } from '../../../model/user';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { describe, test, expect } from 'vitest';
+
 const projectMock: Project = {
-  _id: "8a9sdfasdf989fd",
-  title: "React",
+  _id: '8a9sdfasdf989fd',
+  title: 'React',
   description:
-    "React es el Framework web basado en componentes de Facebook. Cuenta con una curva de aprendizaje corta y mucha flexibilidad",
-  version: "17.0.1",
-  link: "https://reactjs.org/docs/hello-world.html",
-  tag: "JavaScript, Typescript, React",
-  timestamp: 765817712000,
+    'React es el Framework web basado en componentes de Facebook. Cuenta con una curva de aprendizaje corta y mucha flexibilidad',
+  version: '17.0.1',
+  link: 'https://reactjs.org/docs/hello-world.html',
+  tag: 'JavaScript, Typescript, React',
+  timestamp: 765817712000
 };
 
 const userLogggedMock: User = {
   active: true,
-  id: "a8sfd9sf",
-  email: "johndoe@gmail.com",
+  id: 'a8sfd9sf',
+  email: 'johndoe@gmail.com'
 };
 
-const mockFeatured = "FEATURED";
+const mockFeatured = 'FEATURED';
 
-test("Card Title", () => {
-  const { getByText } = render(
-    <ProjectCard
-      project={projectMock}
-      user={undefined}
-      closeButton={() => {}}
-      updateButton={() => {}}
-    />
-  );
-  expect(getByText(projectMock.title)).toBeInTheDocument();
-});
+describe('ProjectCard', () => {
 
-test("Card Description", () => {
-  const { getByText } = render(
-    <ProjectCard
-      project={projectMock}
-      user={undefined}
-      closeButton={() => {}}
-      updateButton={() => {}}
-    />
-  );
-  expect(getByText(projectMock.description)).toBeInTheDocument();
-});
+  test('renders title', () => {
+    const { getByText } = render(
+      <ProjectCard
+        project={projectMock}
+        user={undefined}
+        closeButton={() => {}}
+        updateButton={() => {}}
+      />
+    );
+    expect(getByText(projectMock.title)).toBeInTheDocument();
+  });
+  
+  test('renders description', () => {
+    const { getByText } = render(
+      <ProjectCard
+        project={projectMock}
+        user={undefined}
+        closeButton={() => {}}
+        updateButton={() => {}}
+      />
+    );
+    expect(getByText(projectMock.description)).toBeInTheDocument();
+  });
+  
+  test('renders version', () => {
+    const { getByText } = render(
+      <ProjectCard
+        project={projectMock}
+        user={undefined}
+        closeButton={() => {}}
+        updateButton={() => {}}
+      />
+    );
+    expect(getByText(projectMock.version)).toBeInTheDocument();
+  });
+  
+  test('renders', () => {
+    const { getByText } = render(
+      <ProjectCard
+        project={projectMock}
+        user={undefined}
+        captionText={mockFeatured}
+        closeButton={() => {}}
+        updateButton={() => {}}
+      />
+    );
+    expect(getByText(mockFeatured)).toBeInTheDocument();
+  });
+  
+  test('Featured empty', () => {
+    render(
+      <ProjectCard
+        project={projectMock}
+        user={undefined}
+        closeButton={() => {}}
+        updateButton={() => {}}
+      />
+    );
+    expect(screen.getByTestId('caption').textContent).toBe('');
+  });
+  
+  test('User logged', () => {
+    render(
+      <ProjectCard
+        project={projectMock}
+        user={userLogggedMock}
+        closeButton={() => {}}
+        updateButton={() => {}}
+      />
+    );
+    expect(screen.getByTestId('menuButton')).toBeInTheDocument();
+  });
+  
+  test('Caption empty', () => {
+    render(
+      <ProjectCard
+        project={projectMock}
+        user={undefined}
+        closeButton={() => {}}
+        updateButton={() => {}}
+      />
+    );
+    expect(screen.getByTestId('caption').textContent).toBe('');
+  });
+  
+  test('External link', () => {
+    render(
+      <ProjectCard
+        project={projectMock}
+        user={undefined}
+        closeButton={() => {}}
+        updateButton={() => {}}
+      />
+    );
+    expect(screen.getByRole('link')).toHaveAttribute('href', projectMock.link);
+  });
+  
 
-test("Card Version", () => {
-  const { getByText } = render(
-    <ProjectCard
-      project={projectMock}
-      user={undefined}
-      closeButton={() => {}}
-      updateButton={() => {}}
-    />
-  );
-  expect(getByText(projectMock.version)).toBeInTheDocument();
-});
-
-test("Featured filled", () => {
-  const { getByText } = render(
-    <ProjectCard
-      project={projectMock}
-      user={undefined}
-      captionText={mockFeatured}
-      closeButton={() => {}}
-      updateButton={() => {}}
-    />
-  );
-  expect(getByText(mockFeatured)).toBeInTheDocument();
-});
-
-test("Featured empty", () => {
-  render(
-    <ProjectCard
-      project={projectMock}
-      user={undefined}
-      closeButton={() => {}}
-      updateButton={() => {}}
-    />
-  );
-  expect(screen.getByTestId("caption").textContent).toBe("");
-});
-
-test("User logged", () => {
-  render(
-    <ProjectCard
-      project={projectMock}
-      user={userLogggedMock}
-      closeButton={() => {}}
-      updateButton={() => {}}
-    />
-  );
-  expect(screen.getByTestId("menuButton")).toBeInTheDocument();
-});
-
-test("Caption empty", () => {
-  render(
-    <ProjectCard
-      project={projectMock}
-      user={undefined}
-      closeButton={() => {}}
-      updateButton={() => {}}
-    />
-  );
-  expect(screen.getByTestId("caption").textContent).toBe("");
-});
-
-test("External link", () => {
-  render(
-    <ProjectCard
-      project={projectMock}
-      user={undefined}
-      closeButton={() => {}}
-      updateButton={() => {}}
-    />
-  );
-  expect(screen.getByRole("link")).toHaveAttribute("href", projectMock.link);
 });
 ```
 
@@ -258,7 +274,6 @@ Como podemos ver aquí tenemos un test más complejo, estamos haciendo uso de *m
     {props.captionText ? props.captionText : ""}
 </CardCaption>
 ```
-
 
 ## Tests Unitarios
 
@@ -329,18 +344,16 @@ export {};
 ```
 
 ```ts title="ui/src/utils/auth.test.ts"
-vi.mock("../api/api-client-factory");
-
-const mockedCreateApiClient = createApiClient as any;
+vi.mock('../api/api-client-factory');
 
 const ANY_ACCESS_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMTJiNGRmYjUxODlmMzVlZGExZjBhOSIsImVtYWlsIjoibHVjYXNmZXJuYW5kZXphcmFnb25AZ21haWwuY29tIiwiaWF0IjoxNjQ1NDM2MTQ4LCJleHAiOjE2NDU0MzYyMDh9.HmqhMQIHMbTvCM-Ay46xTJAkazz84Ft8198t8AtwsuM";
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMTJiNGRmYjUxODlmMzVlZGExZjBhOSIsImVtYWlsIjoibHVjYXNmZXJuYW5kZXphcmFnb25AZ21haWwuY29tIiwiaWF0IjoxNjQ1NDM2MTQ4LCJleHAiOjE2NDU0MzYyMDh9.HmqhMQIHMbTvCM-Ay46xTJAkazz84Ft8198t8AtwsuM';
 const ANY_EXPIRES_IN = 80;
 const CURRENT_TIMESTAMP = 1645436150000;
-const ANY_EMAIL = "lucasfernandezaragon@gmail.com";
-const ANY_ID = "6212b4dfb5189f35eda1f0a9";
-const ANY_USERNAME = "lucasfernandezaragon@gmail.com";
-const ANY_PASSWORD = "any-password";
+const ANY_EMAIL = 'lucasfernandezaragon@gmail.com';
+const ANY_ID = '6212b4dfb5189f35eda1f0a9';
+const ANY_USERNAME = 'lucasfernandezaragon@gmail.com';
+const ANY_PASSWORD = 'any-password';
 const USER_TOKEN = userKey;
 // const ANY_USER_TOKEN: UserToken = {
 //   id: ANY_ID,
@@ -352,11 +365,11 @@ const USER_TOKEN = userKey;
 const ANY_USER: User = {
   active: true,
   id: ANY_ID,
-  email: ANY_EMAIL,
+  email: ANY_EMAIL
 };
 
 const ANY_TOKEN_RESPONSE: TokenResponse = {
-  token: ANY_ACCESS_TOKEN,
+  token: ANY_ACCESS_TOKEN
 };
 
 let setTimeoutSpy: any;
@@ -364,7 +377,7 @@ let setTimeoutSpy: any;
 beforeEach(() => {
   vi.useFakeTimers();
   Date.now = vi.fn(() => CURRENT_TIMESTAMP);
-  setTimeoutSpy = vi.spyOn(global, "setTimeout");
+  setTimeoutSpy = vi.spyOn(global, 'setTimeout');
 });
 
 afterEach(async () => {
@@ -373,136 +386,137 @@ afterEach(async () => {
   localStorage.removeItem(USER_TOKEN);
 });
 
-test("login happy case", async () => {
-  // Given
+describe('login', () => {
+  test('success - happy case', async () => {
+    // Given
+    vi.mocked(createApiClient, { partial: true }).mockReturnValue({
+      token: vi.fn().mockResolvedValue(ANY_TOKEN_RESPONSE)
+    });
 
-  const apiClient = <ApiClient>{};
-  apiClient.token = vi.fn().mockResolvedValue(ANY_TOKEN_RESPONSE);
-  mockedCreateApiClient.mockReturnValue(apiClient);
-
-  // When
-  await login(ANY_USERNAME, ANY_PASSWORD);
-
-  // Then
-  expect(isUserActive()).toBeTruthy();
-  expect(setTimeout).toHaveBeenCalledTimes(2);
-  expect(getCurrentUser()).toEqual(ANY_USER);
-});
-
-test("login - success and then logs out when token expires", async () => {
-  // Given
-  const apiClient = <ApiClient>{};
-  apiClient.token = vi.fn().mockResolvedValue(ANY_TOKEN_RESPONSE);
-  apiClient.logout = vi.fn().mockResolvedValue("");
-  mockedCreateApiClient.mockReturnValue(apiClient);
-
-  // When
-  await login(ANY_USERNAME, ANY_PASSWORD);
-
-  // Then
-  expect(isUserActive()).toBeTruthy();
-  expect(setTimeoutSpy).toHaveBeenCalledTimes(2);
-  expect(getCurrentUser()).toEqual(ANY_USER);
-
-  // When (set the token to expire)
-  vi.advanceTimersByTime(ANY_EXPIRES_IN * 1000);
-
-  setLogoutIfExpiredHandler();
-
-  // Then
-  expect(isUserActive()).toBeFalsy();
-});
-
-test("login failed - unauthorized", async () => {
-  // Given
-  const apiClient = <ApiClient>{};
-  apiClient.token = vi.fn().mockRejectedValue(new Unauthorized());
-  apiClient.logout = vi.fn().mockResolvedValue("");
-  mockedCreateApiClient.mockReturnValue(apiClient);
-
-  // When
-  try {
+    // When
     await login(ANY_USERNAME, ANY_PASSWORD);
-  } catch (e) {
-    expect(e).toBeInstanceOf(WrongCredentialsException);
-  }
 
-  // Then
-  expect(isUserActive()).toBeFalsy();
-  expect(setTimeoutSpy).toHaveBeenCalledTimes(0);
-});
+    // Then
+    expect(isUserActive()).toBeTruthy();
+    expect(setTimeout).toHaveBeenCalledTimes(2);
+    expect(getCurrentUser()).toEqual(ANY_USER);
+  });
 
-test("login failed - generic error", async () => {
-  // Given
-  const apiClient = <ApiClient>{};
-  apiClient.token = vi.fn().mockRejectedValue(new GenericError(500, "err"));
-  apiClient.logout = vi.fn().mockResolvedValue("");
-  mockedCreateApiClient.mockReturnValue(apiClient);
+  test('success - then logs out when token expires', async () => {
+    // Given
+    vi.mocked(createApiClient, { partial: true }).mockReturnValue({
+      token: vi.fn().mockResolvedValue(ANY_TOKEN_RESPONSE),
+      logout: vi.fn().mockResolvedValue('')
+    });
 
-  // When
-  try {
+    // When
     await login(ANY_USERNAME, ANY_PASSWORD);
-  } catch (e) {
-    expect(e).toBeInstanceOf(Error);
-  }
 
-  // Then
-  expect(isUserActive()).toBeFalsy();
-  expect(setTimeoutSpy).toHaveBeenCalledTimes(0);
+    // Then
+    expect(isUserActive()).toBeTruthy();
+    expect(setTimeoutSpy).toHaveBeenCalledTimes(2);
+    expect(getCurrentUser()).toEqual(ANY_USER);
+
+    // When (set the token to expire)
+    vi.advanceTimersByTime(ANY_EXPIRES_IN * 1000);
+
+    setLogoutIfExpiredHandler();
+
+    // Then
+    expect(isUserActive()).toBeFalsy();
+  });
+
+  test('failed - unauthorized', async () => {
+    // Given
+    vi.mocked(createApiClient, { partial: true }).mockReturnValue({
+      token: vi.fn().mockRejectedValue(new Unauthorized()),
+      logout: vi.fn().mockResolvedValue('')
+    });
+
+    // When
+    try {
+      await login(ANY_USERNAME, ANY_PASSWORD);
+    } catch (e) {
+      expect(e).toBeInstanceOf(WrongCredentialsException);
+    }
+
+    // Then
+    expect(isUserActive()).toBeFalsy();
+    expect(setTimeoutSpy).toHaveBeenCalledTimes(0);
+  });
+
+  test('failed - generic error', async () => {
+    // Given
+    vi.mocked(createApiClient, { partial: true }).mockReturnValue({
+      token: vi.fn().mockRejectedValue(new GenericError(500, 'err')),
+      logout: vi.fn().mockResolvedValue('')
+    });
+
+    // When
+    try {
+      await login(ANY_USERNAME, ANY_PASSWORD);
+    } catch (e) {
+      expect(e).toBeInstanceOf(Error);
+    }
+
+    // Then
+    expect(isUserActive()).toBeFalsy();
+    expect(setTimeoutSpy).toHaveBeenCalledTimes(0);
+  });
+
+  test('clear timeout', async () => {
+    // Given
+    const setClearTimeout = vi.spyOn(global, 'clearTimeout');
+
+    vi.mocked(createApiClient, { partial: true }).mockReturnValue({
+      logout: vi.fn().mockResolvedValue('')
+    });
+
+    setUserToken();
+
+    // When
+    await logout();
+
+    // Then
+    expect(isUserActive()).toBeFalsy();
+    expect(setClearTimeout).toHaveBeenCalledTimes(1);
+  });
 });
 
-test("logout happy case", async () => {
-  // Given
-  const setClearTimeout = vi.spyOn(global, "clearTimeout");
-  const apiClient = <ApiClient>{};
-  apiClient.logout = vi.fn().mockResolvedValue("");
-  mockedCreateApiClient.mockReturnValue(apiClient);
-  setUserToken();
+describe('token', () => {
+  test('init when token exists but it is expired', () => {
+    // Given
+    setUserToken();
+    dateMakesTokenExpired();
 
-  // When
-  await logout();
+    // Then
+    expect(isUserActive()).toBeFalsy();
+    expect(setTimeoutSpy).toHaveBeenCalledTimes(1);
+  });
 
-  // Then
-  expect(isUserActive()).toBeFalsy();
-  expect(setClearTimeout).toHaveBeenCalledTimes(1);
-});
+  test('getAccessToken without token set', () => {
+    // When
+    const actual = getCurrentUser();
 
-test("init when token exists but it is expired", () => {
-  // Given
-  setUserToken();
-  dateMakesTokenExpired();
+    // Then
+    expect(actual).toBeUndefined();
+  });
 
-  // Then
-  expect(isUserActive()).toBeFalsy();
-  expect(setTimeoutSpy).toHaveBeenCalledTimes(1);
-});
+  test('isTokenActive on non existing token', () => {
+    // When
+    const actual = isUserActive();
 
-test("getAccessToken without token set", () => {
-  // When
-  const actual = getCurrentUser();
-
-  // Then
-  expect(actual).toBeUndefined();
-});
-
-test("isTokenActive on non existing token", () => {
-  // When
-  const actual = isUserActive();
-
-  // Then
-  expect(actual).toBeFalsy();
+    // Then
+    expect(actual).toBeFalsy();
+  });
 });
 
 describe.each([
-  ["current", true, CURRENT_TIMESTAMP],
-  [
-    "edge before expiration",
-    true,
-    CURRENT_TIMESTAMP + ANY_EXPIRES_IN * 1000 - 1,
-  ],
-  ["date before", false, CURRENT_TIMESTAMP - 1],
-  ["exact expiration", false, CURRENT_TIMESTAMP + ANY_EXPIRES_IN * 1000],
-])("isTokenActive", (desc, expected, testTimestamp) => {
+  ['current', true, CURRENT_TIMESTAMP],
+  ['edge before expiration', true, CURRENT_TIMESTAMP + ANY_EXPIRES_IN * 1000 - 1],
+  ['date before', false, CURRENT_TIMESTAMP - 1],
+  ['exact expiration', false, CURRENT_TIMESTAMP + ANY_EXPIRES_IN * 1000]
+])('isTokenActive', (desc, expected, testTimestamp) => {
   test(`is ${expected} on ${desc}`, () => {
     // Given
     Date.now = vi.fn(() => testTimestamp);
@@ -530,7 +544,7 @@ function setUserToken() {
     id: ANY_ID,
     email: ANY_EMAIL,
     notBeforeTimestampInMillis: CURRENT_TIMESTAMP,
-    expirationTimestampInMillis: ANY_EXPIRES_IN * 1000 + CURRENT_TIMESTAMP,
+    expirationTimestampInMillis: ANY_EXPIRES_IN * 1000 + CURRENT_TIMESTAMP
   };
   localStorage.setItem(USER_TOKEN, JSON.stringify(userToken));
 }
