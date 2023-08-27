@@ -107,3 +107,11 @@ Y con esto podremos eliminar el proyecto que queramos.
 Vector de ataque que intenta manipular una base de datos para acceder a información que en principio no debería ser extraída. Suele producirse al no sanetizar las consultas a la base de datos a través de formularios o parámetros url, pudiendo formar consultas maliciosas que devuelven información sensible.
 
 [Video explicativo](https://www.youtube.com/watch?v=ciNHn38EyRc&t=646s)
+
+## Broken Access Control
+
+![BAC](../../static/img/tutorial/security/0_4_BAC.png)
+
+Este tipo de vulnerabilidad se produce cuando un usuario puede acceder a recursos que no debería tener acceso. Esto puede ser debido a una mala configuración de los permisos de los usuarios o a una mala implementación de los mismos.
+
+[Video explicativo](https://youtu.be/K2PiHznrPBs?si=HVYY9kyftMIUYwkZ)

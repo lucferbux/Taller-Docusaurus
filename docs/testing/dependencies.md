@@ -53,3 +53,9 @@ Librería JavaScript de aserciones, es decir de comprobaciones entre valores. Ch
 *Supertest* es un módulo que nos permite testear servidores en *Nodejs HTTP*. Está construido por encima de la librería [superagent](https://github.com/visionmedia/superagent), que permite realizar peticiones al servidor y luego ser evaluadas.
 
 [Enlace a documentación](https://github.com/visionmedia/supertest#readme)
+
+## Playwright
+
+Playwright es una librería que permite automatizar navegadores web, como por ejemplo *Chrome*, *Firefox* o *Safari*. Es una librería muy potente que permite realizar tests end to end de forma muy sencilla.
+
+[Enlace a documentación](https://playwright.dev)

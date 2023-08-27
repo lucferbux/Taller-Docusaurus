@@ -10,6 +10,7 @@ Ambas librerías vienen instaladas por defecto en nuestro proyecto, ya que lo cr
 
 * `npm install --save-dev vitest`
 * `npm install --save-dev jsdom @testing-library/react @testing-library/jest-dom`
+* `npm install --save-dev playwright @playwright/test`
 
 Ahora hay que añadir un comando para habilitar el testing:
 
@@ -19,6 +20,7 @@ Ahora hay que añadir un comando para habilitar el testing:
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
+    "test:e2e": "playwright test ./src/__tests__/e2e",
     "coverage": "vitest run --coverage",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
@@ -553,3 +555,57 @@ function dateMakesTokenExpired() {
   Date.now = vi.fn(() => CURRENT_TIMESTAMP + ANY_EXPIRES_IN * 1000);
 }
 ```
+
+## Test end to end
+
+Vamos a realizar una primera versión de los test end to end con la herramienta [playwright](https://playwright.dev).
+
+Lo primero que haremos es añadir la configuración a nuestro proyecto
+
+```ts title="ui/playwright.config.ts"
+import { defineConfig, devices } from '@playwright/test';
+
+
+export default defineConfig({
+  timeout: 5000,
+  testDir: 'src/__tests__',
+  //testMatch: ['/e2e/**/*.spec.ts'],
+  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  reporter: 'html',
+  /* Configure projects for major browsers */
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+
+  ],
+
+  webServer:  {
+        command: 'cd ../api && npm run dev',
+        port: 4000
+    }
+});
+```
+
+Y ahora en la ruta `__tests__/e2e` crearemos un fichero con la siguiente estructura:
+
+```ts title="ui/src/__tests__/e2e/LandingPage.spec.ts"
+import { test, expect, Page } from '@playwright/test';
+
+const cleanTestProject = async (page: Page) => {
+  await page.goto('/');
+};
+
+test.beforeEach(async ({ page }) => await cleanTestProject(page));
+test.afterEach(async ({ page }) => await cleanTestProject(page));
+
+test('Landing page', async ({ page }) => {
+  await page.goto('');
+
+  // Test that the header is visible
+  expect(await page.getByText('Error creating project')).toBeTruthy();
+});
+```
+
+Que automatizará el flujo de usuario con la aplicación y comprobará que todo funciona correctamente.

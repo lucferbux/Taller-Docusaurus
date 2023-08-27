@@ -2,7 +2,7 @@
 sidebar_position: 6
 ---
 
-# Configuración global
+# Fortificar el proyecto
 
 ## NPM Audit
 
@@ -116,3 +116,17 @@ Para evitar esto, podemos [añadir nuestra clave gpg](https://docs.github.com/en
 Con esto podremos crear nuevos commits firmados como podemos ver en el log de github. Si nos fijamos el último commit tiene una etiqueta verde que indica que está verificado.
 
 ![Log github](../../static/img/tutorial/security/8_signed_commit.png)
+
+## Configuración de seguridad en Github
+
+Github provee servicios gratuitos de seguridad que nos pueden ayudar a detectar vulnerabilidades en nuestro código. Para ello, simplemente tenemos que ir a la pestaña de *Security* en nuestro repositorio y activar las opciones que nos interesen.
+
+![Github Security](../../static/img/tutorial/security/10-security.github.png)
+
+* **Security advisories**: Nos permite reportar vulnerabilidades en dependencies de nuestro proyecto.
+* **Dependabot alerts**: Nos avisa de vulnerabilidades en las dependencias de nuestro proyecto.
+* **Code scanning**: Nos avisa de vulnerabilidades en el código de nuestro proyecto.
+* **Secret scanning**: Nos avisa de secretos en nuestro código.
+
+Podemos habilitar estas opciones desde la configuración de nuestro repositorio, para algunas de ellas tendremos que indicarle el tipo de acciones que queremos que realice. Por ejemplo, en *Code scanning* podemos elegir entre usar la herramienta de Github o usar una herramienta externa. 
+Estas opciones son muy útiles para detectar vulnerabilidades en nuestro código, pero no son infalibles. Es por ello que es muy importante que nosotros también hagamos un análisis de seguridad de nuestro código.
