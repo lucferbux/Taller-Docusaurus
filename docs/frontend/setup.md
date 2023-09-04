@@ -27,7 +27,7 @@ cd personal-portfolio \
 npm install --save-dev @types/react-router-dom@5.1.7 @types/styled-components@5.1.7 @types/node@18.14.6
 ```
 
-4. Vamos ahora a instalar las dependencias para el linter, veremos este concepto en la última sesión de [CI/CD](../cd-ci/linter.md), pero dejaremos instalado el linter desde un inicio.
+4. Vamos ahora a instalar las dependencias para el linter, veremos este concepto en la última sesión de [CI/CD](../testing/linter.md), pero dejaremos instalado el linter desde un inicio.
 
 ```bash
 npm install --save-dev eslint prettier @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-airbnb-typescript eslint-config-prettier eslint-plugin-prettier eslint-plugin-import eslint-plugin-react

@@ -59,3 +59,10 @@ Librería JavaScript de aserciones, es decir de comprobaciones entre valores. Ch
 Playwright es una librería que permite automatizar navegadores web, como por ejemplo *Chrome*, *Firefox* o *Safari*. Es una librería muy potente que permite realizar tests end to end de forma muy sencilla.
 
 [Enlace a documentación](https://playwright.dev)
+
+
+## ESLint TypeScript
+
+ESLint es uno de los [linter](https://eslint.org) más populares en JavaScript. Básicamente analiza el código para encontrar problemas, tanto de estilo, de sintáxis o de estructura, para mantener el código homogeneo y definir buenas prácticas en todo nuestro proyecto. Typescript ESLint habilita ESLint procesar sintáxis en TypeScript, ampliar las reglas para soportar este lenguaje y hacer uso de la información de *tipos* de TypeScript.
+
+[Enlace a la documentación](https://typescript-eslint.io)

@@ -24,7 +24,7 @@ En la **raíz del proyecto** encontramos diversos archivos de configuración y d
 * **.env**: Fichero de configuración que permite almacenar variables de entorno que luego librerías de JavaScript o en este caso el propio framework de [Vite](https://vitejs.dev/guide/env-and-mode.html) transformará en variables en tiempo de compilación.
 * **doc**: Carpeta donde almacenar documentación y recursos.
 * **vite.config.ts**: Configuración interna de **vite**.
-* **eslintrc** y **eslintignore**: Ficheros de configuración para el linter, veremos esto en la sección de [linting](../cd-ci/linter).
+* **eslintrc** y **eslintignore**: Ficheros de configuración para el linter, veremos esto en la sección de [linting](../testing/linter).
 * **index.html**: Entrada a nuestra aplicación, vite usará este html como estructura, que podremos editar a nuestro antojo.
 
 ```html title="public/index.html"

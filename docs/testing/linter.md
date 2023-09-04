@@ -1,10 +1,10 @@
 ---
-sidebar_position: 3
+sidebar_position: 9
 ---
 
 # Linter
 
-Ya habíamos introducido discretamente las dependencias del *linter* en la sección de [testing y seguridad](../testing/intro.md), pero no habíamos creado una correcta configuración ni habíamos explorado todas las opciones que nos ofrece, vamos a arreglar ese primer punto antes de seguir con nuestros flujos *CI/CD*.
+Desde la primera sección, hemos tenido pre-configurado el linter, simplemente para coordinar el código y dejar de forma uniforme nuestra codebase a lo largo de los diferentes repositorios, pero en esta sección vamos a ver como se configura.
 
 Lo primero de todo, ¿Qué significa la palabra **Lint**?. Lint es una herramienta de programación que analiza estáticamente el código para encontrar errores, bugs y construcciones sospechosas. Además se le puede configurar diversos parámetros, como la inclusión de guías de estilo que permitan mantener un código uniforme a lo largo del proyecto.
 
