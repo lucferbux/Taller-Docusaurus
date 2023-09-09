@@ -4,19 +4,35 @@ sidebar_position: 5
 
 # Hooks
 
-Los Hooks son una incorporación relativamente nueva, introducidos en **React 16.8** y son funciones que permiten *"enganchar"* nuestros componentes funcionales a caraceterísticas de un componente de clase. Además de poder controlar el estado con **useState**, el ciclo de vida del componente con **useEffect** y demás funcionalidades, es posible construir nuestros propios **Hooks**. Nosotros hemos utilizado esta característica para poder utilizar nuestros *contextos* dentro de los *componentes funcionales* de la aplicación.
+Ya llevamos varios años con **hooks**, desde su introducción en **React 16.8** y son funciones que permiten añadir funcionalidad extra a nuestros **componentes funcionales** como el control del estado con **useState**, el ciclo de vida del componente con **useEffect** o incluso funcionalidad personalizada con **custom hooks**. Nosotros hemos utilizado esta característica para poder utilizar nuestros *contextos* dentro de los *componentes funcionales* de la aplicación y hacer llamadas en la aplicación.
 
-Los *Hooks* han sido un cambio bastante polémico dentro de la comunidad de React, pero al final del día ofrecen una capacidad de abstracción bastante útil para mejorar la legibilidad de nuestro código. Podemos utilizarlos de diversas formas, en nuestro proyecto lo utilizaremos para poder llamar a los contextos dentro de nuestros **componentes funcionales**.
+Los *Hooks* fueron un cambio bastante polémico dentro de la comunidad de React, pero al final del día ofrecen una capacidad de abstracción bastante útil para mejorar la legibilidad de nuestro código y parece que es el futuro de la librería. Vamos a ver un par de ejemplos, uno con el **hook** de *useState* y otro un **custom hook** muy sencillo para coger el contexto.
 
-La forma de hacerlo es muy sencilla, solo tenemos que crear una nueva función, llamar al contexto y devolverlo. Lo podemos ver claramente con los ejemplos de abajo:
+En el caso de `useState`, nos va a permitir controlar el estado de nuestro componente, en este caso, el estado de nuestro formulario de login, cada vez que cambiemos el valor a uno de los estados, el componente se volverá a renderizar con el nuevo valor. Podemos ver que el hook nos devuelve un array con el valor del estado y una función para cambiarlo. Es muy sencillo de utilizar, con una sintaxis bastante clara y concisa.
+
+```tsx title="src/components/Login.tsx"
+const Login = () => {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const { login, isLoading } = useAuth();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+...
+```
+
+Por otro lado tenemos este `useAuth`, que nos permite coger el contexto de autenticación de nuestra aplicación y aplicarlo a cualquier componente de función.
 
 ```tsx title="src/hooks/useAuth.tsx"
-import { useContext } from "react";
-import AuthContext from "../context/AuthContext";
-
+import { useContext } from 'react';
+import AuthContext from '../context/AuthContext';
 
 export default function useAuth() {
   const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
 
   return context;
 }
@@ -43,7 +59,7 @@ ReactDOM.render(
 
 ## Custom hooks
 
-Vamos a crear nuestro custom hook para realizar el fetch en el componente `Dashboard`, para ello crearemos un nuevo archivo llamado `useFetchData`, que aceptará un input genérico, realizará una llamada fetch y devolverá los datos. Así, podemos dinámicamente pasar la llamada que queramos hacer, bien sea un mock, como actualmente, como en el futuro una llamada desde nuestra API.
+Vamos a crear nuestro custom hook para **realizar las peticiones** en el componente `Dashboard`, para ello crearemos un nuevo archivo llamado `useFetchData`, que aceptará un input genérico, realizará una llamada fetch y devolverá los datos. Así, podemos pasar la llamada que queramos hacer de forma dinámica, bien sea un mock, como actualmente, como en el futuro una llamada desde nuestra API.
 
 ```tsx title="src/hooks/useFetchData.tsx"
 type FetchDataResult<T> = {

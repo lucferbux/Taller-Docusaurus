@@ -4,7 +4,7 @@ sidebar_position: 11
 
 # Autenticación
 
-Para ir acabando esta sesión vamos a hablar de uno de los aspectos más importantes de nuestar *webapp*: la la lógica de la autenticación. Es muy importante tener una lógica robusta para el acceso de contenido en nuestros proyectos. Es un esfuerzo combinado entre el servidor, que solo proveerá la información requerida para cada rol, y el frontal, que mantendrá el estado de la autenticación en cada momento e implementará determinadas lógicas dependiendo de si estamos autenticados o no.
+Para ir acabando esta sesión vamos a hablar de uno de los aspectos más importantes de nuestar *webapp*: la **lógica de la autenticación**. Es muy importante tener una lógica robusta para el acceso de contenido en nuestros proyectos. Es un **esfuerzo combinado** entre el servidor, que solo **proveerá la información requerida** para cada rol, y el frontal, que **mantendrá el estado de la autenticación** en cada momento e implementará determinadas lógicas dependiendo de si estamos autenticados o no.
 
 En el caso de nuestra aplicación, de momento impediremos entrar a ciertas rutas protegidas como ya vimos en la sección de [navegación](./navigation), pero en un futuro podremos editar o eliminar proyectos solo si estamos autenticados.
 
@@ -12,7 +12,7 @@ La implementación actual de autenticación en nuestro frontal se encuentra prin
 
 ## Auth code
 
-Dentro de `auth.ts` vamos a encontrar la lógica que procesa el token de autenticación, lo guarda en la sesión del navegador, comprueba si es valido y lo elimina en caso contrario. `setAuthToken` recibe ese token, lo decodifica, crea el objeto `Token` con los atributos de expiración `notBeforeTimestampInMillis` y `expirationTimestampInMillis` y luego almacena el token en **localStorage** de la página, mientras que tenemos `remoteAuthToken()` para eliminar el valor cuando ha expirado.
+Dentro de `auth.ts` vamos a encontrar la lógica que **procesa el token de autenticación, lo guarda en la sesión del navegador, comprueba si es valido y lo elimina en caso contrario**. `setAuthToken` **recibe ese token, lo decodifica, crea el objeto** `Token` con los atributos de expiración `notBeforeTimestampInMillis` y `expirationTimestampInMillis` y luego almacena el token en **localStorage** de la página, mientras que tenemos `remoteAuthToken()` para eliminar el valor cuando ha expirado.
 
 ```tsx title="src/utils/auth.ts"
 export function setAuthToken(accessToken: string) {

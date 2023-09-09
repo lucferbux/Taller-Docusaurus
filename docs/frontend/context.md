@@ -4,15 +4,19 @@ sidebar_position: 4
 
 # Contexto
 
-Como habréis visto en el **Módulo de Front-end**, en una aplicación en React, la información se pasa de arriba a abajo (de padre a hijo) mediante *props*. Este flujo está bien para determinados casos de uso, pero para ciertas funcionalidades se puede quedar corto. Es por eso que *Context* proporciona una forma de compartir información entre componentes sin tener que pasarla explícitamente  a través de un prop de forma descendiente.
+Como habréis visto en el **Módulo de Front-end**, en una aplicación en React, la información se pasa de **arriba a abajo** (de padre a hijo) mediante *props*. Este flujo está bien para determinados casos de uso, pero para ciertas funcionalidades se puede quedar corto. Es por eso que los **contextos** proporcionan una forma de compartir información entre componentes sin tener que pasarla explícitamente  a través de un prop de forma descendiente.
 
-Antes de entrar a analizar el código, quiero dedicar unos minutos a responder una duda que pudierais tener a estas alturas, ¿En qué momento tengo que utilizar librerías de control de estados como [redux](https://redux.js.org) frente a [context](https://reactjs.org/docs/context.html)?. Pues bien, la respuesta es complicada, os dejo aquí una entrevista a su co-creador explicando [cuando hay que utilizar redux](https://youtu.be/XEt09iK8IXs?t=198), y como bien dice, actualmente hay una línea muy difusa, y para muchas funcionalidades *context* cubre todo los usos. Personalmente creo que si el proyecto ya usa *redux*, o el código está estructurado de una forma específica, por ejemplo separando completamente la lógica de estado de los componentes, es recomendable usar *redux*, si el objetivo es pasar información entre componentes y mantener ciertos estados, la combinación de **useContext** y **useState** debería ser suficiente.
+## Redux vs Context
+
+Antes de entrar a analizar el código, quiero dedicar unos minutos a responder una duda que pudierais tener a estas alturas, **¿En qué momento tengo que utilizar librerías de control de estados como [redux](https://redux.js.org) frente a [context](https://reactjs.org/docs/context.html)?**. Pues bien, la respuesta es complicada, os dejo aquí una entrevista a su co-creador explicando [cuando hay que utilizar redux](https://youtu.be/XEt09iK8IXs?t=198), y como bien dice, actualmente hay una línea muy difusa, y para muchas funcionalidades *context* cubre todo los usos. Personalmente creo que si el proyecto ya usa *redux*, o el código está estructurado de una forma específica, por ejemplo separando completamente la lógica de estado de los componentes, es recomendable usar *redux*, si el objetivo es pasar información entre componentes y mantener ciertos estados, la combinación de **useContext** y **useState** debería ser suficiente.
 
 :::tip Uso de redux
 
 Redux sigue siendo una librería fundamental dentro del control de estado en React, pero salvo que el proyecto ya la utilice o haya un caso de uso muy concreto, es posible recrear su funcionalidad con **context**
 
 :::
+
+Si queréis aprender más sobre redux, hay [una entrada en el blog](../../blog/first-steps-redux) profundizando en el tema.
 
 ## AuthContext
 

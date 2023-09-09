@@ -1,5 +1,5 @@
 ---
-sidebar_position: 12
+sidebar_position: 2
 ---
 
 # Vite
@@ -8,7 +8,7 @@ sidebar_position: 12
 
 CRA usa [webpack](https://webpack.js.org) como bundler o *empaquetador*. Si queréis un poco más de información hablamos de ello en el [curso de JavaScript](https://javascript-course-threepoints.netlify.app/project/1_entorno/index.html#webpack). El problema de *webpack* es que es bastante lento al levantar un entorno de desarrollo, pudiendo tardar hasta **varios minutos** en proyectos pesados.
 
-Vite intenta solucionar estos problemas con varias tecnologías que permiten incrementar el rendimiento y la rapidez de forma drástica.
+[Vite](https://vitejs.dev/) intenta solucionar estos problemas con varias tecnologías que permiten incrementar el rendimiento y la rapidez de forma drástica.
 
 ## Inicio lento del servidor
 
