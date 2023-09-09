@@ -30,6 +30,7 @@ services:
       SECRET: e42d8dd28adf34fc489044d5aa21e5166f22a6ef
       MONGODB_URI: mongodb://mongodb:27017/
       MONGODB_DB_MAIN: portfolio_db_test
+      VITE_PROXY_HOST: http://localhost:4000
       CI: true
       PORT: 4000
     networks:
@@ -58,14 +59,15 @@ networks:
 Por último podemos ver que el *Dockerfile* de esta nueva imagen simplemente copia los contenidos del *frontend* y el *backend* e instala las dependencias globales y de ambos proyectos. Para luego ejecutar los tests tendremos que utilizar el comando `docker-compose -f docker-compose.test.yml run node npm run test` o simplemente utilizar el comando `docker-ci-up` seguido de `docker-ci-api`.
 
 ```dockerfile title="delivery/Dockerfile"
-FROM node:14-alpine3.12
+FROM mcr.microsoft.com/playwright:v1.37.0-jammy
 WORKDIR /app
 COPY ui/. ./ui
 COPY api/. ./api
 COPY package.json .
 COPY package-lock.json .
-RUN npm install
-RUN npm run postinstall
+RUN npm ci
+RUN cd ui && npm ci
+RUN cd api && npm ci
 ```
 
 ```makefile title="Makefile"

@@ -59,7 +59,7 @@ npx install-peerdeps --dev eslint-config-airbnb
 
 13. Añadir el archivo `.env` para las [variables de entorno](https://vitejs.dev/guide/env-and-mode.html).
 
-14. Añadimos la carpeta `context` con los [contextos de autenticación y aplicación](./context), si queréis profundizar en Redux os [dejo aquí un artículo](https://dev.to/lucferbux/introduccion-a-redux-1mi3).
+14. Añadimos la carpeta `context` con los [contextos de autenticación y aplicación](./context).
 
 15. Añadimos la carpeta `hooks` con la lógica de los [hooks](./hooks).
 

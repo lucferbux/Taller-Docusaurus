@@ -20,7 +20,9 @@ Para crear un nuevo script para *Github Actions*, podemos bien navegar dentro de
 6. Por último vamos a ejecutar los pasos de nuestro `job`:
    1. `actions/checkout@v3` permite acceder al código de nuestro repositorio y usarlo.
    2. `actions/setup-node@v3` automatiza la instalación de node. En este caso node v18.
-   3. Ahora simplemente ejecutaremos `npm install` para instalar las dependencias, `npm run test` para ejecutar los tests y `npm run lint` para ejecutar el linter.
+   3. `npm ci` instala las dependencias de nuestro proyecto.
+   4. Ahora instalaremos playwright para poder ejecutar los tests de la interfaz de usuario.
+   5. Por último tenemos `npm run test` para ejecutar los tests y `npm run lint` para ejecutar el linter.
 
 ```yaml title=".github/workflows/ci.yml"
 # Linter work 
@@ -46,6 +48,8 @@ jobs:
     
     env:
       MONGODB_URI: mongodb://localhost:27017/
+      MONGODB_DB_MAIN: portfolio_db_test
+      VITE_PROXY_HOST: http://localhost:4000
         
     services:
       mongodb:
@@ -62,9 +66,20 @@ jobs:
         with:
           node-version: '18.x'
           cache: 'npm'
-      - run: npm install
-      - run: npm run test
-      - run: npm run lint
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: cd ui && npx playwright install --with-deps chromium
+      - name: Run Lint
+        run: npm run lint
+      - name: Run Tests
+        run: npm run test
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: ui/playwright-report/
+          retention-days: 30
 ```
 
 Ahora, al crear una nueva *Pull Request*, como veremos en la sección de [configuración de github](./github_config), lanzará automáticamente el flujo de *Github Actions* ejecutando todos los pasos como podemos ver en la imagen de abajo.
