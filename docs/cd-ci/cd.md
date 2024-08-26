@@ -7,6 +7,7 @@ sidebar_position: 6
 De la misma manera que hemos implementado la [integración continua](./ci) en nuestro proyecto vamos a crear un flujo para el *Despliegue Continuo*. Ya debéis saber que el *despliegue continuo* es una estrategia de desarrollo de software en la que los cambios de código de una aplicación se publican automáticamente en el entorno de producción. Esta automatización se basa en una serie de pruebas predefinidas. Una vez que las nuevas actualizaciones pasan esas pruebas, el sistema envía las actualizaciones directamente a los usuarios del software.
 
 Como no vamos a usar los mismos flujos de [Gihub Actions](https://docs.github.com/en/actions) para realizar el despliegue en la plataforma de [Okteto](https://www.okteto.com).
+** Nota: actualmente la plataforma no permite realizar despliegues en producción de forma gratuita, quedan aquí las instrucciones para realizar un despliegue una vez registrados.**
 
 ## Action Script
 

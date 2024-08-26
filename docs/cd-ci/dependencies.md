@@ -14,7 +14,7 @@ Kustomize es una herramienta de gestión de la configuración de Kubernetes. Kus
 
 ## Okteto
 
-Servicio de despliegue de infraestructura en *Kubernetes*, permite rápidamente crear un entorno para nuestro proyecto y cuenta con una versión gratuita.
+Servicio de despliegue de infraestructura en *Kubernetes*, permite rápidamente crear un entorno para nuestro proyecto. **Nota: Desde hace poco han eliminado el tier gratuito, por lo que no se podrá realizar el despliegue en producción.**
 
 [Enlace a la documentación](https://www.okteto.com)
 
