@@ -1,4 +1,8 @@
 {
   "label": "Back-End",
-  "position": 3
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "title": "Back-End"
+  }
 }
