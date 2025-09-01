@@ -2,9 +2,9 @@
 sidebar_position: 20
 ---
 
-# Re-creación del Proyecto Front-End
+# Creación del proyecto con herramientas generativas
 
-Esta guía explica cómo reconstruir desde cero el proyecto descrito en esta sección (`docs/frontend`) y materializado en el repositorio práctico (`1-frontend` / `ui`). Incluye: stack tecnológico, estructura de carpetas, dependencias clave, configuración, componentes fundamentales, autenticación, internacionalización, datos mock, pruebas y observabilidad.
+En esta sección intentaremos detallar como usar herramientas generativas para crear un proyecto que contenga los principales elementos que acabamos de repasar. Incluye: stack tecnológico, estructura de carpetas, dependencias clave, configuración, componentes fundamentales, autenticación, internacionalización, datos mock, pruebas y observabilidad.
 
 ## 1. Objetivos
 
