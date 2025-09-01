@@ -36,7 +36,3 @@ Mantener flujo estable y calidad sin sobreproceso.
 - Aplazar tests "para después" sistemáticamente.
 - Mezclar refactor grande con feature nuevo en una sola PR.
 - Abrir muchas Stories simultáneas sin progreso real.
-
-## Próximos pasos
-
-Lee [Próximos Pasos](./proximos-pasos) para roadmap de mejoras metodológicas.

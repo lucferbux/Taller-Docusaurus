@@ -34,7 +34,6 @@ Cada Story mantiene en su *body* la lista de Tasks con enlaces, lo que genera un
 - [Criterios de Aceptación & DoD](./criterios)
 - [Métricas Ligeras](./metricas)
 - [Buenas Prácticas](./buenas-practicas)
-- [Próximos Pasos](./proximos-pasos)
 
 ## Ciclo de Vida Simplificado
 
