@@ -135,9 +135,17 @@ Inicialización Sentry con `tracesSampleRate` configurada; ampliar usando filtro
 
 ## 14. Prompt de Generación (GPT‑5)
 
-Se incluye un prompt XML estructurado reutilizable para regenerar este proyecto (ver sección dedicada `frontend/prompt-gpt5`).
+En la sección siguiente se encuentra un prompt XML estructurado reutilizable para regenerar este proyecto, el objetivo final va a ser recrear el proyecto que hemos visto en clase pero cambiando ciertos aspectos clave como el sistema de estilos (Tailwind + shadcn en lugar de styled-components) y añadiendo reglas concretas para asegurar calidad y consistencia en el código.
+Si **queréis añadir más cambios** o **adaptarlo a otros casos** podéis modificar el prompt XML según vuestras necesidades. Un ejemplo concreto sería cambiar la animación de Lottie por una de [Threejs](https://threejs.org/).
 
-**Nota estilos:** Migración desde styled-components: 1) Extraer tokens a `tailwind.config.js`, 2) Reemplazar wrappers por clases utilitarias o componentes shadcn (`npx shadcn add button` etc.), 3) Eliminar dependencia una vez no queden imports.
-
----
-Siguiente: consulta la nueva sección de prompt para reproducción automatizada con agentes.
+```xml
+<project>
+  <name>Taller-Docusaurus</name>
+  <description>Recreación del proyecto con Tailwind + shadcn/ui</description>
+  <dependencies>
+    <dependency>tailwindcss</dependency>
+    <dependency>shadcn/ui</dependency>
+    <dependency>three</dependency>
+  </dependencies>
+</project>
+```

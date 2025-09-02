@@ -20,30 +20,33 @@ Esta sección proporciona: (1) un prompt XML exhaustivo listo para usar con **GP
 - Estrategia de estilos (Tailwind CSS + shadcn/ui + tokens extendidos)
 - Plan de pruebas (unit + e2e + visual) y scripts
 - Futuras extensiones (theming avanzado, API real, SSR opcional)
+- Directivas de context gathering (para GPT‑5)
+- Preambulos de herramientas (tool preambles)
+- Ciclo de self-reflection antes de finalizar cambios
 
 ## Prompt XML (Copiar y Pegar)
 
 ```xml
-<projectSpec version="1.0">
+<projectSpec version="2.0" targetModel="gpt-5" purpose="scaffold-and-iterate" language="en">
   <meta>
     <name>personal-portfolio</name>
-    <description>SPA portfolio/dashboard con autenticación JWT, i18n y hooks reutilizables.</description>
+    <description>Portfolio / dashboard SPA with JWT auth, i18n, reusable hooks, Tailwind + shadcn/ui styling, and initial Lottie animation (upgrade path to Three.js).</description>
     <goals>
-      <goal>Listar y mostrar información AboutMe y Projects</goal>
-      <goal>Autenticación JWT con rutas protegidas</goal>
-      <goal>Internacionalización en/es</goal>
-      <goal>Base para evolución (API real, theming, SSR)</goal>
-      <goal>Animación con Lottie</goal>
+      <goal>Render AboutMe & Projects data</goal>
+      <goal>Provide protected admin route using JWT</goal>
+      <goal>Offer English/Spanish internationalization</goal>
+      <goal>Ensure extensibility for real API, theming, SSR</goal>
+      <goal>Include baseline animation (Lottie → future Three.js)</goal>
     </goals>
   </meta>
   <techStack>
     <frontend framework="react" version="18" language="typescript" build="vite" />
     <routing lib="react-router" version="6" />
-  <styles strategy="tailwind+shadcn" theming="class-dark-mode" />
-    <i18n libs="i18next,react-i18next,detector" />
+    <styles strategy="tailwind+shadcn" theming="class-dark-mode" />
+    <i18n libs="i18next,react-i18next,language-detector" />
     <auth method="jwt-localstorage" />
     <observability sentry="true" />
-    <animations lib="lottie-react" />
+    <animations lib="lottie-react" upgradeCandidate="three" />
     <seo head="react-helmet-async" />
     <testing unit="vitest+rtl" e2e="playwright" storybook="7" />
   </techStack>
@@ -53,6 +56,7 @@ Esta sección proporciona: (1) un prompt XML exhaustivo listo para usar con **GP
       <check>type-safety</check>
       <check>no-unused-vars</check>
       <check>a11y-basic</check>
+      <check>component-isolation-storybook</check>
     </checks>
   </quality>
   <structure root="src">
@@ -73,12 +77,8 @@ Esta sección proporciona: (1) un prompt XML exhaustivo listo para usar con **GP
     <file name="main.tsx" />
   </structure>
   <files>
-    <file name=".env.example">
-VITE_BASE_URI=http://localhost:5173
-VITE_API_URI=/api
-VITE_SENTRY_API=__REPLACE_DSN__
-    </file>
-    <file name="src/utils/auth.ts" role="jwt-storage">/* Implement login, logout, decode, expiry handler */</file>
+    <file name=".env.example">VITE_BASE_URI=http://localhost:5173\nVITE_API_URI=/api\nVITE_SENTRY_API=__REPLACE_DSN__</file>
+    <file name="src/utils/auth.ts" role="jwt-storage">/* login, logout, decode, expiry handler */</file>
     <file name="src/hooks/useFetchData.ts" role="generic-fetch" />
     <file name="src/context/AuthContext.tsx" role="auth-provider" />
     <file name="src/context/ProjectContext.tsx" role="project-provider" />
@@ -102,9 +102,9 @@ VITE_SENTRY_API=__REPLACE_DSN__
     <login flow="username+password" />
   </auth>
   <hooks>
-    <hook name="useAuth" purpose="Acceso al contexto de autenticación" />
-    <hook name="useProject" purpose="Estado temporal de proyecto seleccionado" />
-    <hook name="useFetchData" purpose="Fetch genérico con reload y estados" />
+    <hook name="useAuth" purpose="Expose authenticated user and session control" />
+    <hook name="useProject" purpose="Temporary selected project state" />
+    <hook name="useFetchData" purpose="Generic async fetch with reload + error + loading" />
   </hooks>
   <observability>
     <sentry tracesSampleRate="1.0" environment="development" />
@@ -122,33 +122,52 @@ VITE_SENTRY_API=__REPLACE_DSN__
   </testing>
   <extensibility>
     <future item="SSR-next-adapter" />
-    <future item="Theming-dark-mode" />
     <future item="API-client-swap" />
+    <future item="ThreeJS-animation" />
+    <future item="Advanced-theming" />
   </extensibility>
   <instructions>
-    <step>Instalar dependencias y copiar estructura.</step>
-    <step>Configurar i18n y locales en/en + es/es.</step>
-    <step>Implementar auth utils (decode, persist, expiry).</step>
-    <step>Crear contexts y envolver en main.tsx.</step>
-    <step>Configurar rutas y PrivateRoute.</step>
-    <step>Añadir hook useFetchData y reemplazar fetches directos.</step>
-    <step>Añadir animación con Lottie en LandingPage.</step>
-    <step>Inicializar Sentry si hay DSN.</step>
-    <step>Agregar scripts test/lint/build/storybook.</step>
+    <step>Install dependencies and replicate structure.</step>
+    <step>Configure i18n with EN/ES resources.</step>
+    <step>Implement auth utilities (decode, persist, expiry handler).</step>
+    <step>Create contexts and wrap providers in main.tsx.</step>
+    <step>Define routes + PrivateRoute guard.</step>
+    <step>Add useFetchData hook and replace direct fetch calls.</step>
+    <step>Integrate initial Lottie animation on LandingPage (placeholder for Three.js migration).</step>
+    <step>Initialize Sentry if DSN present.</step>
+    <step>Add scripts: lint, test, build, storybook.</step>
   </instructions>
+  <context_gathering>
+    <directive>List current file tree before large refactors.</directive>
+    <directive>Read and summarize target files prior to multi-file edits.</directive>
+    <directive>Batch read operations (max 5 per batch) and then plan edits.</directive>
+    <directive>Avoid editing without up-to-date context (invalidate if file changed externally).</directive>
+  </context_gathering>
+  <tool_preambles>
+    <rule>Prefix each tool invocation with: purpose | expected outcome.</rule>
+    <rule>Group independent read operations; separate edit batches.</rule>
+    <rule>After 3–5 tool calls emit a concise checkpoint (delta only).</rule>
+  </tool_preambles>
+  <self_reflection>
+    <checkpoint>After generating code: validate architecture consistency (folders, naming).</checkpoint>
+    <checkpoint>Ensure styling uses Tailwind + shadcn (no stray inline styles unless dynamic).</checkpoint>
+    <checkpoint>Verify tests cover new branches (happy + error path).</checkpoint>
+    <checkpoint>List potential regressions and unresolved questions before final output.</checkpoint>
+  </self_reflection>
   <deliverables>
     <item>package.json</item>
     <item>tsconfig.json</item>
     <item>vite.config.ts</item>
     <item>.eslintrc.(cjs|json)</item>
-    <item>README.md con pasos</item>
-    <item>Storybook inicial</item>
+    <item>README.md (usage + scripts)</item>
+    <item>Storybook initial setup</item>
   </deliverables>
   <acceptance>
-    <criterion>Compila y corre `vite dev` sin errores</criterion>
-    <criterion>Login mock funcional y protección /admin</criterion>
-    <criterion>i18n alterna EN/ES</criterion>
-    <criterion>useFetchData gestiona loading/error</criterion>
+    <criterion>Vite dev server runs without errors</criterion>
+    <criterion>Mock login works and /admin guarded</criterion>
+    <criterion>Language toggle switches EN/ES</criterion>
+    <criterion>useFetchData handles loading/error correctly</criterion>
+    <criterion>Stories build and basic a11y checks pass</criterion>
   </acceptance>
 </projectSpec>
 ```
@@ -196,5 +215,169 @@ Pasos:
 - Sincronizar cambios reales en código con el XML (fuente de verdad documental).
 - Ejecutar ajustes menores (nuevos hooks, libs) como PRs que actualizan ambas partes.
 
+## Migración de Animación: Lottie → Three.js
+
+Esta guía muestra cómo sustituir la animación basada en **Lottie** por una animación 3D ligera usando **Three.js** sin introducir complejidad excesiva. No modificamos el XML base (sigue enumerando Lottie como estado inicial), pero este bloque describe el camino evolutivo.
+
+### Objetivos
+
+- Reemplazar dependencia `lottie-react` en la Landing por un canvas WebGL.
+- Mantener accesibilidad (rol descriptivo) y rendimiento aceptable.
+- Encapsular la animación en un componente reutilizable sin filtrar detalles de Three.js al resto de la app.
+
+### Dependencia Nueva
+
+```bash
+npm i three
+```
+
+### Componente Ejemplo (`src/components/elements/LandingAnimation3D.tsx`)
+
+```tsx
+import { useEffect, useRef } from 'react';
+import * as THREE from 'three';
+
+export const LandingAnimation3D = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const width = containerRef.current.clientWidth;
+    const height = 300; // altura fija simple
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 100);
+    camera.position.z = 3;
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(width, height);
+    containerRef.current.appendChild(renderer.domElement);
+
+    // Geometría de ejemplo (torus knot giratorio)
+    const geometry = new THREE.TorusKnotGeometry(0.8, 0.3, 128, 32);
+    const material = new THREE.MeshStandardMaterial({
+      color: '#6366f1',
+      roughness: 0.3,
+      metalness: 0.7,
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    const light = new THREE.DirectionalLight('#ffffff', 1.2);
+    light.position.set(2, 2, 4);
+    scene.add(light);
+
+    let frameId: number;
+    const animate = () => {
+      mesh.rotation.x += 0.01;
+      mesh.rotation.y += 0.008;
+      renderer.render(scene, camera);
+      frameId = requestAnimationFrame(animate);
+    };
+    animate();
+
+    const handleResize = () => {
+      if (!containerRef.current) return;
+      const w = containerRef.current.clientWidth;
+      camera.aspect = w / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, height);
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      window.removeEventListener('resize', handleResize);
+      renderer.dispose();
+      geometry.dispose();
+      material.dispose();
+      if (renderer.domElement.parentElement)
+        renderer.domElement.parentElement.removeChild(renderer.domElement);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className="w-full"
+      role="img"
+      aria-label="Animated 3D torus knot"
+    />
+  );
+};
+```
+
+### Integración en `LandingPage`
+
+Reemplazar el uso previo (por ejemplo `<Lottie ... />`) por:
+
+```tsx
+import { LandingAnimation3D } from '@/components/elements/LandingAnimation3D';
+// ... dentro del JSX
+<LandingAnimation3D />
+```
+
+### Prompt de Migración (Ejemplo para Agente/Chat)
+
+```xml
+<migrationSpec version="1.0" targetModel="gpt-5" task="lottie-to-three">
+  <scope>
+    <from lib="lottie-react" file="LandingPage" />
+    <to lib="three" component="LandingAnimation3D" />
+  </scope>
+  <objectives>
+    <objective>Remove lottie-react dependency if unused elsewhere</objective>
+    <objective>Add reusable Three.js component with cleanup + resize</objective>
+    <objective>Preserve accessibility via role="img" + aria-label</objective>
+    <objective>Maintain build + test green</objective>
+  </objectives>
+  <constraints>
+    <constraint>No additional heavy abstractions (avoid react-three-fiber for now)</constraint>
+    <constraint>No inline styles except dynamic computed cases</constraint>
+    <constraint>Component limited to &lt;= 150 LOC</constraint>
+  </constraints>
+  <context_gathering>
+    <directive>List files referencing lottie before removal</directive>
+    <directive>Read LandingPage and related animation component(s)</directive>
+  </context_gathering>
+  <tool_preambles>
+    <rule>Prefix batches: reason | operations</rule>
+    <rule>After patch, summarize diff intent</rule>
+  </tool_preambles>
+  <self_reflection>
+    <checkpoint>Confirm no remaining lottie imports</checkpoint>
+    <checkpoint>Check component has cleanup of renderer + geometry + material</checkpoint>
+    <checkpoint>Verify aria-label present</checkpoint>
+    <checkpoint>List any performance caveats</checkpoint>
+  </self_reflection>
+  <steps>
+    <step>Install three dependency</step>
+    <step>Create LandingAnimation3D component</step>
+    <step>Replace Lottie usage on LandingPage</step>
+    <step>Remove lottie-react from package.json if orphaned</step>
+    <step>Add minimal test asserting component mounts and has role img</step>
+    <step>Update docs (prompt file) noting migration</step>
+  </steps>
+  <deliverables>
+    <item>src/components/elements/LandingAnimation3D.tsx</item>
+    <item>Updated LandingPage</item>
+    <item>Test file LandingAnimation3D.test.tsx</item>
+    <item>package.json (dependency pruned)</item>
+    <item>Docs update section</item>
+  </deliverables>
+  <acceptance>
+    <criterion>No build errors</criterion>
+    <criterion>No lottie-react import remains</criterion>
+    <criterion>Animation visible and rotates</criterion>
+    <criterion>Component unmount frees resources (no console leaks)</criterion>
+    <criterion>Test passes (role img present)</criterion>
+  </acceptance>
+</migrationSpec>
+```
+
+### Notas de Rendimiento
+
+- Mantener geometrías simples evita saturar CPU/GPU.
+- Considerar `@react-three/fiber` sólo si la escena crece; mantener raw Three.js minimiza dependencias.
+
 ---
-**Listo:** Copia el bloque XML y úsalo directamente con GPT‑5 / agentes para recrear el proyecto con **Tailwind + shadcn/ui** de forma consistente y extensible.
