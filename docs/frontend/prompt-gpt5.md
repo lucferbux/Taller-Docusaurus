@@ -381,3 +381,53 @@ import { LandingAnimation3D } from '@/components/elements/LandingAnimation3D';
 - Considerar `@react-three/fiber` sólo si la escena crece; mantener raw Three.js minimiza dependencias.
 
 ---
+
+## Slim / Quick Prompts (Copy-Paste)
+
+Use these when you need a fast regeneration without full descriptive overhead.
+
+### Slim Project Spec
+
+```xml
+<projectSpecSlim model="gpt-5" v="2.0">
+  <stack react="18" ts="true" build="vite" router="v6" styles="tailwind+shadcn" i18n="en,es" tests="vitest+playwright" />
+  <auth type="jwt-localstorage" />
+  <core>
+    <dir>components</dir><dir>context</dir><dir>hooks</dir><dir>model</dir><dir>api</dir><dir>utils</dir><dir>styles</dir><dir>locales</dir>
+    <file>main.tsx</file><file>i18n.ts</file>
+  </core>
+  <hooks><h>useAuth</h><h>useProject</h><h>useFetchData</h></hooks>
+  <routes>
+    <r path="/" pub="true" /><r path="/login" pub="true" /><r path="/dashboard" pub="true" /><r path="/admin" pub="false" />
+  </routes>
+  <styles dark="class" tokens="css-vars" />
+  <obs sentry="true" />
+  <animation base="lottie" future="three" />
+  <deliverables>
+    <d>package.json</d><d>tsconfig.json</d><d>vite.config.ts</d><d>.eslintrc*</d><d>README.md</d>
+  </deliverables>
+  <accept>
+    <c>dev server ok</c><c>auth guard works</c><c>i18n toggle</c><c>fetch hook handles error</c>
+  </accept>
+</projectSpecSlim>
+```
+
+### Slim Migration Spec (Lottie → Three.js)
+
+```xml
+<migrationSpecSlim model="gpt-5" task="lottie-to-three">
+  <scope from="lottie-react" to="three" file="LandingPage" comp="LandingAnimation3D" />
+  <steps>
+    <s>install three</s><s>add component</s><s>replace usage</s><s>remove lottie dep</s><s>add test role=img</s>
+  </steps>
+  <checks>
+    <k>no lottie imports</k><k>component cleanup</k><k>aria accessible</k>
+  </checks>
+</migrationSpecSlim>
+```
+
+### Usage Note
+
+If the slim prompt output deviates from standards, re-run with the full `<projectSpec>` or `<migrationSpec>` to enforce quality gates.
+
+---
